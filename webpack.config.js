@@ -10,6 +10,14 @@ module.exports = {
     },
     mode: 'development', // development - production
     devtool: 'inline-source-map',
+    module: {
+        rules: [
+            {
+                test: /\.m?js$/,
+                loader: 'babel-loader',
+            }
+        ]
+    },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
