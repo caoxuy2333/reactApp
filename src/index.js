@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import { Index as Index1 } from './split';
 import {View} from './ts/baseType';
+import './ts/interface';
 
 
 const Index = function () {

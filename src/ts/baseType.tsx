@@ -1,5 +1,7 @@
 import * as React from "react";
 
+// 基础类型
+
 // 布尔值
 const isDone: boolean = false;
 
