@@ -4,6 +4,7 @@ import { Index as Index1 } from './split';
 import {View} from './ts/baseType';
 import './ts/interface';
 import './ts/class';
+import './ts/function';
 
 
 const Index = function () {

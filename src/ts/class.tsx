@@ -41,7 +41,7 @@ class Q {
         return this._code;
     }
     //
-    set code(val:string){
+    set code(val: string) {
         this._code = val;
     }
 }
@@ -63,16 +63,48 @@ let w = new W('20');
 w.max(1, 2);
 
 
+// 静态属性 static
+class P {
+    static point: object = { x: 0, y: 0 };
+    getPoint() {
+        return P.point;
+    }
+}
+
+console.log(P.point); // 不用实例化即可访问
+P.point = { x: 1, y: 2 };
+let poi = new P();
+console.log(poi);
+console.log(poi.getPoint());
 
 
+// 抽象类 不被实例化
+abstract class C {
+    gener() {
+        return 1;
+    }
+    abstract pri(): void; // 必须在派生类中实现
+}
+class D extends C {
+    gener() {
+        return 2;
+    }
+    pri(): string { // 必须实现抽象类中派生类的方法
+        return '3';
+    }
+}
+
+let ds = new D();
+console.log(ds.gener());
+console.log(ds.pri());
 
 
-
-
-
-
-
-
-
-
-
+// 类当接口使用
+class JK {
+    x: number;
+    y: number;
+}
+interface JKL extends JK {
+    z: number;
+}
+let jk: JKL = { x: 1, y: 2, z: 3 };
