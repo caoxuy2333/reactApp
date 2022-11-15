@@ -75,9 +75,16 @@ console.log(new clock());
 console.log(clock.prototype);
 
 
+// 指标并集 
+interface b1{
+    name: string;
+}
 
+interface b2{
+    code: string;
+}
 
-
+type bb = b1&b2; // bb = interface{name:string; code:string}
 
 
 
