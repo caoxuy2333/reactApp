@@ -7,9 +7,12 @@ import './ts/3-class';
 import './ts/4-function';
 import './ts/6-enum';
 import './ts/7-compatible';
+// import './ts/9-symbol';
+import './ts/10-forofforin'
+import { sv } from './ts/11-module';
 
 
-const Index = function () {
+const Index = function () { 
     return <div>
         <Index1 />
         <View />

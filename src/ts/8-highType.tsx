@@ -26,3 +26,5 @@ class ConsoleLogger implements Loggable {
 let jim = extend(new Person1("Jim"), new ConsoleLogger());
 let n = jim.name;
 jim.log();
+
+export default '1';

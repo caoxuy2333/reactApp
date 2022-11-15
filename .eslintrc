@@ -13,7 +13,7 @@
     },
     "rules": {
         "no-var": "error",
-        "semi": "error",
+        "semi": 0,
         "no-undef": 0
     }
 }
