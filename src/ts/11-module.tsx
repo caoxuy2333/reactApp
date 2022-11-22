@@ -33,6 +33,22 @@ require(['./9-symbol'], (re: any) => {
     console.log(re, 22222222222222222222);
 })
 
+declare module "url"{
+    export interface Url {
+        protocol: string;
+    }
+}
+
+// TODO 迷惑 declare
 
 
+// 使用*号
+export class Dog {}
+export class Cat {}
+export class Tree {}
+/**
+ * 使用
+ * import * as myModule form './11-xxx';
+ * let x = new myModule.Dog();
+ */
 

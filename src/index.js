@@ -10,7 +10,11 @@ import './ts/7-compatible';
 // import './ts/9-symbol';
 import './ts/10-forofforin'
 import { sv } from './ts/11-module';
+import * as url from './ts/11-module'  
+import './ts/14-decorators';
 
+
+console.log('url--------', url);
 
 const Index = function () { 
     return <div>
