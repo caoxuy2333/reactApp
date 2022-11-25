@@ -19,12 +19,12 @@ namespace Vol {
     }
 
     class cs {
-        q ='1';
-        setQ(v: string){
+        q = '1';
+        setQ(v: string) {
             this.q = v;
         }
         @f()
-        method(s:number) {
+        method(s: number) {
             console.log('vol', this)
         }
     }
@@ -33,4 +33,27 @@ namespace Vol {
     console.log(c.method(1))
     c.setQ('2')
     console.log('setq=>', c);
+}
+
+
+// 类装饰器
+
+namespace Spo {
+    let f = function (Func: Function) {
+        // Object.seal(Func)
+    }
+    // 
+    @f
+    class cs {
+        constructor(props: any){
+            console.log(props);
+        }
+        q = '1';
+        setQ(v: string) {
+            this.q = v;
+        }
+        method(s: number) {
+            console.log('vol', this)
+        }
+    }
 }
