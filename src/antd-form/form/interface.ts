@@ -11,5 +11,5 @@ export interface FormInstance<Values = any> {
     submit: () => void;
     getFieldsValue: () => Values;
     setFieldsValue: (newStore: Store) => void;
-    setCallback: (callback: Callbacks) => void;
+    setCallbacks: (callback: Callbacks) => void;
 }

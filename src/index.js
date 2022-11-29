@@ -23,6 +23,8 @@ const Index = function () {
         <Index1 />
         <View />
         <Jsx />
+        <hr />
+        form表单:  
         <Form />
     </div>;
 };
