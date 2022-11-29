@@ -1,16 +1,16 @@
 import { useRef } from "react";
 import Form from "./index";
-import { Store, FormInstance, Callbacks } from "./interface";
+import { Store, FormInstance, Callbacks, FieldEntity, NamePath } from "./interface";
 
 class FormStore {
     private store: Store = {};
     private callbacks: Callbacks = {};
-    // private fieldEntities: FieldEntity[] = [];
+    private fieldEntities: FieldEntity[] = [];
 
     getFieldsValue = () => {
         return this.store;
-     };
-    setFieldsValue = (newStore: Store) => { 
+    };
+    setFieldsValue = (newStore: Store) => {
         this.store = {
             ...this.store,
             ...newStore
@@ -21,12 +21,40 @@ class FormStore {
             onFinish: callback.onFinish
         }
     };
-    getFieldValue = () => {
+    getFieldValue = (name: NamePath): NamePath => {
+        return this.store[name];
+    }
+    validateField = () => {
+        const err: any[] = [];
+        this.fieldEntities.forEach((entity) => {
+            const { name, rules } = entity.props;
+            const value: NamePath = name && this.getFieldValue(name);
+            let rule = rules?.length && rules[0];
+            if (rule && rule.required && (value === undefined || value === "")) {
+                name && err.push({ [name]: rule && rule.message, value });
+            }
+        });
 
+        return err;
+    };
+
+    registerFieldEntities = (entity: FieldEntity) => {
+        this.fieldEntities.push(entity);
+        console.log('rules1111111111')
+        return () => {
+            this.fieldEntities = this.fieldEntities.filter((item) => item !== entity)
+        }
     }
     submit = () => {
         const { onFinish } = this.callbacks;
-        onFinish(this.getFieldsValue())
+        // 提交校验数据
+        console.log(this.fieldEntities)
+        const err = this.validateField();
+        if (err.length === 0) {
+            onFinish && onFinish(this.getFieldsValue());
+        } else {
+            console.log('提示错误', err)
+        }
     }
 
     getForm = () => {
@@ -35,7 +63,8 @@ class FormStore {
             getFieldsValue: this.getFieldsValue,
             setFieldsValue: this.setFieldsValue,
             setCallbacks: this.setCallbacks,
-            getFieldValue: this.getFieldValue
+            getFieldValue: this.getFieldValue,
+            registerFieldEntities: this.registerFieldEntities
         }
     }
 }

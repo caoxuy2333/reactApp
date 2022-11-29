@@ -12,4 +12,14 @@ export interface FormInstance<Values = any> {
     getFieldsValue: () => Values;
     setFieldsValue: (newStore: Store) => void;
     setCallbacks: (callback: Callbacks) => void;
+    registerFieldEntities: (entity: FieldEntity) => void;
+}
+
+export type Rule = { required: boolean, message: string }
+
+export interface FieldEntity {
+    props: {
+        name?: NamePath;
+        rules?: Rule[]
+    }
 }
