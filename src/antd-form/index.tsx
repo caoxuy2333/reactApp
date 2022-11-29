@@ -9,7 +9,7 @@ const Index = function () {
             }}
         >
             <Field
-                name="username"
+                name="username1"
             // rules={[{ required: true, message: 'Please input your username!' }]}
             >
                 <input  />
