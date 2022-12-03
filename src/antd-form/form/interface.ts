@@ -4,6 +4,7 @@ export type NamePath = string | number;
 
 export interface Callbacks<Values = any> {
     onFinish?: (values: Values) => void;
+    onFinishFailed?: (values: Values)=>void;
 }
 
 export interface FormInstance<Values = any> {

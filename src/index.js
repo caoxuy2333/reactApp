@@ -10,7 +10,7 @@ import './ts/7-compatible';
 // import './ts/9-symbol';
 import './ts/10-forofforin'
 import { sv } from './ts/11-module';
-import * as url from './ts/11-module'  
+import * as url from './ts/11-module'
 import Jsx from './ts/13-jsx';
 import './ts/14-decorators';
 import Form from './antd-form'
@@ -18,15 +18,15 @@ import Form from './antd-form'
 
 console.log('url--------', url);
 
-const Index = function () { 
-    return <div>
-        <Index1 />
-        <View />
-        <Jsx />
-        <hr />
-        form表单:  
-        <Form />
-    </div>;
+const Index = function () {
+  return <div>
+    <Index1 />
+    <View />
+    <Jsx />
+    <hr />
+    form表单:
+    <Form />
+  </div>;
 };
 
 ReactDom.render(<Index />, document.getElementById('root'));
