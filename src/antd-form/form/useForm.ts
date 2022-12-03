@@ -15,6 +15,24 @@ class FormStore {
             ...this.store,
             ...newStore
         }
+        this.fieldEntities.forEach((entity) => {
+            Object.keys(newStore).forEach((k) => {
+                if (k === entity.props.name) {
+                    console.log('form')
+                    const { name, rules } = entity.props;
+                    const value: NamePath = name && this.getFieldValue(name);
+                    let rule = rules?.length && rules[0];
+                    let message: string = '';
+                    if (rule && rule.required && (value === undefined || value === "")) {
+                        message = rule?.message
+                    }
+                    entity.onStoreChange({
+                        type: 'message',
+                        value: message
+                    });
+                }
+            })
+        })
     };
     setCallbacks = (callback: Callbacks) => {
         this.callbacks = {
@@ -31,7 +49,7 @@ class FormStore {
             const value: NamePath = name && this.getFieldValue(name);
             let rule = rules?.length && rules[0];
             if (rule && rule.required && (value === undefined || value === "")) {
-                name && err.push({ [name]: rule && rule.message, value });
+                name && err.push({ message: rule?.message, value });
             }
         });
 
@@ -40,7 +58,7 @@ class FormStore {
 
     registerFieldEntities = (entity: FieldEntity) => {
         this.fieldEntities.push(entity);
-        console.log('rules1111111111')
+        console.log(entity, 'rules1111111111')
         return () => {
             this.fieldEntities = this.fieldEntities.filter((item) => item !== entity)
         }
@@ -54,6 +72,9 @@ class FormStore {
             onFinish && onFinish(this.getFieldsValue());
         } else {
             console.log('提示错误', err)
+            err.forEach(it => {
+                it.errorFunc(it.message)
+            })
         }
     }
 
@@ -64,7 +85,7 @@ class FormStore {
             setFieldsValue: this.setFieldsValue,
             setCallbacks: this.setCallbacks,
             getFieldValue: this.getFieldValue,
-            registerFieldEntities: this.registerFieldEntities
+            registerFieldEntities: this.registerFieldEntities,
         }
     }
 }

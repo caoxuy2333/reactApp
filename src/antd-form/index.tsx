@@ -3,7 +3,7 @@ import Form, { Field } from './form/index'
 
 const Index = function () {
     return (
-        <Form 
+        <Form
             onFinish={(values) => {
                 console.log('values', values)
             }}
@@ -12,15 +12,15 @@ const Index = function () {
                 name="username"
                 rules={[{ required: true, message: 'Please input your username!' }]}
             >
-                <input  />
+                <input />
             </Field>
 
             <Field
                 name="password"
-            // rules={[{ required: true, message: 'Please input your password!' }]}
+                rules={[{ required: true, message: 'Please input your password!' }]}
             >
-                 
-                <input  />
+
+                <input />
             </Field>
 
             <button type="submit">
