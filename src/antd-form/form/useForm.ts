@@ -73,7 +73,20 @@ class FormStore {
     } else {
       console.log('提示错误', err)
       onFinishFailed && onFinishFailed(err);
-
+      this.fieldEntities.forEach((entity) => {
+        console.log('form')
+        const { name, rules } = entity.props;
+        const value: NamePath = name && this.getFieldValue(name);
+        let rule = rules?.length && rules[0];
+        let message: string = '';
+        if (rule && rule.required && (value === undefined || value === "")) {
+          message = rule?.message
+        }
+        entity.onStoreChange({
+          type: 'message',
+          value: message
+        });
+      })
     }
   }
 

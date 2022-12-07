@@ -30,11 +30,9 @@ const Field: React.FC<FieldProps> = (props) => {
   const { getFieldValue, setFieldsValue, registerFieldEntities } = React.useContext(FieldContext);
   const { children, name } = props;
   const [viewData, forceUpdate] = React.useReducer((state: fieldState, action: FieldRule) => {
-    if (action.type === 'message') {
-      console.log({ ...state, message: action.value })
+    if (action.type === 'message') { 
       return { ...state, message: action.value }
-    }
-    console.log(state)
+    } 
     return state;
   }, initDatas);
   console.log(viewData)

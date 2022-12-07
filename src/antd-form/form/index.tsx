@@ -13,6 +13,7 @@ interface FormProps<Values = any> {
 
 let Form: React.FC<FormProps> = (props) => {
   const { children, onFinish, onFinishFailed, form } = props;
+  console.log('form', form)
   const [formInstance] = useForm(form);
   console.log(formInstance);
   formInstance.setCallbacks({ onFinish, onFinishFailed })

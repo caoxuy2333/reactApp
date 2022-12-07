@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Form, { Field } from './form/index'
 
-const Index = function () {
+const Index: React.FC = function () {
   return (
-    <Form
+    <div>
+      <Form
       onFinish={(values) => {
         console.log('values', values)
       }}
@@ -30,6 +31,21 @@ const Index = function () {
         Submit
       </button>
     </Form>
+      <Field
+        name="age"
+        rules={[{ required: true, message: 'Please input your password!' }]}
+      >
+
+        <select>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </Field>
+    </div>
+    
 
   )
 }
