@@ -105,6 +105,7 @@ class FormStore {
 export default function useForm<Values = any>(form?: FormInstance<Values>): [FormInstance<Values>] {
   const formRef = useRef<FormInstance>();
   if (!formRef.current) {
+    console.log('form', form)
     if (form) {
       formRef.current = form;
     }

@@ -1,36 +1,40 @@
 import * as React from 'react';
-import Form, { Field } from './form/index'
+import Form, { Field, useForm } from './form/index'
 
 const Index: React.FC = function () {
+  let [form] = useForm();
   return (
     <div>
+      form表单:
+      <hr />
       <Form
-      onFinish={(values) => {
-        console.log('values', values)
-      }}
-      onFinishFailed={(error) => {
-        console.log('error', error)
-      }}
-    >
-      <Field
-        name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        form={form}
+        onFinish={(values) => {
+          console.log('values', values)
+        }}
+        onFinishFailed={(error) => {
+          console.log('error', error)
+        }}
       >
-        <input />
-      </Field>
+        <Field
+          name="username"
+          rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+          <input />
+        </Field>
 
-      <Field
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
-      >
+        <Field
+          name="password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
+        >
 
-        <input />
-      </Field>
+          <input />
+        </Field>
 
-      <button type="submit">
-        Submit
-      </button>
-    </Form>
+        <button type="submit">
+          Submit
+        </button>
+      </Form>
       <Field
         name="age"
         rules={[{ required: true, message: 'Please input your password!' }]}
@@ -45,7 +49,7 @@ const Index: React.FC = function () {
         </select>
       </Field>
     </div>
-    
+
 
   )
 }

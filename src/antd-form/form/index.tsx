@@ -1,35 +1,17 @@
-import * as React from 'react';
-import type { Callbacks, FormInstance } from './interface';
 import Field from './Field';
-import useForm from './useForm';
-import FieldContext from './FieldContest';
+import useForm from './useForm'; 
+import InternalForm from './Form';
+ 
+type InternalFormType  = typeof InternalForm
+console.log('InternalForm' ,InternalForm)
 
-interface FormProps<Values = any> {
-  form?: FormInstance<Values>;
-  onFinish?: Callbacks<Values>['onFinish'],
-  onFinishFailed?: Callbacks<Values>['onFinishFailed'],
-  children?: any
+interface FormInterface extends InternalFormType {
+  useForm: typeof useForm;
+  Field: typeof Field;
 }
 
-let Form: React.FC<FormProps> = (props) => {
-  const { children, onFinish, onFinishFailed, form } = props;
-  console.log('form', form)
-  const [formInstance] = useForm(form);
-  console.log(formInstance);
-  formInstance.setCallbacks({ onFinish, onFinishFailed })
-  return (
-    <form
-      onSubmit={e => {
-        e.preventDefault();
-        formInstance.submit()
-      }}
-    >
-      <FieldContext.Provider value={formInstance}>
-        {children}
-      </FieldContext.Provider>
-    </form>
-  )
-}
+let Form = InternalForm as FormInterface
 
+console.log('InternalForm' ,Form)
 export default Form;
-export { Field };
+export { Field, useForm };

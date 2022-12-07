@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    entry: "./src/index.js",
+    entry: "./src/index.tsx",
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
@@ -35,6 +35,7 @@ module.exports = {
     ],
     devServer: {
         compress: true,
-        port: 9000
+        port: 9000,
+        historyApiFallback: true, // 直接访问子路由404的问题
     }
 };
