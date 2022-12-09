@@ -13,7 +13,7 @@ let f1 = () => {
     const a = '1';
     console.log(this);
 };
-f1.prototype.sum = 2;
+//f1.prototype.sum = 2; // 错误的
 
 class f2 {
     constructor() {

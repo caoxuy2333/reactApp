@@ -1,27 +1,27 @@
-import * as React from 'react'; 
-import { BrowserRouter as Router,  Switch, Route, HashRouter,  } from 'react-router-dom'
+import * as React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom'
+import { Index as Index1 } from '../split/index';
+import { View } from '../ts/1-baseType';
+import Jsx from '../ts/13-jsx';
+import Form from '../antd-form/index'
+
+declare let request: any;
+let { xhr } = request;
 
 const App = function () {
+  React.useEffect(() => {
+    console.log('xhrrrrrrrrrrrrrrrr', xhr);
+    console.log('xhrrrrrrrrrrrrrrrr', xhr());
+  }, [])
   return (
     <div>
-      <Router> 
-          <Route path="/" exact component={() => <div>111</div>}></Route> 
-          <Route path="/about" render={() => <div>111</div>}></Route>
-          <Route path="/view" render={() => <div>222</div>}></Route>
-          <Route path="/jsx" render={() => <div>333</div>}></Route>
-          <Route path="/form" render={() => <div>444</div>}></Route>
-      </Router>
- 
-          {/* <Route path="/about" render={() => <div>111</div>}></Route>
-          <Route path="/view" render={() => <div>222</div>}></Route>
-          <Route path="/jsx" render={() => <div>333</div>}></Route>
-          <Route path="/form" render={() => <div>444</div>}></Route> */}
-    {/* <HashRouter>
-      <Switch>
-        <Router history={'base'}>
-        </Router>
-      </Switch>
-    </HashRouter> */}
+      <BrowserRouter>
+        <Route path="/" exact component={() => <div>111</div>}></Route>
+        <Route path="/about" render={() => <Index1 />}></Route>
+        <Route path="/view" render={() => <View />}></Route>
+        <Route path="/jsx" render={() => <Jsx />}></Route>
+        <Route path="/form" render={() => <Form />}></Route>
+      </BrowserRouter>
     </div>
   )
 }

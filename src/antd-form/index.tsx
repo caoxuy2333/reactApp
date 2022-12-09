@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Form, { Field, useForm } from './form/index'
 
-const Index: React.FC = function () {
+const Index: React.FC = function ():JSX.Element {
   let [form] = useForm();
   return (
     <div>
