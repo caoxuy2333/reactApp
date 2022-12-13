@@ -5,13 +5,8 @@ import { View } from '../ts/1-baseType';
 import Jsx from '../ts/13-jsx';
 import Form from '../antd-form/index'
 
-declare let request: any;
-let { xhr } = request;
-
 const App = function () {
-  React.useEffect(() => {
-    console.log('xhrrrrrrrrrrrrrrrr', xhr);
-    console.log('xhrrrrrrrrrrrrrrrr', xhr());
+  React.useEffect(() => { 
   }, [])
   return (
     <div>

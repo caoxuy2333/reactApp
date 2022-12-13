@@ -1,7 +1,9 @@
 import * as React from 'react';
 import Form, { Field, useForm } from './form/index'
 
-const Index: React.FC = function ():JSX.Element {
+declare let request: any;
+let { xhr } = request;
+const Index: React.FC = function (): JSX.Element {
   let [form] = useForm();
   return (
     <div>
@@ -11,6 +13,18 @@ const Index: React.FC = function ():JSX.Element {
         form={form}
         onFinish={(values) => {
           console.log('values', values)
+          fetch('login').then((res:any)=>{
+            console.log('res', res)
+           }).then((res:any)=>{
+            console.log('res', res)
+           });
+          //  xhr('aa/login', {  body: {
+          //   pageNum: 1
+          //  }  }).then((res:any)=>{
+          //   console.log('res', res)
+          //  }).then((res:any)=>{
+          //   console.log('res', res)
+          //  });
         }}
         onFinishFailed={(error) => {
           console.log('error', error)
@@ -30,24 +44,22 @@ const Index: React.FC = function ():JSX.Element {
 
           <input />
         </Field>
-
+        <Field
+          name="age"
+          rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+          <select>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </Field>
         <button type="submit">
           Submit
         </button>
       </Form>
-      <Field
-        name="age"
-        rules={[{ required: true, message: 'Please input your password!' }]}
-      >
-
-        <select>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-      </Field>
     </div>
 
 

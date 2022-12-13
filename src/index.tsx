@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import './fetch';
+import './fetch/mock/index';
 import './ts/2-interface';
 import './ts/3-class';
 import './ts/4-function';
