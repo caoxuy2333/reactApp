@@ -16,18 +16,9 @@ const Index: React.FC = function (): JSX.Element {
         form={form}
         onFinish={(values) => {
           console.log('values', values)
-          fetch('a/login').then((res:any)=>{
+          fly.get('a/login').then((res:any)=>{
             console.log('res', res)
-           }).then((res:any)=>{
-            console.log('res', res)
-           });
-          //  xhr('aa/login', {  body: {
-          //   pageNum: 1
-          //  }  }).then((res:any)=>{
-          //   console.log('res', res)
-          //  }).then((res:any)=>{
-          //   console.log('res', res)
-          //  });
+           }) ; 
         }}
         onFinishFailed={(error) => {
           console.log('error', error)
