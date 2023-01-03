@@ -1,25 +1,27 @@
-interface request {
-  headers?: object;
-  method?: 'post' | 'get' | 'delete'
-}
+import fly from 'flyio';
+ 
+let token = '';
 
-interface response {
-  resultCode: string;
-  resultData: any;
-  resultMessage: string;
-}
+//添加请求拦截器
+fly.interceptors.request.use((config: any) => { 
+  //可以通过promise.reject／resolve直接中止请求
+  //promise.resolve("fake data")
+  console.log('拦截请求')
+  config.headers['token'] = token;
+  return config;
+})
 
-let xhr = async function (url: string, init: RequestInit) {
-  console.log(init);
-  let headers = new Headers();
-  headers.append('Content-Type', 'application/json;charset=UTF-8')
-  init.method = 'post';
-  init.headers = headers;
-  init.body = JSON.stringify(init.body)
-  let res: any = await fetch(url, init).catch(err => console.log(err))
-  if (res.resultCode !== '0') console.warn('模拟接口错误: ', res.resultMessage)
-  // alert(res.resultMessage)
-  return res;
-}
+//添加响应拦截器，响应拦截器会在then/catch处理之前执行
+fly.interceptors.response.use((response: any, promise: any) => {
+  //只将请求结果的data字段返回
+  console.log(response, promise)
+  if(response.status === 200) promise.reject(-1);
+  return response.data
+}, (err: any) => {
+  //发生网络错误后会走到这里
+  //promise.resolve("ssss")
+  console.log(err);
+})
 
-export { xhr };
+
+ 

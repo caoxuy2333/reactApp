@@ -1,10 +1,11 @@
 import * as React from 'react';
 import Form, { Field, useForm } from './form/index'
-import fly from 'flyio' 
+import fly from 'flyio'
 import Animista from "react-animista";
- 
-console.log('cxy', Animista) 
-console.log('cxy', fly) 
+// import request from 'request';
+
+console.log('cxy', Animista)
+console.log('cxy', fly)
 
 const Index: React.FC = function (): JSX.Element {
   let [form] = useForm();
@@ -16,9 +17,11 @@ const Index: React.FC = function (): JSX.Element {
         form={form}
         onFinish={(values) => {
           console.log('values', values)
-          fly.get('a/login').then((res:any)=>{
+          fly.get('a/login').then((res: any) => {
             console.log('res', res)
-           }) ; 
+          }).catch((err: any) => {
+            console.log(err);
+          }); 
         }}
         onFinishFailed={(error) => {
           console.log('error', error)

@@ -2,7 +2,13 @@ const Mock = require('mockjs')
 
 Mock.mock(/login/, () => {
   return {
-    status: 200,
-    message: "获取数据成功2"
+    "data": {
+      "roleCode": "APPMANAGER",
+      "token": "RUz1FXoAJKc",
+      "tokenValidTime": 5184000,
+      "userId": "1229"
+    },
+    "resultCode": "0",
+    "resultMsg": "success"
   }
 })
