@@ -49,10 +49,11 @@ module.exports = {
     compress: true,
     port: 9000,
     historyApiFallback: true, // 直接访问子路由404的问题
-
     compress: true,
     proxy: {
-      '/login': {
+      '^/login': {
+        changeOrigin: true,
+        secure: false,
         target: 'http://www.baidu.com',  // 代理目标地址
         pathRewrite: { '^/login': '/login' }
       }

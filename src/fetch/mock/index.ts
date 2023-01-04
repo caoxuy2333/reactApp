@@ -8,7 +8,7 @@ Mock.mock(/login/, () => {
       "tokenValidTime": 5184000,
       "userId": "1229"
     },
-    "resultCode": "0",
-    "resultMsg": "success"
+    "code": "0",
+    "msg": "success"
   }
 })
