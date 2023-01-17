@@ -51,9 +51,9 @@ module.exports = {
     historyApiFallback: true, // 直接访问子路由404的问题
     compress: true,
     proxy: {
+      // 加 ^ 防止router和http请求重复导致访问不到路由
       '^/login': {
         changeOrigin: true,
-        secure: false,
         target: 'http://www.baidu.com',  // 代理目标地址
         pathRewrite: { '^/login': '/login' }
       }
