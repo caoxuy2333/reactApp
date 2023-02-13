@@ -5,6 +5,8 @@ import { View } from '../ts/1-baseType';
 import Jsx from '../ts/13-jsx';
 import Form from '../antd-form/index'
 import Login from '../login/index';
+import Link from '../link-router/index';
+import FileTransferProtocol from '../file-transfer-protocol/index';
 
 const App = function () {
   React.useEffect(() => { 
@@ -12,7 +14,9 @@ const App = function () {
   return (
     <div>
       <BrowserRouter>
-        <Route path="/" exact component={() => <div>111</div>}></Route>
+        <Route path="/" exact component={() => <Link />}></Route>
+        
+        <Route path="/fileTransferProtocol" render={() => <FileTransferProtocol />}></Route>
         <Route path="/about" render={() => <Index1 />}></Route>
         <Route path="/view" render={() => <View />}></Route>
         <Route path="/jsx" render={() => <Jsx />}></Route>
