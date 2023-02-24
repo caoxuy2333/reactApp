@@ -56,6 +56,12 @@ module.exports = {
         changeOrigin: true,
         target: 'http://www.baidu.com',  // 代理目标地址
         pathRewrite: { '^/login': '/login' }
+      },
+      // 增加 ^ 匹配不到, 遂删除 ^ 符号
+      '/socket': {
+        changeOrigin: true,
+        target: 'http://192.168.85.128:8082',  // 代理目标地址
+        pathRewrite: { '^/socket': '' }
       }
     }
   }
