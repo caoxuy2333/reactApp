@@ -3,17 +3,18 @@ import { useState } from 'react';
 import SparkMD5 from 'spark-md5';
 import fly from 'flyio'
 
+// 接口返回参数
 interface partRes {
   current: string; // 返回当前上传到第几段
   partEnd: boolean; // 是否完成合并
 }
 
+// 切片片段
 interface partFileProps {
   current?: number; // 当前段数
   fileMd5?: string; // 完整文件的md5
   fileName?: string; // 文件名
   partFile?: Blob; // 剪切的文件片段
-  // size: number; // 剪切的文件的大小
   file: File; // 完整文件
   splitNum: number; // 切割的段数
 }

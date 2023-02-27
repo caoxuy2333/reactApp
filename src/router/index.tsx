@@ -7,6 +7,7 @@ import Form from '../antd-form/index'
 import Login from '../login/index';
 import Link from '../link-router/index';
 import FileTransferProtocol from '../file-transfer-protocol/index';
+import WebSocketTest from '../web-socket/index';
 
 const App = function () {
   React.useEffect(() => { 
@@ -24,6 +25,7 @@ const App = function () {
         
         <Route path="/logi" render={() => <Login />}></Route> 
         <Route path="/login" render={() => <Login />}></Route>
+        <Route path='/WebSocketTest' render={()=><WebSocketTest />}></Route>
       </BrowserRouter>
     </div>
   )

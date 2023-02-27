@@ -8,7 +8,7 @@ const Index: React.FC = ():JSX.Element=>{
     <div>
       <h3>我是首页</h3>
       点击跳转: <Link to={'/fileTransferProtocol'}>断点续传</Link>
-      
+      <Link to={'/WebSocketTest'}>websocket连接</Link>
       </div>
     
   )
