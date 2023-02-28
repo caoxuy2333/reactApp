@@ -6,16 +6,20 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "npx webpack",
+    "server": "node .\\server\\index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
+    "express": "^4.18.2",
     "flyio": "^0.6.14",
+    "multer": "^1.4.5-lts.1",
     "react": "^18.2.0",
     "react-animista": "^1.0.2",
     "react-dom": "^18.2.0",
-    "spark-md5": "^3.0.2"
+    "spark-md5": "^3.0.2",
+    "ws": "^8.12.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
