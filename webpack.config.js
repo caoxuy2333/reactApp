@@ -6,8 +6,9 @@ const { ProvidePlugin } = require('webpack');
 module.exports = {
   entry: "./src/index.tsx",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, 'dist'), // 输出文件夹
+    chunkFilename: 'js/[name]-chunk.js', // 分包文件
+    filename: '[name].js' // 入口文件
   },
   mode: 'development', // development - production
   devtool: 'inline-source-map',

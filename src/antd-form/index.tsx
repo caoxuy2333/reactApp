@@ -38,12 +38,11 @@ const Index: React.FC = function (): JSX.Element {
           name="password"
           rules={[{ required: true, message: 'Please input your password!' }]}
         >
-
           <input />
         </Field>
         <Field
           name="age"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: 'Please input your age!' }]}
         >
           <select>
             <option value="1">1</option>
@@ -58,8 +57,6 @@ const Index: React.FC = function (): JSX.Element {
         </button>
       </Form>
     </div>
-
-
   )
 }
 

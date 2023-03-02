@@ -4,28 +4,63 @@ import { Index as Index1 } from '../split/index';
 import { View } from '../ts/1-baseType';
 import Jsx from '../ts/13-jsx';
 import Form from '../antd-form/index'
-import Login from '../login/index';
+// import Login from '../login/index';
 import Link from '../link-router/index';
 import FileTransferProtocol from '../file-transfer-protocol/index';
 import WebSocketTest from '../web-socket/index';
 
+// 异步加载路由页面, 实现路由按需加载, 加载界面更快
+export const asyncComponent = (loadComponent: Function) => (
+  class AsyncComponent extends React.Component<any, any> {
+    constructor(props: any) {
+      super(props);
+      this.state = {
+        Component: null,
+      };
+      this.hasLoadedComponent = this.hasLoadedComponent.bind(this);
+    }
+    // react 16.3+ 使用新版生命周期函数
+    UNSAFE_componentWillMount() {
+      if (this.hasLoadedComponent()) {
+        return;
+      }
+      loadComponent()
+        .then((module: any) => module.default ? module.default : module)
+        .then((Component: JSX.Element) => {
+          this.setState({
+            Component
+          });
+        })
+        .catch((error: Error) => {
+          console.error('cannot load Component in <AsyncComponent>');
+          throw error;
+        })
+    }
+    hasLoadedComponent() {
+      return this.state.Component !== null;
+    }
+    render() {
+      const { Component } = this.state;
+      return (Component) ? <Component {...this.props} /> : null;
+    }
+  }
+);
+
+const Login = asyncComponent(() => import('../login/index'));
 const App = function () {
-  React.useEffect(() => { 
-  }, [])
   return (
     <div>
       <BrowserRouter>
         <Route path="/" exact component={() => <Link />}></Route>
-        
+
         <Route path="/fileTransferProtocol" render={() => <FileTransferProtocol />}></Route>
         <Route path="/about" render={() => <Index1 />}></Route>
         <Route path="/view" render={() => <View />}></Route>
         <Route path="/jsx" render={() => <Jsx />}></Route>
-        <Route path="/form" render={() => <Form />}></Route>
-        
-        <Route path="/logi" render={() => <Login />}></Route> 
-        <Route path="/login" render={() => <Login />}></Route>
-        <Route path='/WebSocketTest' render={()=><WebSocketTest />}></Route>
+        <Route path="/form" component={Form}></Route>
+        <Route path="/logi" component={Login}></Route>
+        <Route path="/login" component={Login}></Route>
+        <Route path='/WebSocketTest' render={() => <WebSocketTest />}></Route>
       </BrowserRouter>
     </div>
   )

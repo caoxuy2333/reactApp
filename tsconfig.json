@@ -2,7 +2,7 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "noImplicitAny": true,
-        "module": "es6",
+        "module": "es2022",
         "target": "es6",
         "experimentalDecorators": true,
         "jsx": "react",
