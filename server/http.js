@@ -30,7 +30,7 @@ app.post('/uploadFilePart', async function (req, res) {
   let isPart = false; // 是否存在片段, 判断是否从断点出上传
   if (json[fileMd5]) isPart = json[fileMd5].list.includes(partMd5);
   if (isPart) {
-    if (parseInt(current) === parseInt(count) - 1) {
+    if (parseInt(current) >= parseInt(count) - 1) {
       // 合并
       console.log('合并文件, 删除json对象和片段文件, 未实现')
       json[fileMd5].current = current;
@@ -40,9 +40,8 @@ app.post('/uploadFilePart', async function (req, res) {
     }
     resCurrent = json[fileMd5].current;
   } else {
-    if (parseInt(current) === parseInt(count) - 1) {
+    if (parseInt(current) >= parseInt(count) - 1) {
       await upload(partMd5, buffer);
-      partEnd = true;
       console.log('合并文件, 删除json对象和片段文件, 未实现')
       // 合并
       json[fileMd5].current = current;

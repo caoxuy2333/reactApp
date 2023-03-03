@@ -73,7 +73,7 @@ const Index: React.FC = function (): JSX.Element {
 
   const onChange = async function (event: any) {
     const file = event.target.files[0];
-    // 传入文件 和 切割的段数 即可;
+    // 传入原文件 和 切割的段数
     partUpload({ file, splitNum }, (res: partRes) => {
       // 每个片段上传后的回调
       const percent = parseInt(res.current) * 100 / splitNum;

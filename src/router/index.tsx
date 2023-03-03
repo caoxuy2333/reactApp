@@ -9,10 +9,17 @@ import Link from '../link-router/index';
 import FileTransferProtocol from '../file-transfer-protocol/index';
 import WebSocketTest from '../web-socket/index';
 
+interface propType {
+}
+interface StateType {
+  Component: (() => JSX.Element)
+}
+
+
 // 异步加载路由页面, 实现路由按需加载, 加载界面更快
 export const asyncComponent = (loadComponent: Function) => (
-  class AsyncComponent extends React.Component<any, any> {
-    constructor(props: any) {
+  class AsyncComponent extends React.Component<propType, StateType> {
+    constructor(props: propType) {
       super(props);
       this.state = {
         Component: null,
@@ -26,7 +33,7 @@ export const asyncComponent = (loadComponent: Function) => (
       }
       loadComponent()
         .then((module: any) => module.default ? module.default : module)
-        .then((Component: JSX.Element) => {
+        .then((Component: any) => {
           this.setState({
             Component
           });
