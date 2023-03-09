@@ -18,7 +18,7 @@ const Index: React.FC = (): JSX.Element => {
         <Link to={'/form'}>仿antd-form表单实现</Link>
       </div> 
       <div>
-      <Link to={'/login'}>登录页</Link>
+        <Link to={'/login'}>登录页</Link>
       </div>  
     </div>
   )
