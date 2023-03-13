@@ -19,6 +19,12 @@ const Index: React.FC = (): JSX.Element => {
       </div> 
       <div>
         <Link to={'/login'}>登录页</Link>
+      </div>
+      <div>
+        <Link to={'/react'}>react测试</Link>
+      </div>
+      <div>
+        <Link to={'/game'}>game</Link>
       </div>  
     </div>
   )
