@@ -10,5 +10,6 @@ export interface Monster{
   hp: string; // 血量
   img: string; // 贴图
   boss: boolean; // 是否boss
+  name: string; // 名字
 }
 

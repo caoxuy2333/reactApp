@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { useEffect, useReducer, useState } from 'react';
+import Monster, {monsterType} from './monster/index';
 import sty from './index.less'
-
-interface monsterType {
-  [key: number]: { key: number, name: string }
-}
+ 
 
 const heros = [{
   key: 1,
@@ -22,33 +20,7 @@ const heros = [{
   key: 5,
   name: '白魔法师'
 }]
-
-const monster: monsterType = {
-  1: {
-    key: 1,
-    name: '史莱姆'
-  },
-  2: {
-    key: 2,
-    name: '小猪'
-  },
-  3: {
-    key: 3,
-    name: '恶灵'
-  },
-  4: {
-    key: 4,
-    name: '树妖'
-  },
-  5: {
-    key: 5,
-    name: '黑衣人'
-  },
-  6: {
-    key: 6,
-    name: '忍者'
-  }
-}
+ 
 
 interface monsterProp {
 
@@ -58,6 +30,7 @@ interface monsterProp {
 interface stateProp {
   monsterId?: number;// 当前怪物id
   hp?: number;
+  monsterObj?: any; // new 的怪物对象
 }
 
 // 传递对象
@@ -67,6 +40,7 @@ interface actionProp {
   hp?: number;
 }
 let initState = {
+  monsterObj: new Monster(1),
   monsterId: 1,
   hp: 0
 }
@@ -91,7 +65,7 @@ const Index = function () {
       console.log(state);
       if (state.hp >= 100) dispatch({ type: 'add', monsterId: state.monsterId + 1 })
       else dispatch({ type: 'hp' })
-    }, 110)
+    }, 11110)
     return () => {
       console.log('销毁事件')
       clearInterval(t);
@@ -109,10 +83,11 @@ const Index = function () {
           <div>森林 1/10</div>
           <div className={sty.background}>
             <div className={sty.person}>
-              {monster[state.monsterId]?.name}
+             史莱姆
             </div>
           </div>
           <div>
+            血量: {state.monsterObj?.hp}
             <input type="range" readOnly value={state.hp} />
           </div>
         </div>
