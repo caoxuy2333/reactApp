@@ -1,8 +1,9 @@
 // 英雄对象
-export interface Person {
+export interface Heros {
   job: string; // 职业
   power: string; // 攻击力
-  level: string; // 等级
+  level: number; // 等级
+  name: string; // 名字
 }
 
 // 小怪兽对象

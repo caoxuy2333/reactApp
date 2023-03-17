@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { useEffect, useReducer, useState } from 'react';
-import Monster, {monsterType} from './monster/index';
+import Monster from './monster/index';
+import Heros from './heros/index';
+import {Monster as MonsterProps, Heros as HerosProps} from './interface'; 
 import sty from './index.less'
- 
+
 
 const heros = [{
   key: 1,
@@ -20,7 +22,7 @@ const heros = [{
   key: 5,
   name: '白魔法师'
 }]
- 
+
 
 interface monsterProp {
 
@@ -31,6 +33,7 @@ interface stateProp {
   monsterId?: number;// 当前怪物id
   hp?: number;
   monsterObj?: any; // new 的怪物对象
+  herosObj?: any; // new 的英雄对象
 }
 
 // 传递对象
@@ -41,16 +44,20 @@ interface actionProp {
 }
 let initState = {
   monsterObj: new Monster(1),
+  herosObj: new Heros(1),
   monsterId: 1,
-  hp: 0
+  hp: 100
 }
 
 const reducer = function (state: stateProp, action: actionProp) {
   switch (action.type) {
     case 'add':
-      return { ...state, monsterId: action.monsterId, hp: 0 }
+      state.monsterObj.nextMoster(); // 切换下一个怪兽
+      return { ...state, monsterId: action.monsterId, hp: state.monsterObj.hp }
     case 'hp':
-      return { ...state, hp: state.hp + 1 }
+      let injury = state.herosObj.power * state.herosObj.level;
+      state.monsterObj.delHp(injury);
+      return { ... state }
   }
 }
 
@@ -58,20 +65,23 @@ let t: any = null;
 
 const Index = function () {
   const [state, dispatch] = useReducer(reducer, initState);
-  console.log('view', state);
+  const stateRef = React.useRef(state); // 使用useRef获取state, 在useEffect中使用
   useEffect(() => {
-    console.log('重新注册定时器')
     t = setInterval(() => {
-      console.log(state);
-      if (state.hp >= 100) dispatch({ type: 'add', monsterId: state.monsterId + 1 })
+      if (stateRef.current.monsterObj.hp <= 0) dispatch({ type: 'add', monsterId: stateRef.current.monsterId + 1 })
       else dispatch({ type: 'hp' })
-    }, 11110)
-    return () => {
-      console.log('销毁事件')
-      clearInterval(t);
-    }
-  }, [state.hp]); // 观察 hp 值
-
+    }, 1100)
+    return () => { clearInterval(t) }
+  }, []);
+  useEffect(() => {
+    // 挂载state值
+    stateRef.current = state;
+  }, [state]);
+  let h = state.monsterObj.hp * 100 / state.hp; 
+  
+  const heroUpLevel = function(){
+    state.herosObj.levelUp();
+  }
   return (
     <div>
       <div className={sty.border}>
@@ -83,18 +93,19 @@ const Index = function () {
           <div>森林 1/10</div>
           <div className={sty.background}>
             <div className={sty.person}>
-             史莱姆
+              {state.monsterObj?.name || 'null'}
             </div>
           </div>
           <div>
-            血量: {state.monsterObj?.hp}
-            <input type="range" readOnly value={state.hp} />
+             {state.monsterObj?.hp} HP
+            <input type="range" readOnly value={h} />
           </div>
         </div>
         <div className={sty.hero}>
-          {heros.map(it => (
-            <div className={sty.heroName} key={it.key}>{it.name}</div>
-          ))}
+          <div>英雄信息 * <button onClick={heroUpLevel}>升级</button></div>
+          {state.herosObj.allHero.map((it: any) => (
+            <div className={sty.heroName} key={it}>{it}</div>
+          ))} 
         </div>
       </div>
     </div>

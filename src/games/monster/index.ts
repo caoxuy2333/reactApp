@@ -43,26 +43,33 @@ const monster1: monsterType = {
   }
 }
 
-
 export default class monster{
   attr: Monster;
-  hp: string;
-  name: string;
+  hp: string; // hp
+  name: string; // 名字
+  index: number;
 
   constructor(index: number){ 
+    this.index = index;
     this.hp = monster1[index].hp;
     this.name = monster1[index].name;
-    
   }
   // 下一个怪物
   nextMoster(){
-
+    this.index = this.index + 1;
+    this.setMonster()
   }
   // 设置怪物属性
   setMonster(){
-    this.attr = monster1[1];
-    this.hp = this.attr.hp;
-    this.name = this.attr.name;
+    this.attr = monster1[this.index];
+    this.hp = monster1[this.index]?.hp;
+    this.name = monster1[this.index]?.name;
+  }
+  // 减少生命
+  delHp (injury: number){
+    console.log(this.hp)
+    let nHp = parseInt(this.hp) - injury;
+    this.hp = nHp.toString();
   }
   getMonster(){
      return this.attr;
