@@ -12,5 +12,6 @@ export interface Monster{
   img: string; // 贴图
   boss: boolean; // 是否boss
   name: string; // 名字
+  money?: number; // 掉落金钱
 }
 
