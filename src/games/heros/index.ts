@@ -45,6 +45,8 @@ export default class monster {
   index: number; // 英雄下标
 
   constructor(index: number) {
+    // TODO 初始化英雄下标, 从localStroe获取
+    
     this.index = index;
     this.name = heros[index].name;
     this.power = heros[index].power;

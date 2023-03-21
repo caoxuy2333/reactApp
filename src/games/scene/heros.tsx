@@ -32,11 +32,9 @@ const reducer = function (state: stateProp, action: actionProp) {
 }
 
 const Index = function (props: props) {
-  const [state, dispatch] = useReducer(reducer, initState, (init)=>{ return {...init, fn: props.fn} });
+  const [state, dispatch] = useReducer(reducer, initState, (init) => { return { ...init, fn: props.fn } });
   const heroUpLevel = function () {
-    dispatch({
-      type: 'levelUP'
-    })
+    dispatch({ type: 'levelUP' })
   }
   return (
     <div className={sty.hero}>

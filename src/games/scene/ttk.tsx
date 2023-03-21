@@ -39,7 +39,6 @@ const reducer = function (state: stateProp, action: actionProp) {
     case 'add':
       state.monsterObj.nextMoster(); // 切换下一个怪兽
       let m = state.monsterObj.downMoney(); // 掉落金币
-      console.log(m);
       action.callback(m);
       return { ...state, monsterId: action.monsterId, hp: state.monsterObj.hp }
     case 'hp':
