@@ -76,7 +76,6 @@ export default class monster{
   }
   // 减少生命
   delHp (injury: number){
-    console.log(this.hp)
     let nHp = parseInt(this.hp) - injury;
     this.hp = nHp.toString();
   }

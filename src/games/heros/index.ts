@@ -37,7 +37,7 @@ const heros: HerosType = {
   },
 }
 
-export default class monster {
+export default class hero {
 
   name: string; // 名字
   power: string; // 攻击力
