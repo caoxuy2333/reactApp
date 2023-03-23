@@ -38,12 +38,25 @@ module.exports = {
           'less-loader'
         ],
       },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: 'img/',
+            name: '[hash:5].[ext]',
+            // limit: 50000, // 低于50K以 base64编码
+            esModule: false,
+          },
+        }
+      },
     ]
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       // 'xhr': path.resolve(path.join(__dirname, 'src/fetch'))
+      'assets': path.resolve(__dirname, 'assets') // 设置别名
     }
   },
   plugins: [

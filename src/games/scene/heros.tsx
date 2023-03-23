@@ -1,9 +1,9 @@
-import * as React from 'react'; 
+import * as React from 'react';
 import { connect, useDispatch } from "react-redux";
 import { Monster as MonsterProps, Heros as HerosProps } from '../interface';
 import sty from '../index.less';
 
-interface props { 
+interface props {
   dispatch: any;
   global: any;
 }
@@ -16,7 +16,12 @@ const Index = function (props: props) {
   return (
     <div className={sty.hero}>
       <div className={sty.heroAttr}>
-        <div><button onClick={heroUpLevel}>升级</button></div>
+        <div>
+          <button onClick={heroUpLevel}>
+            升级
+            需要 {hero.levelUpMoney}
+          </button>
+        </div>
         <div>level:{hero?.level}  name: {hero?.name} 攻击力: {hero?.power}</div>
         <div>img</div>
       </div>

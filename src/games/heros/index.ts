@@ -55,6 +55,9 @@ export default class hero {
   get allHero(){
     return Object.values(heros).map(it=> it.name)
   }
+  get levelUpMoney(){
+    return this.level * 100 * 1.2;
+  }
   // 仅展示未解锁下一个英雄
   nextHero(){
 

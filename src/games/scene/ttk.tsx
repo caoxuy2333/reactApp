@@ -2,7 +2,9 @@ import * as React from 'react';
 import { useEffect, useReducer, useState, useContext } from 'react';
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Monster as MonsterProps, Heros as HerosProps } from '../interface';
-import sty from '../index.less'
+import sty from '../index.less';
+import img1 from 'assets/img/monster2.jpg'
+import img2 from 'assets/img/map1.png'
 
 let t: any = null;
 
@@ -19,7 +21,7 @@ const Index = function (props: any) {
       } else {
         props.dispatch({ type: 'global/delHp' })
       }
-    }, 1120)
+    }, 1130)
     return () => { clearInterval(t) }
   }, []);
   return (
@@ -29,6 +31,8 @@ const Index = function (props: any) {
       <div className={sty.background}>
         <div className={sty.person}>
           {monster?.name || 'null'}
+          {/* <img src={img1} alt="" /> */}
+          <img src={img2} alt="" />
         </div>
       </div>
       <div>

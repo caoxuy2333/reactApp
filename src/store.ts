@@ -9,7 +9,7 @@ export const counterReducer = createSlice({
   name: 'global',
   initialState: {
     value: 0,
-    hero: Object.assign({}, newhero), // redux不推荐使用 new对象实例, 故转换为普通object
+    hero: Object.assign({ levelUpMoney: newhero.levelUpMoney }, newhero), // redux不推荐使用 new对象实例, 故转换为普通object
     monster: Object.assign({}, newMonster),
     countHp: parseInt(newMonster.hp),
     allHero: newhero.allHero,
@@ -18,12 +18,17 @@ export const counterReducer = createSlice({
   reducers: {
     // 英雄等级提升
     heroLevelUP: (state) => {
-      newhero.levelUp();
-      state.hero.level = newhero.level;
+      if (state.hero.levelUpMoney < state.money) {
+        state.money = state.money - state.hero.levelUpMoney; // 扣减金币
+        // 升级英雄
+        newhero.levelUp();
+        state.hero.level = newhero.level;
+        state.hero.levelUpMoney = newhero.levelUpMoney
+      } 
     },
     // 造成伤害
     delHp: (state, action) => {
-      let h = state.hero.level * parseInt(state.hero.power);
+      let h = state.hero.level * 0.2 + parseInt(state.hero.power) * 0.8;
       newMonster.delHp(h);
       state.monster.hp = newMonster.hp;
     },

@@ -1,3 +1,5 @@
+@url-prefix: "assets";
+
 .red {
   color: red;
 }
@@ -14,15 +16,20 @@
     text-align: center;
 
     .background {
-      background: #a2eca22d;
+      // background: #a2eca22d;
       height: 30vh;
-      background-image: 'assets/img/map1.png';
+      // background-image: url('assets/img/map1.png');
+      background-size: 100% 100%;
       display: flex;
       align-items: center;
       justify-content: center;
 
       .person {
         color: rgb(255, 0, 34);
+
+        >img {
+          width: 3rem;
+        }
       }
     }
   }
@@ -34,12 +41,18 @@
     .heroAttr {
       display: flex;
       justify-content: space-around;
-      color: #00aeff;
+      color: #efff00;
+      border-bottom: 0.1rem solid #1aeb47;
+      background-image: linear-gradient(354deg, #2c95915e 50%, #dc143c00 51%), linear-gradient(292deg, #2965f942 50%, #4fe3a48c 51%), linear-gradient(293deg, #9affb487 50%, #dc143c00 51%), radial-gradient(ellipse, rgba(255, 255, 255, 0.5) 50%, rgb(143 43 233 / 52%) 51%);
+      height: 2rem;
     }
 
     .heroName {
       color: aqua;
       font-size: .7rem;
+      border-bottom: .1rem solid #1aeb47;
+      background-image: linear-gradient(354deg, #2c95915e 50%, #dc143c00 51%), linear-gradient(292deg, #2965f942 50%, #4fe3a48c 51%), linear-gradient(293deg, #9affb487 50%, #dc143c00 51%), radial-gradient(ellipse, rgba(255, 255, 255, 0.5) 50%, rgba(143, 43, 233, 0.52) 51%);
+      height: 2rem;
     }
   }
 }

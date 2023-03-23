@@ -77,6 +77,7 @@ export default class monster{
   // 减少生命
   delHp (injury: number){
     let nHp = parseInt(this.hp) - injury;
+    if(nHp<0) nHp = 0;
     this.hp = nHp.toString();
   }
   downMoney(){
