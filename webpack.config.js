@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'), // 输出文件夹
     chunkFilename: 'js/[name]-chunk.js', // 分包文件
-    filename: '[name].js' // 入口文件
+    filename: '[name].js', // 入口文件
   },
   mode: 'development', // development - production
   devtool: 'inline-source-map',
@@ -38,18 +38,31 @@ module.exports = {
           'less-loader'
         ],
       },
+      // {
+      //   test: /\.(png|jpg|jpeg|gif|svg)$/,
+      //   use: {
+      //     loader: 'file-loader',
+      //     options: {
+      //       outputPath: 'img/',
+      //       publicPath: '/',
+      //       name: '[hash:8].[ext]',
+      //       // limit: 50000, // 低于50K以 base64编码
+      //       esModule: false,
+      //     },
+      //   }
+      // },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            outputPath: 'img/',
-            name: '[hash:5].[ext]',
-            // limit: 50000, // 低于50K以 base64编码
-            esModule: false,
-          },
+        test: /\.(jpe?g|png|gif|svg)$/,
+        type: "asset",
+        generator: {
+          filename: "assets/[hash:8][ext]" // 打包输出
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 100 , // 转换base64
+          }
         }
-      },
+      }
     ]
   },
   resolve: {
