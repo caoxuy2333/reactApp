@@ -11,9 +11,6 @@ const Index = function (props: any) {
   const { money } = props.global;
   return (
     <div>
-      <button onClick={() => {
-        props.dispatch({ type: 'global/heroLevelUP' }) // => props.dispatch(increment())
-      }}>123</button>
       <div className={sty.border}>
         <div className={sty.header}>
           金币 {money}

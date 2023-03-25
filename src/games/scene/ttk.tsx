@@ -7,27 +7,40 @@ import img1 from 'assets/img/monster2.jpg'
 import img2 from 'assets/img/map1.png'
 
 let t: any = null;
-
+const defaultTime = 10;
+// 30s内无法击败则无法进入下一层
 const Index = function (props: any) {
   const { monster, countHp } = props.global;
+  const [endTime, setEndTime] = useState(defaultTime);
   const stateRef = React.useRef(monster);
+  const timeRef = React.useRef(endTime);
   useEffect(() => {
     stateRef.current = monster;
-  }, [monster])
+    timeRef.current = endTime;
+  }, [monster, endTime])
   useEffect(() => {
     t = setInterval(function () {
-      if (stateRef.current.hp <= 0) {
-        props.dispatch({ type: 'global/nextMoster' })
+      if (timeRef.current <= 0) {
+        // 剩余时间到, 未杀死小怪兽
+        props.dispatch({ type: 'global/resetHp' })
+        setEndTime(defaultTime)
       } else {
-        props.dispatch({ type: 'global/delHp' })
+        setEndTime(v => Math.round((v - 0.1) * 100) / 100 )
+        if (stateRef.current.hp <= 0) {
+          props.dispatch({ type: 'global/nextMoster' })
+          setEndTime(defaultTime)
+        } else {
+          props.dispatch({ type: 'global/delHp' })
+        }
       }
-    }, 1130)
+    }, 100)
     return () => { clearInterval(t) }
   }, []);
   return (
     <div className={sty.body}>
-      <div>等级</div>
-      <div>森林 1/10</div>
+      <div>森林 等级 12</div>
+      <div>1/10</div>
+      <div>{endTime}</div>
       <div className={sty.background}>
         <div className={sty.person}>
           {monster?.name || 'null'}

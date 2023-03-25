@@ -24,7 +24,7 @@ export const counterReducer = createSlice({
         newhero.levelUp();
         state.hero.level = newhero.level;
         state.hero.levelUpMoney = newhero.levelUpMoney
-      } 
+      }
     },
     // 造成伤害
     delHp: (state, action) => {
@@ -33,11 +33,16 @@ export const counterReducer = createSlice({
       state.monster.hp = newMonster.hp;
     },
     // 怪兽死亡, 切换下一个怪兽
-    nextMoster: (state): any => {
+    nextMoster: (state) => {
       newMonster.nextMoster();
       state.money += newMonster.downMoney();
       state.countHp = parseInt(newMonster.hp);
       state.monster = Object.assign({}, newMonster);
+    },
+    // 规定时间内 未杀死怪兽 还原血量
+    resetHp: (state) => {
+      newMonster.resetHp();
+      state.monster.hp = newMonster.hp;
     },
     increment: (state) => {
       state.value += 1
