@@ -13,22 +13,32 @@ export const counterReducer = createSlice({
     monster: Object.assign({}, newMonster),
     countHp: parseInt(newMonster.hp),
     allHero: newhero.allHero,
-    money: 0
+    nextHero: newhero.nextHero,
+    ttkHero: newhero.ttkHero,
+    money: 200
   },
   reducers: {
     // 英雄等级提升
-    heroLevelUP: (state) => {
+    heroLevelUP: (state, action) => {
+      console.log(action)
       if (state.hero.levelUpMoney < state.money) {
         state.money = state.money - state.hero.levelUpMoney; // 扣减金币
         // 升级英雄
-        newhero.levelUp();
-        state.hero.level = newhero.level;
-        state.hero.levelUpMoney = newhero.levelUpMoney
+        newhero.levelUp(action.payload.id);
+        state.ttkHero = newhero.ttkHero;
+        state.nextHero = newhero.nextHero;
+        // state.hero.level = newhero.level;
+        // state.hero.levelUpMoney = newhero.levelUpMoney
       }
     },
-    // 造成伤害
+    // 造成伤害  计算所有英雄的攻击, 并相加
     delHp: (state, action) => {
-      let h = state.hero.level * 0.2 + parseInt(state.hero.power) * 0.8;
+      // let h = state.hero.level * 0.2 + parseInt(state.hero.power) * 0.8;
+
+      let  h = state.ttkHero.reduce((res, it)=>{ 
+        return res + it.level * parseInt(state.hero.power) ;
+      }, 0)
+
       newMonster.delHp(h);
       state.monster.hp = newMonster.hp;
     },

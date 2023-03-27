@@ -42,10 +42,11 @@ const Index = function (props: any) {
       <div>1/10</div>
       <div>{endTime}</div>
       <div className={sty.background}>
+        <div>金币+10</div>
         <div className={sty.person}>
           {monster?.name || 'null'}
           {/* <img src={img1} alt="" /> */}
-          <img src={img2} alt="" />
+          <img src={require('assets/img/map1.png')} alt="无" />
         </div>
       </div>
       <div>

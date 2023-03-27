@@ -7,6 +7,7 @@ export interface Heros {
   level: number; // 等级
   name: string; // 名字
   alias?: string; // 别名
+  levelUpMoney? :any; //升级需要的金币
 }
 
 // 小怪兽对象

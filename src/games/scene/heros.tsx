@@ -9,24 +9,25 @@ interface props {
 }
 
 const Index = function (props: props) {
-  const { hero, allHero } = props.global;
-  const heroUpLevel = function () {
-    props.dispatch({ type: 'global/heroLevelUP' })
+  const { hero, allHero, nextHero } = props.global;
+  const heroUpLevel = function (val: any) {
+    console.log(val, this)
+    props.dispatch({ type: 'global/heroLevelUP', payload: this })
   }
+  console.log(nextHero)
   return (
     <div className={sty.hero}>
-      <div className={sty.heroAttr}>
-        <div>
-          <button onClick={heroUpLevel}>
-            升级
-            需要 {hero.levelUpMoney}
-          </button>
+      {nextHero.map((it: any, i: any) => (
+        <div className={sty.heroAttr} key={i}>
+          <div>
+            <button onClick={heroUpLevel.bind(it)}>
+              升级
+              需要 {it.levelUpMoney}
+            </button>
+          </div>
+          <div>level:{it?.level}  name: {it?.name} 攻击力: {it?.power}</div>
+          <div>img</div>
         </div>
-        <div>level:{hero?.level}  name: {hero?.name} 攻击力: {hero?.power}</div>
-        <div>img</div>
-      </div>
-      {allHero.map((it: any) => (
-        <div className={sty.heroName} key={it}>{it}</div>
       ))}
     </div>
   )
