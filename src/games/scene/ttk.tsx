@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { useEffect, useReducer, useState, useContext } from 'react';
-import { connect, useDispatch, useSelector } from "react-redux";
-import { Monster as MonsterProps, Heros as HerosProps } from '../interface';
+import { useEffect, useState } from 'react';
+import { connect } from "react-redux";
 import sty from '../index.less';
-import img1 from 'assets/img/monster2.jpg'
-import img2 from 'assets/img/map1.png'
+ 
+
 
 let t: any = null;
 const defaultTime = 10;
@@ -25,7 +24,7 @@ const Index = function (props: any) {
         props.dispatch({ type: 'global/resetHp' })
         setEndTime(defaultTime)
       } else {
-        setEndTime(v => Math.round((v - 0.1) * 100) / 100 )
+        setEndTime(v => Math.round((v - 0.1) * 100) / 100)
         if (stateRef.current.hp <= 0) {
           props.dispatch({ type: 'global/nextMoster' })
           setEndTime(defaultTime)
@@ -36,6 +35,12 @@ const Index = function (props: any) {
     }, 100)
     return () => { clearInterval(t) }
   }, []);
+  let img = '';
+  try{
+    img = require(`assets/monster/${monster?.img}`)
+  }catch(e){ 
+    console.info(e);
+  }
   return (
     <div className={sty.body}>
       <div>森林 等级 12</div>
@@ -46,7 +51,7 @@ const Index = function (props: any) {
         <div className={sty.person}>
           {monster?.name || 'null'}
           {/* <img src={img1} alt="" /> */}
-          <img src={require('assets/img/map1.png')} alt="无" />
+          <img src={img} alt="无" />
         </div>
       </div>
       <div>

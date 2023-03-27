@@ -31,7 +31,7 @@ const heros: HerosType = {
     level: 0,
     name: '仲甫',
     alias: '陈独秀',
-    levelUpMoney: 200,
+    levelUpMoney: 300,
   },
   3: {
     job: '1',
@@ -39,7 +39,7 @@ const heros: HerosType = {
     level: 0,
     name: '载之',
     alias: '孙中山',
-    levelUpMoney: 200,
+    levelUpMoney: 400,
   },
   4: {
     job: '1',
@@ -47,7 +47,7 @@ const heros: HerosType = {
     level: 0,
     name: '广厦',
     alias: '康有为',
-    levelUpMoney: 200,
+    levelUpMoney: 500,
   },
   5: {
     job: '1',

@@ -13,8 +13,7 @@ const Index = function (props: props) {
   const heroUpLevel = function (val: any) {
     console.log(val, this)
     props.dispatch({ type: 'global/heroLevelUP', payload: this })
-  }
-  console.log(nextHero)
+  } 
   return (
     <div className={sty.hero}>
       {nextHero.map((it: any, i: any) => (
