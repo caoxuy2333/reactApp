@@ -2,8 +2,6 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import sty from '../index.less';
- 
-
 
 let t: any = null;
 const defaultTime = 10;

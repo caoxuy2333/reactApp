@@ -7,7 +7,6 @@ import sty from './index.less';
 import { increment } from '../store';
 
 const Index = function (props: any) {
-  // console.log('index', props)
   const { money } = props.global;
   return (
     <div>
