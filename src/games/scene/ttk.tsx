@@ -1,11 +1,50 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { connect } from "react-redux";
+import * as cx from 'classnames';
 import sty from '../index.less';
 
 let t: any = null;
-const defaultTime = 10;
-// 30s内无法击败则无法进入下一层
+let t2: any = null; 
+const defaultTime = 10; // 10s内无法击败则无法进入下一层
+
+function mapDispatchToProps(dispatch: any) {
+  return {
+    increment: () => dispatch({ type: 'global/increment' })
+  };
+}
+
+const MoneyItem = function (val: any) {
+  const [styles, setStyles] = useState([sty.jc])
+  useEffect(() => {
+    const t4 = setTimeout(() => {
+      setStyles([sty.jc, sty.yidai])
+    }, 10)
+    return () => clearTimeout(t4);
+  }, [])
+  return (
+    <span className={cx(styles)}>金币+{val}</span>
+  )
+}
+
+const MoneyAnimation = connect((state: any) => ({ global: state.global }), mapDispatchToProps)(function (props: any) {
+  const { monsterMoneyList } = props.global;
+  const { increment } = props;
+  useEffect(() => {
+    // 600毫秒删除一次动画
+    t2 = setInterval(() => {
+      increment()
+    }, 1000)
+    return () => {
+      clearInterval(t2);
+    }
+  }, [])
+
+  return (
+    <Fragment>{monsterMoneyList.map((it: any) => <MoneyItem key={it} />)}</Fragment>
+  )
+})
+
 const Index = function (props: any) {
   const { monster, countHp } = props.global;
   const [endTime, setEndTime] = useState(defaultTime);
@@ -34,9 +73,9 @@ const Index = function (props: any) {
     return () => { clearInterval(t) }
   }, []);
   let img = '';
-  try{
+  try {
     img = require(`assets/monster/${monster?.img}`)
-  }catch(e){ 
+  } catch (e) {
     console.info(e);
   }
   return (
@@ -45,12 +84,11 @@ const Index = function (props: any) {
       <div>1/10</div>
       <div>{endTime}</div>
       <div className={sty.background}>
-        <div>金币+10</div>
         <div className={sty.person}>
           {monster?.name || 'null'}
-          {/* <img src={img1} alt="" /> */}
           <img src={img} alt="无" />
         </div>
+        <MoneyAnimation />
       </div>
       <div>
         {monster?.hp} HP
@@ -60,9 +98,4 @@ const Index = function (props: any) {
   )
 }
 
-function mapDispatchToProps(dispatch: any) {
-  return {
-    increment: () => dispatch({ type: 'INCREMENT' })
-  };
-}
 export default connect((state: any) => ({ global: state.global }))(Index);

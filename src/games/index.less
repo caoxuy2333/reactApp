@@ -6,9 +6,10 @@
 
 .border {
   border: 1px solid #ccc;
-background-image: url('assets/img/game-view.jpg');
-background-repeat: no-repeat;
-background-size: 100% 100%;
+  background-image: url('assets/img/game-view.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
   .header {
     text-align: right;
   }
@@ -27,9 +28,12 @@ background-size: 100% 100%;
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
 
       .person {
         color: rgb(255, 0, 34);
+        display: flex;
+        flex-direction: column;
 
         >img {
           width: 10rem;
@@ -59,4 +63,41 @@ background-size: 100% 100%;
       height: 2rem;
     }
   }
+}
+.jc {
+  position: absolute;
+  font-size: 2rem;
+  display: inline-block; 
+}
+
+.yidai { 
+  animation: mymove  .8s infinite;
+  animation-iteration-count: 1; 
+  // opacity: 0;
+  // transition: .8s;
+  // display: inline-block;
+  // transform: translate(20px, -101px);
+}
+
+@keyframes mymove {
+
+  0%,
+  to { 
+    transform: translate(0px, 0px);
+  }
+
+  // 20% {
+  //   transform: translate(20px, -101px);
+  // }
+ 
+  50% {  
+    transform: translate(20px, -101px);
+    opacity: 0.3;
+  }
+
+  100% {  
+    transform: translate(20px, -101px);
+    opacity: 0.3;
+  }
+
 }

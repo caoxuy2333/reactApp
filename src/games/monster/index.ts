@@ -17,42 +17,42 @@ const monster1: monsterType = {
     img: 'm002.png',
     boss: false,
     name: '小猪',
-    money: 100,
+    money: 110,
   },
   3: {
     hp: '235',
     img: 'm003.png',
     boss: false,
     name: '恶灵',
-    money: 100,
+    money: 120,
   },
   4: {
     hp: '345',
     img: 'm004.png',
     boss: false,
     name: '树妖',
-    money: 100,
+    money: 140,
   },
   5: {
     hp: '455',
     img: 'm005.png',
     boss: false,
     name: '黑衣人',
-    money: 100,
+    money: 150,
   },
   6: {
     hp: '565',
     img: 'm006.png',
     boss: false,
     name: '忍者',
-    money: 100,
+    money: 160,
   },
   "7": {
     "hp": "677",
     "img": "m007.png",
     "boss": false,
     "name": "奈亚拉托提普",
-    "money": 100
+    "money": 170
   },
   "8": {
     "hp": "888",

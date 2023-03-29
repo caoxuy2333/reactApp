@@ -15,7 +15,9 @@ export const counterReducer = createSlice({
     allHero: newhero.allHero,
     nextHero: newhero.nextHero,
     ttkHero: newhero.ttkHero,
-    money: 200
+    money: 200,
+    monsterMonet: 0, // 每个怪兽死亡获得的金币
+    monsterMoneyList: [],
   },
   reducers: {
     // 英雄等级提升
@@ -39,8 +41,10 @@ export const counterReducer = createSlice({
     },
     // 怪兽死亡, 切换下一个怪兽
     nextMoster: (state) => {
-      newMonster.nextMoster();
+      state.monsterMoneyList.push(newMonster.downMoney());
       state.money += newMonster.downMoney();
+      // 切换下一个怪兽
+      newMonster.nextMoster();
       state.countHp = parseInt(newMonster.hp);
       state.monster = Object.assign({}, newMonster);
     },
@@ -49,8 +53,8 @@ export const counterReducer = createSlice({
       newMonster.resetHp();
       state.monster.hp = newMonster.hp;
     },
-    increment: (state) => {
-      state.value += 1
+    increment: (state) => { 
+      state.monsterMoneyList.shift()
     },
     decrement: (state) => {
       state.value -= 1
@@ -71,6 +75,9 @@ export const counterReducer = createSlice({
 
 
 export const { increment, decrement, incrementByAmount } = counterReducer.actions;
+
+
+
 export const store = configureStore({
   reducer: {
     global: counterReducer.reducer,
