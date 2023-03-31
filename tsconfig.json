@@ -7,6 +7,7 @@
         "experimentalDecorators": true,
         "jsx": "react",
         "allowJs": true,
+        "esModuleInterop": true, // 避免在 import 中 使用 as 字符
         "moduleResolution": "node"
     },
     "include": ["src/**/*"],

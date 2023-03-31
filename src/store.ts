@@ -1,6 +1,7 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 import hero from './games/heros';
 import monster from './games/monster';
+import _ from 'lodash';
 
 const newhero = new hero(1);
 const newMonster = new monster(1);
@@ -53,6 +54,7 @@ export const counterReducer = createSlice({
       newMonster.resetHp();
       state.monster.hp = newMonster.hp;
     },
+    // 怪兽伤害数值列表
     increment: (state) => { 
       state.monsterMoneyList.shift()
     },
@@ -77,9 +79,20 @@ export const counterReducer = createSlice({
 export const { increment, decrement, incrementByAmount } = counterReducer.actions;
 
 
+setInterval(() => {
+  increment()
+}, 1000)
 
 export const store = configureStore({
   reducer: {
     global: counterReducer.reducer,
   },
 })
+
+// setInterval(() => {
+//   store.dispatch(increment())
+// }, 1000)
+console.log(store);
+console.log(store.dispatch);
+console.log(store.getState());
+// console.log(store);

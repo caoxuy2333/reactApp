@@ -9,14 +9,12 @@ import { increment } from '../store';
 const Index = function (props: any) {
   const { money } = props.global;
   return (
-    <div>
-      <div className={sty.border}>
-        <div className={sty.header}>
-          金币 {money}
-        </div>
-        <Ttk />
-        <Hero />
+    <div className={sty.border}>
+      <div className={sty.header}>
+        金币 {money}
       </div>
+      <Ttk />
+      <Hero />
     </div>
   )
 }

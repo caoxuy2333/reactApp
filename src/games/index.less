@@ -20,9 +20,9 @@
 
     .background {
       // background: #a2eca22d;
-      height: 30vh;
+      height: 40vh;
       background-image: url('assets/img/background001.png');
-      background-size: 31rem 31rem;
+      background-size: 12rem 12rem;
       background-repeat: no-repeat;
       background-position: center center;
       display: flex;
@@ -33,10 +33,11 @@
       .person {
         color: rgb(255, 0, 34);
         display: flex;
+        margin-bottom: 7rem;
         flex-direction: column;
 
         >img {
-          width: 10rem;
+          width: 7rem;
         }
       }
     }
@@ -67,16 +68,16 @@
 .jc {
   position: absolute;
   font-size: 2rem;
-  display: inline-block; 
+  // display: inline-block; 
 }
 
 .yidai { 
-  animation: mymove  .8s infinite;
-  animation-iteration-count: 1; 
+  // animation: mymove  .8s infinite;
+  // animation-iteration-count: 1; 
   // opacity: 0;
-  // transition: .8s;
-  // display: inline-block;
-  // transform: translate(20px, -101px);
+  transition: .8s;
+  display: inline-block;
+  transform: translate(20px, -101px);
 }
 
 @keyframes mymove {

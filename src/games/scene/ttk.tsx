@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState, Fragment } from 'react';
 import { connect } from "react-redux";
-import * as cx from 'classnames';
+import   cx from 'classnames';
 import sty from '../index.less';
 
 let t: any = null;
@@ -14,21 +14,21 @@ function mapDispatchToProps(dispatch: any) {
   };
 }
 
-const MoneyItem = function (val: any) {
+const MoneyItem = function (props: any) {
   const [styles, setStyles] = useState([sty.jc])
   useEffect(() => {
     const t4 = setTimeout(() => {
       setStyles([sty.jc, sty.yidai])
-    }, 10)
+    }, 10) // 增加延时 显示动画效果
     return () => clearTimeout(t4);
   }, [])
   return (
-    <span className={cx(styles)}>金币+{val}</span>
+    <span className={cx(styles)}>金币+{props.val}</span>
   )
 }
 
 const MoneyAnimation = connect((state: any) => ({ global: state.global }), mapDispatchToProps)(function (props: any) {
-  const { monsterMoneyList } = props.global;
+  const { monsterMoneyList, money } = props.global;
   const { increment } = props;
   useEffect(() => {
     // 600毫秒删除一次动画
@@ -38,10 +38,10 @@ const MoneyAnimation = connect((state: any) => ({ global: state.global }), mapDi
     return () => {
       clearInterval(t2);
     }
-  }, [])
+  }, [money]) // 每次金额变化重置动画时间
 
   return (
-    <Fragment>{monsterMoneyList.map((it: any) => <MoneyItem key={it} />)}</Fragment>
+    <Fragment>{monsterMoneyList.map((it: any, i: any) => <MoneyItem key={i} val={it} />)}</Fragment>
   )
 })
 
