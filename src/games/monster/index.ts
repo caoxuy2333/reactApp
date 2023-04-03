@@ -13,7 +13,7 @@ const monster1: monsterType = {
     money: 100,
   },
   2: {
-    hp: '1125',
+    hp: '125',
     img: 'm002.png',
     boss: false,
     name: '小猪',

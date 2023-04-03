@@ -1,54 +1,51 @@
 import * as React from 'react';
 import { useEffect, useState, Fragment } from 'react';
 import { connect } from "react-redux";
-import   cx from 'classnames';
+import cx from 'classnames';
 import sty from '../index.less';
 
 let t: any = null;
-let t2: any = null; 
+let t2: any = null;
 const defaultTime = 10; // 10s内无法击败则无法进入下一层
 
 function mapDispatchToProps(dispatch: any) {
   return {
+    dispatch,
     increment: () => dispatch({ type: 'global/increment' })
   };
 }
 
 // 单个伤害数值动画
-const MoneyItem = function (props: any) {
-  const [styles, setStyles] = useState([sty.jc])
+const MoneyItem = (function (props: any) {
+  const [styles, setStyles] = useState([sty.jc]);
+  const [show, setShow] = useState(true)
   useEffect(() => {
+    const t5 = setTimeout(() => {
+      setShow(false);
+    }, 1000)
     const t4 = setTimeout(() => {
       setStyles([sty.jc, sty.yidai])
     }, 10) // 增加延时 显示动画效果
-    return () => clearTimeout(t4);
+    return () => {
+      clearTimeout(t5);
+      clearTimeout(t4);
+    }
   }, [])
   return (
-    <span className={cx(styles)}>金币+{props.val}</span>
+    show ? <span className={cx(styles)}>金币+{props.val}</span> : null
   )
-}
+})
 
 // 怪兽伤害列表
 const MoneyAnimation = connect((state: any) => ({ global: state.global }), mapDispatchToProps)(function (props: any) {
-  const { monsterMoneyList, money } = props.global;
-  const { increment } = props;
-  useEffect(() => {
-    // 600毫秒删除一次动画
-    t2 = setInterval(() => {
-      increment()
-    }, 1000)
-    return () => {
-      clearInterval(t2);
-    }
-  }, [money]) // 每次金额变化重置动画时间
-
+  const { monsterMoneyList } = props.global;
   return (
     <Fragment>{monsterMoneyList.map((it: any, i: any) => <MoneyItem key={i} val={it} />)}</Fragment>
   )
 })
 
 const Index = function (props: any) {
-  const { monster, countHp } = props.global;
+  const { monster, countHp, mapIndex } = props.global;
   const [endTime, setEndTime] = useState(defaultTime);
   const stateRef = React.useRef(monster);
   const timeRef = React.useRef(endTime);
@@ -82,8 +79,8 @@ const Index = function (props: any) {
   }
   return (
     <div className={sty.body}>
-      <div>森林 等级 12</div>
-      <div>1/10</div>
+      {/* <div>森林 等级 12</div> */}
+      <div>关卡: {mapIndex}</div>
       <div>{endTime}</div>
       <div className={sty.background}>
         <div className={sty.person}>

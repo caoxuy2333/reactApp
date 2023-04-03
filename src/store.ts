@@ -16,11 +16,11 @@ export const counterReducer = createSlice({
     countHp: parseInt(newMonster.hp), // 怪兽总血量 
     nextHero: newhero.nextHero, // 英雄列表
     monsterMoneyList: [], // 怪兽商品动画栈
+    mapIndex: 1, // 关卡, 地图场景
   },
   reducers: {
     // 英雄等级提升
     heroLevelUP: (state, action) => {
-      console.log(action, state)
       if (action.payload.levelUpMoney <= state.money) {
         state.money = state.money - action.payload.levelUpMoney; // 扣减金币
         // 升级英雄
@@ -44,6 +44,7 @@ export const counterReducer = createSlice({
       newMonster.nextMoster();
       state.countHp = parseInt(newMonster.hp);
       state.monster = Object.assign({}, newMonster);
+      state.mapIndex = state.mapIndex + 1;
     },
     // 规定时间内 未杀死怪兽 还原血量
     // 返回上一个怪兽
@@ -72,10 +73,6 @@ export const counterReducer = createSlice({
 export const { increment } = counterReducer.actions;
 
 
-setInterval(() => {
-  increment()
-}, 1000)
-
 export const store = configureStore({
   reducer: {
     global: counterReducer.reducer,
@@ -89,3 +86,9 @@ console.log(store);
 console.log(store.dispatch);
 console.log(store.getState());
 // console.log(store);
+
+
+
+// setInterval(() => {
+//   store.dispatch(increment())
+// }, 1000)

@@ -14,15 +14,21 @@
 
   .header {
     text-align: right;
+    color: #f9fb00;
+    font-weight: bold;
   }
 
   .body {
     border: 1px solid #ccc;
     text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: white;
 
     .background {
       // background: #a2eca22d;
-      height: 40vh;
+      // height: 40vh;
       background-image: url('assets/img/background001.png');
       background-size: 12rem 12rem;
       background-repeat: no-repeat;
@@ -31,6 +37,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
+      flex: 1;
 
       .person {
         color: rgb(255, 0, 34);
@@ -49,6 +56,7 @@
     border: 1px solid #cdcdcd;
     font-size: .7rem;
     overflow: auto;
+    max-height: 30vh;
 
     .heroAttr {
       display: flex;
@@ -82,6 +90,7 @@
         width: 65vw;
         color: white;
         font-size: 0.8rem;
+        margin-left: 1rem;
       }
 
       .heroImg {
@@ -123,11 +132,7 @@
   to {
     transform: translate(0px, 0px);
   }
-
-  // 20% {
-  //   transform: translate(20px, -101px);
-  // }
-
+ 
   50% {
     transform: translate(20px, -101px);
     opacity: 0.3;

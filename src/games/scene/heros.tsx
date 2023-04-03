@@ -10,8 +10,7 @@ interface props {
 
 const Index = function (props: props) {
   const { nextHero } = props.global;
-  const heroUpLevel = function (val: any) {
-    console.log(val, this)
+  const heroUpLevel = function () {
     props.dispatch({ type: 'global/heroLevelUP', payload: this })
   }
   return (
@@ -21,10 +20,10 @@ const Index = function (props: props) {
           <div>
             <button className={sty.levelUpBtn} onClick={heroUpLevel.bind(it)}>
               <span>LV UP</span>
-              <span>{it.levelUpMoney}</span>
+              <span>$: {it.levelUpMoney}</span>
             </button>
           </div>
-          <div className={sty.heroTxt}>LV:{it?.level}  name: {it?.name} 攻击力: {it?.power}</div>
+          <div className={sty.heroTxt}>{it?.name} LV:{it?.level} 攻击力: {it?.power}</div>
           <div className={sty.heroImg}>
             <img src={it.img ? require(`assets/hero/${it.img}`) : ''} alt="无" />
           </div>
