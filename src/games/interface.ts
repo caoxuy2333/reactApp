@@ -2,6 +2,7 @@
 // 造成伤害 : level * 0.4 + potential * 0.6 (等级 * 潜力)
 export interface Heros {
   job: string; // 职业
+  img?: string; // 贴图
   power: string; // 攻击力
   potential?: string; // 成长潜力
   level: number; // 等级

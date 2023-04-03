@@ -19,13 +19,15 @@ const Index = function (props: props) {
       {nextHero.map((it: any, i: any) => (
         <div className={sty.heroAttr} key={i}>
           <div>
-            <button onClick={heroUpLevel.bind(it)}>
-              升级
-              需要 {it.levelUpMoney}
+            <button className={sty.levelUpBtn} onClick={heroUpLevel.bind(it)}>
+              <span>LV UP</span>
+              <span>{it.levelUpMoney}</span>
             </button>
           </div>
-          <div>level:{it?.level}  name: {it?.name} 攻击力: {it?.power}</div>
-          <div>img</div>
+          <div className={sty.heroTxt}>LV:{it?.level}  name: {it?.name} 攻击力: {it?.power}</div>
+          <div className={sty.heroImg}>
+            <img src={it.img ? require(`assets/hero/${it.img}`) : ''} alt="无" />
+          </div>
         </div>
       ))}
     </div>
