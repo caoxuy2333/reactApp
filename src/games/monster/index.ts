@@ -13,7 +13,7 @@ const monster1: monsterType = {
     money: 100,
   },
   2: {
-    hp: '125',
+    hp: '1125',
     img: 'm002.png',
     boss: false,
     name: '小猪',
@@ -1360,11 +1360,10 @@ const monster1: monsterType = {
 };
 
 export default class monster {
-  attr: Monster;
+  index: number; // 怪兽下标
   hp: string; // hp
   name: string; // 名字
-  index: number;
-  money: number; // 进去
+  money: number; // 当前怪兽金币
   img: string; // 图片
 
   constructor(index: number) {
@@ -1374,6 +1373,11 @@ export default class monster {
     this.money = monster1[index].money;
     this.img = monster1[index].img;
   }
+  // 上一个怪物
+  lastMoster() {
+    if (this.index > 1) this.index = this.index - 1;
+    this.setMonster()
+  }
   // 下一个怪物
   nextMoster() {
     this.index = this.index + 1;
@@ -1381,13 +1385,12 @@ export default class monster {
   }
   // 设置怪物属性
   setMonster() {
-    this.attr = monster1[this.index];
     this.hp = monster1[this.index]?.hp;
     this.name = monster1[this.index]?.name;
     this.money = monster1[this.index]?.money;
     this.img = monster1[this.index]?.img;
   }
-  // 减少生命
+  // 减少怪兽生命
   delHp(injury: number) {
     let nHp = parseInt(this.hp) - injury;
     if (nHp < 0) nHp = 0;
@@ -1397,10 +1400,8 @@ export default class monster {
   resetHp() {
     this.hp = monster1[this.index]?.hp;
   }
+  // 输出金币
   downMoney() {
     return this.money;
-  }
-  getMonster() {
-    return this.attr;
   }
 }

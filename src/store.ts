@@ -6,19 +6,16 @@ import _ from 'lodash';
 const newhero = new hero(1);
 const newMonster = new monster(1);
 
+
+// redux不推荐使用 new对象实例, 需转换为普通object
 export const counterReducer = createSlice({
   name: 'global',
   initialState: {
-    value: 0,
-    hero: Object.assign({ levelUpMoney: newhero.levelUpMoney }, newhero), // redux不推荐使用 new对象实例, 故转换为普通object
-    monster: Object.assign({}, newMonster),
-    countHp: parseInt(newMonster.hp),
-    allHero: newhero.allHero,
-    nextHero: newhero.nextHero,
-    ttkHero: newhero.ttkHero,
-    money: 200,
-    monsterMonet: 0, // 每个怪兽死亡获得的金币
-    monsterMoneyList: [],
+    money: 200, // 金币
+    monster: Object.assign({}, newMonster), // 怪兽属性
+    countHp: parseInt(newMonster.hp), // 怪兽总血量 
+    nextHero: newhero.nextHero, // 英雄列表
+    monsterMoneyList: [], // 怪兽商品动画栈
   },
   reducers: {
     // 英雄等级提升
@@ -28,13 +25,12 @@ export const counterReducer = createSlice({
         state.money = state.money - action.payload.levelUpMoney; // 扣减金币
         // 升级英雄
         newhero.levelUp(action.payload.id);
-        state.ttkHero = newhero.ttkHero;
-        state.nextHero = newhero.nextHero; 
+        state.nextHero = newhero.nextHero;
       }
     },
     // 造成伤害  计算所有英雄的攻击, 并相加
-    delHp: (state, action) => { 
-      let h = state.ttkHero.reduce((res, it) => {
+    delHp: (state, action) => {
+      let h = state.nextHero.reduce((res, it) => {
         return res + it.level * parseInt(it.power);
       }, 0)
       newMonster.delHp(h);
@@ -50,20 +46,17 @@ export const counterReducer = createSlice({
       state.monster = Object.assign({}, newMonster);
     },
     // 规定时间内 未杀死怪兽 还原血量
+    // 返回上一个怪兽
     resetHp: (state) => {
+      newMonster.lastMoster();
       newMonster.resetHp();
-      state.monster.hp = newMonster.hp;
+      state.monster = Object.assign({}, newMonster);
+      state.countHp = parseInt(newMonster.hp);
     },
-    // 怪兽伤害数值列表
-    increment: (state) => { 
+    // 去除 怪兽伤害数值动画
+    increment: (state) => {
       state.monsterMoneyList.shift()
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
-    },
+    }
   },
   extraReducers: {
     'mySlice/reverseItems': (state): any => {
@@ -76,7 +69,7 @@ export const counterReducer = createSlice({
 })
 
 
-export const { increment, decrement, incrementByAmount } = counterReducer.actions;
+export const { increment } = counterReducer.actions;
 
 
 setInterval(() => {

@@ -5,10 +5,12 @@
 }
 
 .border {
-  border: 1px solid #ccc;
   background-image: url('assets/img/game-view.jpg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  height: inherit; 
+  display: flex;
+  flex-direction: column;
 
   .header {
     text-align: right;
@@ -46,7 +48,7 @@
   .hero {
     border: 1px solid #cdcdcd;
     font-size: .7rem;
-
+    overflow: auto;
     .heroAttr {
       display: flex;
       justify-content: space-around;

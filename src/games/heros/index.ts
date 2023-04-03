@@ -79,7 +79,7 @@ const heros: HerosType = {
     level: 0,
     name: '明俨',
     alias: '郑成功',
-    levelUpMoney:4500,
+    levelUpMoney: 4500,
   },
   10: {
     job: '1',
@@ -347,32 +347,18 @@ const heros: HerosType = {
 };
 
 
-export default class hero { 
-  name: string; // 名字
-  power: string; // 攻击力 
-  level: number; // 等级
-  index: number; // 英雄下标
-  ttkHeroIndex: Array<number>; // 可以攻击的英雄下标
-  // openHero: Array<String>; // 展示的英雄列表
+export default class hero {
+  index: number; // 英雄下标  
+  ttkHeroIndex: Array<number>; // 可以攻击的英雄下标 
   soureHero: HerosType; // 常量, 所有英雄
 
   constructor(index: number) {
-    // TODO 初始化英雄下标, 从localStroe获取
-
+    // TODO 初始化英雄下标, 从localStroe获取 
     this.index = index;
-    this.name = heros[index].name;
-    this.power = heros[index].power;
-    this.level = heros[index].level;
     this.ttkHeroIndex = [1];
     this.soureHero = heros;
   }
-  get allHero() {
-    return Object.values(heros).map(it => it.name)
-  }
-  get levelUpMoney() {
-    return this.level * 100 * 1.2;
-  }
-  // 仅展示未解锁下一个英雄
+  // 展示的英雄列表
   get nextHero() {
     const h = Object.keys(this.soureHero).reduce((res, item: any, i) => {
       if (i > (_.max(this.ttkHeroIndex) + 13)) return res;
@@ -380,10 +366,6 @@ export default class hero {
       return res;
     }, [])
     return h;
-  }
-  // 可攻击的英雄列表
-  get ttkHero() {
-    return this.ttkHeroIndex.map(it => this.soureHero[it]);
   }
   // 升级英雄
   levelUp(id: any) {
@@ -394,12 +376,5 @@ export default class hero {
     if (!this.ttkHeroIndex.includes(id)) {
       this.ttkHeroIndex = this.ttkHeroIndex.concat(id)
     }
-    // this.level = this.level + 1;
-  }
-  // 切换英雄
-  switchHero() {
-
-  }
-  getMonster() {
   }
 }

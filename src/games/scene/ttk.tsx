@@ -14,6 +14,7 @@ function mapDispatchToProps(dispatch: any) {
   };
 }
 
+// 单个伤害数值动画
 const MoneyItem = function (props: any) {
   const [styles, setStyles] = useState([sty.jc])
   useEffect(() => {
@@ -27,6 +28,7 @@ const MoneyItem = function (props: any) {
   )
 }
 
+// 怪兽伤害列表
 const MoneyAnimation = connect((state: any) => ({ global: state.global }), mapDispatchToProps)(function (props: any) {
   const { monsterMoneyList, money } = props.global;
   const { increment } = props;

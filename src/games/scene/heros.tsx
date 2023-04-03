@@ -9,11 +9,11 @@ interface props {
 }
 
 const Index = function (props: props) {
-  const { hero, allHero, nextHero } = props.global;
+  const { nextHero } = props.global;
   const heroUpLevel = function (val: any) {
     console.log(val, this)
     props.dispatch({ type: 'global/heroLevelUP', payload: this })
-  } 
+  }
   return (
     <div className={sty.hero}>
       {nextHero.map((it: any, i: any) => (
