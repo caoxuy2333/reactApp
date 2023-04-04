@@ -20,7 +20,7 @@ const Index = function (props: props) {
           <div>
             <button className={sty.levelUpBtn} onClick={heroUpLevel.bind(it)}>
               <span>LV UP</span>
-              <span>$: {it.levelUpMoney}</span>
+              <span>$ {it.levelUpMoney}</span>
             </button>
           </div>
           <div className={sty.heroTxt}>{it?.name} LV:{it?.level} 攻击力: {it?.power}</div>

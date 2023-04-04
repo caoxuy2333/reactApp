@@ -47,6 +47,8 @@ const MoneyAnimation = connect((state: any) => ({ global: state.global }), mapDi
 const Index = function (props: any) {
   const { monster, countHp, mapIndex } = props.global;
   const [endTime, setEndTime] = useState(defaultTime);
+  const [anime, setAnime] = useState(0);
+  const [style, setStyle] = useState({})
   const stateRef = React.useRef(monster);
   const timeRef = React.useRef(endTime);
   useEffect(() => {
@@ -71,21 +73,31 @@ const Index = function (props: any) {
     }, 100)
     return () => { clearInterval(t) }
   }, []);
-  let img = '';
-  try {
-    img = require(`assets/monster/${monster?.img}`)
-  } catch (e) {
-    console.info(e);
+  const clickTtk = function () {
+    // 点击攻击特效
+    setAnime(v => v + 1);
+    setStyle({
+      left: Math.random() * (3 + 7 + 1) - 7 + 'rem',
+      bottom: Math.random() * (3 + 7 + 1) - 7 + 'rem',
+    })
+    const t6 = setTimeout(() => {
+      setAnime(0);
+      clearTimeout(t6);
+    }, 100)
+    props.dispatch({ type: 'global/delHp', payload: { point: true } })
   }
   return (
     <div className={sty.body}>
       {/* <div>森林 等级 12</div> */}
       <div>关卡: {mapIndex}</div>
       <div>{endTime}</div>
-      <div className={sty.background}>
+      <div className={sty.background} onClick={clickTtk}>
         <div className={sty.person}>
           {monster?.name || 'null'}
-          <img src={img} alt="无" />
+          <img src={monster.img ? require(`assets/monster/${monster?.img}`) : ''} alt="无" />
+        </div>
+        <div className={sty.animeFaster}>
+          <img className={cx(sty.animeInit, anime ? sty.ttkAmine : '')} style={style} src={require(`assets/img/anime.png`)} alt="无" />
         </div>
         <MoneyAnimation />
       </div>

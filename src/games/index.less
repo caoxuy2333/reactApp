@@ -49,6 +49,21 @@
           width: 7rem;
         }
       }
+
+      .animeFaster {
+        position: absolute;
+      }
+
+      .animeInit {
+        position: absolute;
+        width: 0;
+        // width: 4rem;
+        transition: 0.1s all;
+      }
+
+      .ttkAmine {
+        width: 4rem;
+      }
     }
   }
 
@@ -65,7 +80,6 @@
       border-bottom: 0.1rem solid #1aeb47;
       background-image: linear-gradient(354deg, #2c95915e 50%, #dc143c00 51%), linear-gradient(292deg, #2965f942 50%, #4fe3a48c 51%), linear-gradient(293deg, #9affb487 50%, #dc143c00 51%), radial-gradient(ellipse, rgba(255, 255, 255, 0.5) 50%, rgb(143 43 233 / 52%) 51%);
       height: 2rem;
-
       align-items: center;
 
       .levelUpBtn {
@@ -126,13 +140,15 @@
   transform: translate(20px, -101px);
 }
 
+// 点击攻击的动画
+
 @keyframes mymove {
 
   0%,
   to {
     transform: translate(0px, 0px);
   }
- 
+
   50% {
     transform: translate(20px, -101px);
     opacity: 0.3;

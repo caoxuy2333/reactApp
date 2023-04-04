@@ -1,5 +1,5 @@
 import { Heros } from '../interface';
-import _ from 'lodash';
+import { max } from 'lodash';
 
 export interface HerosType {
   [key: number]: Heros
@@ -405,7 +405,7 @@ export default class hero {
   // 展示的英雄列表
   get nextHero() {
     const h = Object.keys(this.soureHero).reduce((res, item: any, i) => {
-      if (i > _.max(this.ttkHeroIndex)) return res;
+      if (i > max(this.ttkHeroIndex)) return res;
       res.push(Object.assign(this.soureHero[item], { id: item }));
       return res;
     }, [])

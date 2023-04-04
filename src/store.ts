@@ -1,7 +1,6 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 import hero from './games/heros';
 import monster from './games/monster';
-import _ from 'lodash';
 
 const newhero = new hero(1);
 const newMonster = new monster(1);
@@ -11,7 +10,7 @@ const newMonster = new monster(1);
 export const counterReducer = createSlice({
   name: 'global',
   initialState: {
-    money: 200, // 金币
+    money: 500, // 金币
     monster: Object.assign({}, newMonster), // 怪兽属性
     countHp: parseInt(newMonster.hp), // 怪兽总血量 
     nextHero: newhero.nextHero, // 英雄列表
@@ -30,9 +29,11 @@ export const counterReducer = createSlice({
     },
     // 造成伤害  计算所有英雄的攻击, 并相加
     delHp: (state, action) => {
+      const {payload = {} } = action;
       let h = state.nextHero.reduce((res, it) => {
         return res + it.level * parseInt(it.power);
       }, 0)
+      if (payload.point) h = 3 * h;
       newMonster.delHp(h);
       state.monster.hp = newMonster.hp;
     },
