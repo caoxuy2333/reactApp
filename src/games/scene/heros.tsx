@@ -23,7 +23,7 @@ const Index = function (props: props) {
               <span>$ {it.levelUpMoney}</span>
             </button>
           </div>
-          <div className={sty.heroTxt}>{it?.name} LV:{it?.level} 攻击力: {it?.power}</div>
+          <div className={sty.heroTxt}>{it?.name}  LV {it?.level} 攻击力: {it?.power}</div>
           <div className={sty.heroImg}>
             <img src={it.img ? require(`assets/hero/${it.img}`) : ''} alt="无" />
           </div>

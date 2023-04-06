@@ -146,238 +146,238 @@ const monster1: monsterType = {
     "money": 5100
   },
   "21": {
-    "hp": "12434",
+    "hp": "120434",
     "img": "m021.png",
     "boss": false,
     "name": "莎布·尼古拉丝",
     "money": 5600
   },
   "22": {
-    "hp": "14490",
+    "hp": "140490",
     "img": "m022.png",
     "boss": false,
     "name": "犹格·索托斯",
     "money": 6100
   },
   "23": {
-    "hp": "16555",
+    "hp": "160555",
     "img": "m023.png",
     "boss": false,
     "name": "奈亚拉托提普",
     "money": 7100
   },
   "24": {
-    "hp": "22666",
+    "hp": "220666",
     "img": "m024.png",
     "boss": false,
     "name": "克苏鲁",
     "money": 8100
   },
   "25": {
-    "hp": "28777",
+    "hp": "280777",
     "img": "m025.png",
     "boss": false,
     "name": "哈斯塔",
     "money": 9100
   },
   "26": {
-    "hp": "36888",
+    "hp": "360888",
     "img": "m026.png",
     "boss": false,
     "name": "诺登斯",
     "money": 11100
   },
   "27": {
-    "hp": "42999",
+    "hp": "420999",
     "img": "m027.png",
     "boss": false,
     "name": "阿撒托斯",
     "money": 12100
   },
   "28": {
-    "hp": "69999",
+    "hp": "690999",
     "img": "m028.png",
     "boss": false,
     "name": "狐鬼",
     "money": 12100
   },
   "29": {
-    "hp": "99999",
+    "hp": "999999",
     "img": "m029.png",
     "boss": false,
     "name": "厉鬼",
     "money": 12100
   },
   "30": {
-    "hp": "149999",
+    "hp": "1499999",
     "img": "m030.png",
     "boss": false,
     "name": "画皮鬼",
     "money": 12100
   },
   "31": {
-    "hp": "249999",
+    "hp": "2499999",
     "img": "m031.png",
     "boss": false,
     "name": "水鬼",
     "money": 12100
   },
   "32": {
-    "hp": "349999",
+    "hp": "3499999",
     "img": "m032.png",
     "boss": false,
     "name": "伥鬼",
     "money": 12100
   },
   "33": {
-    "hp": "449999",
+    "hp": "4499999",
     "img": "m033.png",
     "boss": false,
     "name": "产鬼",
     "money": 12100
   },
   "34": {
-    "hp": "549999",
+    "hp": "5499999",
     "img": "m034.png",
     "boss": false,
     "name": "缢鬼",
     "money": 12100
   },
   "35": {
-    "hp": "649999",
+    "hp": "6499999",
     "img": "m035.png",
     "boss": false,
     "name": "猫鬼",
     "money": 12100
   },
   "36": {
-    "hp": "749999",
+    "hp": "7499999",
     "img": "m036.png",
     "boss": false,
     "name": "疫鬼",
     "money": 12100
   },
   "37": {
-    "hp": "849999",
+    "hp": "8499999",
     "img": "m037.png",
     "boss": false,
     "name": "魍魉",
     "money": 12100
   },
   "38": {
-    "hp": "949999",
+    "hp": "9499999",
     "img": "m038.png",
     "boss": false,
     "name": "敫桂英",
     "money": 12100
   },
   "39": {
-    "hp": "1149999",
+    "hp": "11499999",
     "img": "m039.png",
     "boss": false,
     "name": "山魈",
     "money": 12100
   },
   "40": {
-    "hp": "1349999",
+    "hp": "13499999",
     "img": "m040.png",
     "boss": false,
     "name": "判官",
     "money": 12100
   },
   "41": {
-    "hp": "1649999",
+    "hp": "16499999",
     "img": "m041.png",
     "boss": false,
     "name": "牛头马面",
     "money": 12100
   },
   "42": {
-    "hp": "1849999",
+    "hp": "18499999",
     "img": "m042.png",
     "boss": false,
     "name": "黑白无常",
     "money": 12100
   },
   "43": {
-    "hp": "1949999",
+    "hp": "19499999",
     "img": "m043.png",
     "boss": false,
     "name": "孟婆",
     "money": 12100
   },
   "44": {
-    "hp": "2249999",
+    "hp": "22499999",
     "img": "m044.png",
     "boss": false,
     "name": "刀劳鬼",
     "money": 12100
   },
   "45": {
-    "hp": "2649999",
+    "hp": "26499999",
     "img": "m045.png",
     "boss": false,
     "name": "拘魂鬼",
     "money": 12100
   },
   "46": {
-    "hp": "2949999",
+    "hp": "29499999",
     "img": "m046.png",
     "boss": false,
     "name": "蓬头鬼",
     "money": 12100
   },
   "47": {
-    "hp": "3449999",
+    "hp": "34499999",
     "img": "m047.png",
     "boss": false,
     "name": "腹鬼",
     "money": 12100
   },
   "48": {
-    "hp": "5549999",
+    "hp": "55499999",
     "img": "m048.png",
     "boss": false,
     "name": "狰狞鬼",
     "money": 12100
   },
   "49": {
-    "hp": "8849999",
+    "hp": "68499999",
     "img": "m049.png",
     "boss": false,
     "name": "冤鬼",
     "money": 12100
   },
   "50": {
-    "hp": "12349999",
+    "hp": "72349999",
     "img": "m050.png",
     "boss": false,
     "name": "黄父鬼",
     "money": 12100
   },
   "51": {
-    "hp": "14749999",
+    "hp": "84749999",
     "img": "m051.png",
     "boss": false,
     "name": "野鬼",
     "money": 12100
   },
   "52": {
-    "hp": "18849999",
+    "hp": "98849999",
     "img": "m052.png",
     "boss": false,
     "name": "厕鬼",
     "money": 12100
   },
   "53": {
-    "hp": "23249999",
+    "hp": "93249999",
     "img": "m053.png",
     "boss": false,
     "name": "吊靴鬼",
     "money": 12100
   },
   "54": {
-    "hp": "29949999",
+    "hp": "99949999",
     "img": "m054.png",
     "boss": false,
     "name": "无头鬼",
