@@ -85,8 +85,14 @@ module.exports = {
       // 增加 ^ 匹配不到, 遂删除 ^ 符号
       '/socket': {
         changeOrigin: true,
-        target: 'http://192.168.85.128:8082',  // 代理目标地址
+        target: 'http://127.0.0.1:8082',  // 代理目标地址
         pathRewrite: { '^/socket': '' }
+      },
+      // 反向代理
+      '/cxyPrint': {
+        changeOrigin: true,
+        target: 'http://127.0.0.1:8091',  // 代理目标地址
+        pathRewrite: { '^/cxyPrint': '' }
       }
     }
   }
