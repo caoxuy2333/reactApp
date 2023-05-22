@@ -9,8 +9,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'), // 输出文件夹
     chunkFilename: 'js/[name]-chunk.js', // 分包文件
     filename: '[name].js', // 入口文件
+    publicPath: './'
   },
-  mode: 'development', // development - production
+  mode: 'production', // development - production
   devtool: 'inline-source-map',
   module: {
     rules: [
@@ -70,6 +71,14 @@ module.exports = {
       'request': path.resolve(path.join(__dirname, 'src/fetch')),
     })
   ],
+  optimization:{
+    // 将每个module打包成单个文件, 并行加载, 提升加载速度
+    splitChunks: {
+      chunks: 'all',
+      name: 'modules/chunk', // 打包后的文件名
+      maxSize: 200000, // 设置每个文件的最大值 (单位: bytes)
+    }
+  },
   devServer: {
     compress: true,
     port: 9000,

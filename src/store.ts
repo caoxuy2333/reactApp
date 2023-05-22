@@ -59,14 +59,6 @@ export const counterReducer = createSlice({
     increment: (state) => {
       state.monsterMoneyList.shift()
     }
-  },
-  extraReducers: {
-    'mySlice/reverseItems': (state): any => {
-      return '1';
-    },
-    'mySlice/clearItems': (): any => {
-      return [];
-    }
   }
 })
 
