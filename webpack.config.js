@@ -2,17 +2,22 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, 'dist'), // 输出文件夹
     chunkFilename: 'js/[name]-chunk.js', // 分包文件
-    filename: '[name].js', // 入口文件
-    publicPath: './'
+    filename: '[name].js', // 入口文件 
   },
-  mode: 'production', // development - production
-  devtool: 'inline-source-map',
+  mode: 'development', // development - production
+  devtool: 'hidden-source-map', // 源码模式, 打包模式
+  // inline-source-map 展示源码
+  // cheap-source-map 会将css 写入到js中, 运行时写入到style标签中
+  // hidden-source-map 隐藏源码
+  // eval 使用eval压缩
   module: {
     rules: [
       {
@@ -20,23 +25,30 @@ module.exports = {
         loader: 'babel-loader',
       },
       {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx)?$/,
         use: 'ts-loader',
         exclude: /node_modules/
       },
       {
         test: /\.(css|less)$/i,
         use: [
-          'style-loader',
+          // 'style-loader',
+          MiniCssExtractPlugin.loader, // 不要同时使用 style-loader 与 mini-css-extract-plugin
           {
             loader: 'css-loader',
             options: {
+              sourceMap: true,
               modules: {
                 localIdentName: '[local]-[hash:base64:5]',
               }
             }
           },
-          'less-loader'
+          {
+            loader: 'less-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
         ],
       },
       {
@@ -69,10 +81,10 @@ module.exports = {
     new ProvidePlugin({
       'mockjs': path.resolve(path.join(__dirname, 'src/fetch/mock')),
       'request': path.resolve(path.join(__dirname, 'src/fetch')),
-    })
+    }),
+    new MiniCssExtractPlugin(),
   ],
   optimization:{
-    // 将每个module打包成单个文件, 并行加载, 提升加载速度
     splitChunks: {
       chunks: 'all',
       name: 'modules/chunk', // 打包后的文件名
