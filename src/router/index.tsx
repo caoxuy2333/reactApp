@@ -56,6 +56,7 @@ export const asyncComponent = (loadComponent: Function) => (
 const Login = asyncComponent(() => import('../login/index'));
 const ReactTest = asyncComponent(() => import('../react/index'));
 const GameTest = asyncComponent(() => import('../games/index'));
+const FcGame = asyncComponent(() => import('../fc-game/index'));
 const App = function () {
   return (
     <BrowserRouter>
@@ -71,6 +72,7 @@ const App = function () {
       <Route path='/WebSocketTest' render={() => <WebSocketTest />}></Route>
       <Route path='/react' component={ReactTest}></Route>
       <Route path='/game' component={GameTest}></Route>
+      <Route path='/fcgame' component={FcGame}></Route>
     </BrowserRouter>
   )
 }

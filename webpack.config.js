@@ -13,7 +13,7 @@ module.exports = {
     filename: '[name].js', // 入口文件 
   },
   mode: 'development', // development - production
-  devtool: 'hidden-source-map', // 源码模式, 打包模式
+  devtool: 'inline-source-map', // 源码模式, 打包模式
   // inline-source-map 展示源码
   // cheap-source-map 会将css 写入到js中, 运行时写入到style标签中
   // hidden-source-map 隐藏源码
@@ -59,8 +59,15 @@ module.exports = {
         },
         parser: {
           dataUrlCondition: {
-            maxSize: 100 , // 转换base64
+            maxSize: 100, // 转换base64
           }
+        }
+      },
+      {
+        test: /\.nes/,
+        loader: 'file-loader',
+        options: {
+          esModule: false
         }
       }
     ]
@@ -84,7 +91,7 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
   ],
-  optimization:{
+  optimization: {
     splitChunks: {
       chunks: 'all',
       name: 'modules/chunk', // 打包后的文件名

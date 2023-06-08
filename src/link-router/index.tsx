@@ -27,6 +27,9 @@ const Index: React.FC = (): JSX.Element => {
       <div>
         <Link to={'/game'}>game</Link>
       </div>
+      <div>
+        <Link to={'/fcgame'}>fc-game</Link>
+      </div>
       <button className={sty.btn}>
         <span>LV UP</span>
         <span>11,303M</span>
