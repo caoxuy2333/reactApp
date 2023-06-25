@@ -1,5 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import { Joystick } from 'react-joystick-component';
 import nes from './comp/index';
+import sty from './index.less';
 
 let n = new nes();
 let p = require('./nes-file/Contra1(U)30.nes')
@@ -34,6 +36,12 @@ n.ui.writeFrame = function (buffer: any, prevBuffer: any) {
   }
   canvas.putImageData(canvasImageData, 0, 0);
 }
+
+// 摇杆 属性
+let joy = {
+  direction: '', // 方向
+  keyCode: -1, // 操作方向 对应编码
+};
 
 const Index = function (props: any) {
   let ref: React.RefObject<any> = useRef();
@@ -72,14 +80,44 @@ const Index = function (props: any) {
     n.keyboard.keyUp({ keyCode: +keyCode });
   }
 
+  const handleMove = function (e: any) {
+    if (joy.direction !== e.direction) {
+      if (joy.keyCode) n.keyboard.keyUp({ keyCode: joy.keyCode });
+      joy.direction = e.direction
+      switch (joy.direction) {
+        case 'LEFT':
+          joy.keyCode = 65;
+          break;
+        case 'RIGHT':
+          joy.keyCode = 68;
+          break;
+        case 'FORWARD':
+          joy.keyCode = 87;
+          break;
+        case 'BACKWARD':
+          joy.keyCode = 83;
+          break;
+        default:
+          break;
+      }
+      n.keyboard.keyDown({ keyCode: joy.keyCode });
+    }
+    return;
+  }
+  // 松开摇杆键
+  const handleStop = function (e: any) {
+    n.keyboard.keyUp({ keyCode: joy.keyCode });
+    joy.direction = '';
+    joy.keyCode = -1;
+  }
+
   return (
-    <div>
+    <div className={sty.body}>
+      <div>
+        <Joystick size={100} sticky={false} move={handleMove} stop={handleStop}></Joystick>
+      </div>
       <canvas ref={ref} width={256} height={240}></canvas>
       <div>
-        <Button keycode={65} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>左</Button>
-        <Button keycode={68} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>右</Button>
-        <Button keycode={87} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>上</Button>
-        <Button keycode={83} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>下</Button>
         <Button keycode={13} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>start</Button>
         <Button keycode={17} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>select</Button>
         <Button keycode={74} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>A</Button>
