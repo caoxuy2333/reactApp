@@ -49,7 +49,8 @@ let games: games = {
   '俄罗斯方块 (Tengen) Tetris': '(Tengen) Tetris.nes',
   '兵蜂1 (J) TwinBee': '(J) TwinBee.nes',
   '冒险岛1 (J) Takahashi Meijin no Bouken Shima': '(J) Takahashi Meijin no Bouken Shima.nes',
-  '打砖块1 (J) Arkanoid': '(J) Arkanoid.nes'
+  '打砖块1 (J) Arkanoid': '(J) Arkanoid.nes',
+  'Zelda II': 'Zelda II - The Adventure of Link (U).nes',
   // 不可用游戏 ↓
   // '忍者龙剑传1 (PC10) Ninja Gaiden': 'Ninja_Gaiden1.nes',
   // '忍者龙剑传2 (PC10) Ninja Gaiden II - The Dark Sword of Chaos': 'Ninja_Gaiden2.nes',
@@ -63,6 +64,7 @@ let games: games = {
   // '南极大冒险 (J) Antarctic Adventure': '(J) Antarctic Adventure.nes',
   // '叮当1 (J) Dig Dug': '(J) Dig Dug.nes',
   // '影之传说 (J) Kage no Densetsu': '(J) Kage no Densetsu.nes',
+  // 'fire': 'fire.nes'
 
 }
 
@@ -93,6 +95,30 @@ n.ui.writeFrame = function (buffer: any, prevBuffer: any) {
     }
   }
   canvas.putImageData(canvasImageData, 0, 0);
+}
+
+// 播放声音
+window.AudioContext = window.AudioContext;
+let audio = new AudioContext();
+
+let intToFloatSample = function (value: any) {
+  return value / 32767; // from -32767..32768 to -1..1 range
+};
+
+n.ui.writeAudio = function (samples: any) {
+  let buffer = audio.createBuffer(2, samples.length, audio.sampleRate);
+  let channelLeft = buffer.getChannelData(0);
+  let channelRight = buffer.getChannelData(1);
+  let j = 0;
+  for (let i = 0; i < samples.length; i += 2) {
+    channelLeft[j] = intToFloatSample(samples[i]);
+    channelRight[j] = intToFloatSample(samples[i + 1]);
+    j++;
+  }
+  let source = audio.createBufferSource();
+  source.buffer = buffer;
+  source.connect(audio.destination); // Output to sound
+  source.start();
 }
 
 // 摇杆 属性
@@ -170,11 +196,10 @@ const Index = function (props: any) {
     joy.direction = '';
     joy.keyCode = -1;
   }
+  // 加载游戏
   const changeGame = async function (e: any) {
-    console.log(e);
     let v: string = e.target.value;
     let p = await require(`./nes-file/${games[v]}`);
-
     let xhr = new XMLHttpRequest();
     xhr.open('GET', p, true);
     xhr.overrideMimeType('text/plain; charset=x-user-defined');
@@ -187,14 +212,16 @@ const Index = function (props: any) {
     };
     xhr.send();
   }
-
   return (
     <div id='fcgame' className={sty.body}>
       <div style={{ margin: '0 1rem' }}>
-        <select onChange={changeGame}>
+        <select  style={{ width: '5rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
         </select>
-        <Joystick size={100} sticky={false} move={handleMove} stop={handleStop}></Joystick>
+        <br />
+        <br />
+        <br /> 
+        <Joystick size={135} sticky={false} move={handleMove} stop={handleStop}></Joystick>
       </div>
       <canvas ref={ref} width={256} height={240}></canvas>
       <div>
