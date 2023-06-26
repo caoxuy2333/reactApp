@@ -5,23 +5,27 @@
 
   <meta charset="utf-8">
   <title>project</title>
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="full-screen" content="yes">
   <meta name="x5-fullscreen" content="'true">
   <style>
     html {
       font-size: 24px;
+      touch-action: none;
+      height: 100%;
     }
 
     body {
       margin: 0;
+      height: 100%;
+      font-size: 24px;
     }
 
     #root {
-      height: 100vh;
+      height: 100%;
     }
-/* 防止手机端, 双击屏幕 放大缩小界面  */
+
+    /* 防止手机端, 双击屏幕 放大缩小界面  */
     * {
       -webkit-touch-callout: none;
       -webkit-user-select: none;
