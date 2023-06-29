@@ -221,7 +221,7 @@ const Index = function (props: any) {
         <br />
         <br />
         <br /> 
-        <Joystick size={135} sticky={false} move={handleMove} stop={handleStop}></Joystick>
+        <Joystick size={115} sticky={false} move={handleMove} stop={handleStop}></Joystick>
       </div>
       <canvas ref={ref} width={256} height={240}></canvas>
       <div>

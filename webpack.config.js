@@ -64,7 +64,7 @@ module.exports = {
         }
       },
       {
-        test: /\.nes/,
+        test: /\.(nes|gba|bin)$/,
         loader: 'file-loader',
         options: {
           esModule: false
