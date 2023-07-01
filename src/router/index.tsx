@@ -62,7 +62,8 @@ const GbaGame = asyncComponent(() => import('../gba-game/index'));
 const App = function () {
   return (
     <BrowserRouter>
-      <Route path="/" exact component={() => <Link />}></Route>
+      {/* <Route path="/" exact component={() => <Link />}></Route> */}
+      <Route path="/" exact component={() => <GbaGame />}></Route>
 
       <Route path="/fileTransferProtocol" render={() => <FileTransferProtocol />}></Route>
       <Route path="/about" render={() => <Index1 />}></Route>

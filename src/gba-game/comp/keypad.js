@@ -83,7 +83,7 @@ GameBoyAdvanceKeypad.prototype.keyboardHandler = function(e) {
 		this.currentDown |= toggle;
 	}
 
-	if (this.eatInput) {
+	if (this.eatInput && e.preventDefault) {
 		e.preventDefault();
 	}
 };
