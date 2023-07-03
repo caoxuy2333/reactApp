@@ -1,5 +1,5 @@
 import {MemoryView} from './mmu';
-console.log('savedata')
+
 function SRAMSavedata(size) {
 	MemoryView.call(this, new ArrayBuffer(size), 0);
 
@@ -308,4 +308,4 @@ EEPROMSavedata.prototype.replaceData = function(memory) {
 	MemoryView.prototype.replaceData.call(this, memory, 0);
 };
 
-export {SRAMSavedata}
+export {SRAMSavedata, EEPROMSavedata}

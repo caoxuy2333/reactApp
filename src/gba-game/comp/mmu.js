@@ -1,6 +1,4 @@
-import {SRAMSavedata} from './savedata';
-console.log('mmu')
-
+import {SRAMSavedata, EEPROMSavedata} from './savedata';
 
 function MemoryView(memory, offset) {
 	this.inherit();
@@ -817,4 +815,4 @@ GameBoyAdvanceMMU.prototype.allocGPIO = function(rom) {
 	return new GameBoyAdvanceGPIO(this.core, rom);
 };
 
-export {MemoryView, GameBoyAdvanceMMU};
+export {MemoryView, GameBoyAdvanceMMU, MemoryBlock};

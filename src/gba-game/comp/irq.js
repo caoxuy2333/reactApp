@@ -1,3 +1,5 @@
+import {MemoryBlock} from './mmu';
+
 function GameBoyAdvanceInterruptHandler() {
 	this.inherit();
 	this.FREQUENCY = 0x1000000;

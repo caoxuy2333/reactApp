@@ -12,8 +12,17 @@ interface games {
 }
 
 let games: games = {
-  '选择游戏': '(W) Super Mario Bros.nes',
-  '火纹': '2'
+  '选择游戏': '',
+  '塞尔达传说:缩小帽': 'Zelda no Densetsu - Fushigi no Boushi.gba',
+  '火焰之纹章:烈火之剑': 'Fire Emblem - Rekka no Ken.gba',
+  '火焰之纹章:封印之剑':'Fire Emblem - Fuuin no Tsurugi.gba',
+  '火焰之纹章:圣魔之光石': 'Fire Emblem - The Sacred Stones.gba',
+  '恶魔城：晓月之圆舞曲': 'Castlevania - Aria of Sorrow.gba',
+  '星之卡比：镜之迷宫':'Kirby - The Amazing Mirror.gba',
+  '龙珠大冒险': 'Dragon Ball - Advanced Adventure.gba',
+  '超级马里奥1':'Super Mario Advance.gba',
+  '超级马里奥2': 'Super Mario Advance 2.gba',
+  '马里奥与路易RPG':'Mario & Luigi - Superstar Saga.gba'
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -110,7 +119,8 @@ const Index = function (props: any) {
 
   // 加载游戏
   const changeGame = async function (e: any) {
-    let p = await require(`./1100260.gba`);
+    if(!games[e.target.value]) return;
+    let p = await require('./gba-file/'+games[e.target.value]);
     loadRom(p, (r: any) => {
       console.log(r)
       run(r);
