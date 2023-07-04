@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Joystick } from 'react-joystick-component';
+import { Link } from 'react-router-dom';
 import GameBoyAdvance from './comp/gba';
 import loadRom from './xhr';
 import sty from './index.less';
@@ -13,16 +14,16 @@ interface games {
 
 let games: games = {
   '选择游戏': '',
-  '塞尔达传说:缩小帽': 'Zelda no Densetsu - Fushigi no Boushi.gba',
-  '火焰之纹章:烈火之剑': 'Fire Emblem - Rekka no Ken.gba',
-  '火焰之纹章:封印之剑':'Fire Emblem - Fuuin no Tsurugi.gba',
-  '火焰之纹章:圣魔之光石': 'Fire Emblem - The Sacred Stones.gba',
-  '恶魔城：晓月之圆舞曲': 'Castlevania - Aria of Sorrow.gba',
-  '星之卡比：镜之迷宫':'Kirby - The Amazing Mirror.gba',
-  '龙珠大冒险': 'Dragon Ball - Advanced Adventure.gba',
-  '超级马里奥1':'Super Mario Advance.gba',
-  '超级马里奥2': 'Super Mario Advance 2.gba',
-  '马里奥与路易RPG':'Mario & Luigi - Superstar Saga.gba'
+  '[16MB]塞尔达传说:缩小帽': 'Zelda no Densetsu - Fushigi no Boushi.gba',
+  '[16MB]火焰之纹章:烈火之剑': 'Fire Emblem - Rekka no Ken.gba',
+  '[16MB]火焰之纹章:封印之剑': 'Fire Emblem - Fuuin no Tsurugi.gba',
+  '[16MB]火焰之纹章:圣魔之光石': 'Fire Emblem - The Sacred Stones.gba',
+  '[8MB]恶魔城：晓月之圆舞曲': 'Castlevania - Aria of Sorrow.gba',
+  '[16MB]星之卡比：镜之迷宫': 'Kirby - The Amazing Mirror.gba',
+  '[16MB]龙珠大冒险': 'Dragon Ball - Advanced Adventure.gba',
+  '[4MB]超级马里奥1': 'Super Mario Advance.gba',
+  '[4MB]超级马里奥2': 'Super Mario Advance 2.gba',
+  '[16MB]马里奥与路易RPG': 'Mario & Luigi - Superstar Saga.gba'
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -119,8 +120,13 @@ const Index = function (props: any) {
 
   // 加载游戏
   const changeGame = async function (e: any) {
-    if(!games[e.target.value]) return;
-    let p = await require('./gba-file/'+games[e.target.value]);
+    if (!games[e.target.value]) return;
+    gba.pause();
+    gba.reset();
+    canvas.fillStyle = 'red'
+    canvas.font = "30px Arial ";
+    canvas.fillText("加载中, 请稍后...", 10, 50);
+    let p = await require('./gba-file/' + games[e.target.value]);
     loadRom(p, (r: any) => {
       console.log(r)
       run(r);
@@ -129,9 +135,8 @@ const Index = function (props: any) {
 
   // 按下按钮
   const leftFn = function (e: any) {
-    e.preventDefault && e.preventDefault();
+    // e.preventDefault && e.preventDefault();
     let keyCode = e.target.attributes['keycode'].value;
-    // n.keyboard.keyDown({ keyCode: +keyCode });
     gba.keypad.keyboardHandler({
       keyCode: +keyCode,
       type: 'keydown',
@@ -143,7 +148,6 @@ const Index = function (props: any) {
   const leftCall = function (e: any) {
     e.preventDefault && e.preventDefault();
     let keyCode = e.target.attributes['keycode'].value;
-    // n.keyboard.keyUp({ keyCode: +keyCode });
     gba.keypad.keyboardHandler({
       keyCode: +keyCode,
       type: 'keyup',
@@ -153,7 +157,6 @@ const Index = function (props: any) {
 
   // 移动摇杆
   const handleMove = function (e: any) {
-    console.log('e.')
     if (joy.direction !== e.direction) {
       if (joy.keyCode !== -1) {
         gba.keypad.keyboardHandler({
@@ -200,6 +203,8 @@ const Index = function (props: any) {
   return (
     <div id='gbagame' className={sty.body}>
       <div style={{ marginLeft: '0.7rem' }}>
+        <Link to={'/'} style={{fontSize: '0.4rem'}}>支持作者</Link>
+        <br />
         <select style={{ width: '5rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
         </select>
