@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Joystick } from 'react-joystick-component';
 import { Link } from 'react-router-dom';
+import Joy from './joy';
 import GameBoyAdvance from './comp/gba';
 import loadRom from './xhr';
 import sty from './index.less';
@@ -14,16 +15,16 @@ interface games {
 
 let games: games = {
   '选择游戏': '',
-  '[16MB]塞尔达传说:缩小帽': 'Zelda no Densetsu - Fushigi no Boushi.gba',
-  '[16MB]火焰之纹章:烈火之剑': 'Fire Emblem - Rekka no Ken.gba',
-  '[16MB]火焰之纹章:封印之剑': 'Fire Emblem - Fuuin no Tsurugi.gba',
-  '[16MB]火焰之纹章:圣魔之光石': 'Fire Emblem - The Sacred Stones.gba',
-  '[8MB]恶魔城：晓月之圆舞曲': 'Castlevania - Aria of Sorrow.gba',
-  '[16MB]星之卡比：镜之迷宫': 'Kirby - The Amazing Mirror.gba',
-  '[16MB]龙珠大冒险': 'Dragon Ball - Advanced Adventure.gba',
-  '[4MB]超级马里奥1': 'Super Mario Advance.gba',
-  '[4MB]超级马里奥2': 'Super Mario Advance 2.gba',
-  '[16MB]马里奥与路易RPG': 'Mario & Luigi - Superstar Saga.gba'
+  '塞尔达传说:缩小帽': 'Zelda no Densetsu - Fushigi no Boushi.gba',
+  '火焰之纹章:烈火之剑': 'Fire Emblem - Rekka no Ken.gba',
+  '火焰之纹章:封印之剑': 'Fire Emblem - Fuuin no Tsurugi.gba',
+  '火焰之纹章:圣魔之光石': 'Fire Emblem - The Sacred Stones.gba',
+  '恶魔城：晓月之圆舞曲': 'Castlevania - Aria of Sorrow.gba',
+  '星之卡比：镜之迷宫': 'Kirby - The Amazing Mirror.gba',
+  '龙珠大冒险': 'Dragon Ball - Advanced Adventure.gba',
+  '超级马里奥1': 'Super Mario Advance.gba',
+  '超级马里奥2': 'Super Mario Advance 2.gba',
+  '马里奥与路易RPG': 'Mario & Luigi - Superstar Saga.gba'
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -126,6 +127,7 @@ const Index = function (props: any) {
     canvas.fillStyle = 'red'
     canvas.font = "30px Arial ";
     canvas.fillText("加载中, 请稍后...", 10, 50);
+    // let p = 'https://hck-oms-uat.obs.cn-south-1.myhuaweicloud.com/hck-oms-uat/Zelda no Densetsu - Fushigi no Boushi.gba';
     let p = await require('./gba-file/' + games[e.target.value]);
     loadRom(p, (r: any) => {
       console.log(r)
@@ -203,21 +205,12 @@ const Index = function (props: any) {
   return (
     <div id='gbagame' className={sty.body}>
       <div style={{ marginLeft: '0.7rem' }}>
-        <Link to={'/'} style={{fontSize: '0.4rem'}}>支持作者</Link>
+        <Link to={'/'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
         <br />
-        <select style={{ width: '5rem' }} onChange={changeGame}>
+        <select style={{ width: '4rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
         </select>
-        <br />
-        <br />
-        <br />
-        <div style={{ position: 'relative' }}>
-          <Joystick disabled size={175} sticky={false} move={handleMove} stop={handleStop} />
-          <Button keycode={38} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall} className={sty.joyBtn} style={{ top: 0, left: 0, right: 0 }}>上</Button>
-          <Button keycode={37} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall} className={sty.joyBtn} style={{ top: 0, left: 0, bottom: 0 }}>左</Button>
-          <Button keycode={39} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall} className={sty.joyBtn} style={{ right: 0, top: 0, bottom: 0 }}>右</Button>
-          <Button keycode={40} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall} className={sty.joyBtn} style={{ right: 0, left: 0, bottom: 0 }}>下</Button>
-        </div>
+        <Joy leftFn={leftFn} leftCall={leftCall} handleMove={handleMove} handleStop={handleStop} />
       </div>
       <canvas id='gbacanvas' ref={ref} width={256} height={240}></canvas>
       <div>

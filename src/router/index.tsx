@@ -58,6 +58,7 @@ const ReactTest = asyncComponent(() => import('../react/index'));
 const GameTest = asyncComponent(() => import('../games/index'));
 const FcGame = asyncComponent(() => import('../fc-game/index'));
 const GbaGame = asyncComponent(() => import('../gba-game/index'));
+const Reward = asyncComponent(() => import('../reward/index'));
 
 const App = function () {
   return (
@@ -77,6 +78,7 @@ const App = function () {
       <Route path='/game' component={GameTest}></Route>
       <Route path='/fcgame' component={FcGame}></Route>
       <Route path='/gbagame' component={GbaGame}></Route>
+      <Route path='/reward' component={Reward}></Route> 
     </BrowserRouter>
   )
 }
