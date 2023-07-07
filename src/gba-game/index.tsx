@@ -203,30 +203,36 @@ const Index = function (props: any) {
     joy.keyCode = -1;
   }
   return (
-    <div id='gbagame' className={sty.body}>
-      <div style={{ marginLeft: '0.7rem' }}>
-        <Link to={'/'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
-        <br />
-        <select style={{ width: '4rem' }} onChange={changeGame}>
-          {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
-        </select>
-        <Joy leftFn={leftFn} leftCall={leftCall} handleMove={handleMove} handleStop={handleStop} />
+    <div className={sty.layer}>
+      <div id='gbagame' className={sty.body}>
+        <div style={{ marginLeft: '0.7rem' }}>
+          <Link to={'/'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
+          <br />
+          <select style={{ width: '4rem' }} onChange={changeGame}>
+            {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
+          </select>
+          <Joy leftFn={leftFn} leftCall={leftCall} handleMove={handleMove} handleStop={handleStop} />
+        </div>
+        <div className={sty.canvas}>
+          <canvas id='gbacanvas' ref={ref} width={256} height={240}></canvas>
+        </div>
+        <div className={sty.btnABLayer}>
+          <Button keycode={13} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>start</Button>
+          &nbsp;&nbsp;
+          <Button keycode={220} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>select</Button>
+          <br />
+          <br />
+          <Button keycode={65} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>L</Button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <Button keycode={83} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>R</Button>
+          <br />
+          <Button keycode={90} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>A</Button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <Button keycode={88} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>B</Button>
+        </div>
       </div>
-      <canvas id='gbacanvas' ref={ref} width={256} height={240}></canvas>
-      <div>
-        <Button keycode={13} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>start</Button>
-        &nbsp;&nbsp;
-        <Button keycode={220} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>select</Button>
-        <br />
-        <br />
-        <br />
-        <Button keycode={65} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>L</Button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <Button keycode={83} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>R</Button>
-        <br />
-        <Button keycode={90} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>A</Button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <Button keycode={88} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>B</Button>
+      <div className={sty.beian} >
+        <a href="">备案号: 11000002000001</a>
       </div>
     </div>
   )
