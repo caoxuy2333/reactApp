@@ -1,14 +1,7 @@
-.layer {
-  height: calc(100% - 20px);
+.body {
   border-top: 10px solid #f44444;
   border-bottom: 10px solid #f44444;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.body {
-  flex: 1;
+  height: calc(100% - 20px); 
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -24,12 +17,15 @@
     padding-top: 1rem;
 
     .btnAB {
-      width: 3rem;
-      height: 3rem;
+      width: 2.5rem;
+      height: 2.5rem;
       text-align: center;
       margin-bottom: 1rem;
       touch-action: none;
-      border-radius: 6px;
+      border-radius: 50%;
+      color: #446cf4;
+      border: none;
+      background-color: #ededed;
     }
   }
 
@@ -40,10 +36,6 @@
     height: 2.3rem;
     margin: auto;
     border-radius: 6px;
+    border: 1px solid #ccc;
   }
-}
-
-.beian {
-  text-align: center;
-  font-size: 0.5rem;
-}
+} 

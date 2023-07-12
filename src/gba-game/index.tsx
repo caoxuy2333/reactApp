@@ -56,45 +56,6 @@ function run(file: any) {
   });
 }
 
-function reset() {
-  gba.pause();
-  gba.reset();
-  let crash = document.getElementById('crash');
-  if (crash) {
-    let context = gba.targetCanvas.getContext('2d');
-    context.clearRect(0, 0, 480, 320);
-    gba.video.drawCallback();
-    crash.parentElement.removeChild(crash);
-    let canvas = document.getElementById('screen');
-    canvas.removeAttribute('class');
-  } else {
-    lcdFade(gba.context, gba.targetCanvas.getContext('2d'), gba.video.drawCallback);
-  }
-}
-
-function lcdFade(context: any, target: any, callback: any) {
-  let i = 0;
-  let drawInterval = setInterval(function () {
-    i++;
-    let pixelData = context.getImageData(0, 0, 240, 160);
-    for (let y = 0; y < 160; ++y) {
-      for (let x = 0; x < 240; ++x) {
-        let xDiff = Math.abs(x - 120);
-        let yDiff = Math.abs(y - 80) * 0.8;
-        let xFactor = (120 - i - xDiff) / 120;
-        let yFactor = (80 - i - ((y & 1) * 10) - yDiff + Math.pow(xDiff, 1 / 2)) / 80;
-        pixelData.data[(x + y * 240) * 4 + 3] *= Math.pow(xFactor, 1 / 3) * Math.pow(yFactor, 1 / 2);
-      }
-    }
-    context.putImageData(pixelData, 0, 0);
-    target.clearRect(0, 0, 480, 320);
-    if (i > 40) {
-      clearInterval(drawInterval);
-    } else {
-      callback();
-    }
-  }, 50);
-}
 const Index = function (props: any) {
   let ref: React.RefObject<any> = useRef();
   useLayoutEffect(() => {
@@ -130,7 +91,6 @@ const Index = function (props: any) {
     // let p = 'https://hck-oms-uat.obs.cn-south-1.myhuaweicloud.com/hck-oms-uat/Zelda no Densetsu - Fushigi no Boushi.gba';
     let p = await require('./gba-file/' + games[e.target.value]);
     loadRom(p, (r: any) => {
-      console.log(r)
       run(r);
     });
   }
@@ -202,37 +162,32 @@ const Index = function (props: any) {
     joy.direction = '';
     joy.keyCode = -1;
   }
-  return (
-    <div className={sty.layer}>
-      <div id='gbagame' className={sty.body}>
-        <div style={{ marginLeft: '0.7rem' }}>
-          <Link to={'/'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
-          <br />
-          <select style={{ width: '4rem' }} onChange={changeGame}>
-            {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
-          </select>
-          <Joy leftFn={leftFn} leftCall={leftCall} handleMove={handleMove} handleStop={handleStop} />
-        </div>
-        <div className={sty.canvas}>
-          <canvas id='gbacanvas' ref={ref} width={256} height={240}></canvas>
-        </div>
-        <div className={sty.btnABLayer}>
-          <Button keycode={13} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>start</Button>
-          &nbsp;&nbsp;
-          <Button keycode={220} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>select</Button>
-          <br />
-          <br />
-          <Button keycode={65} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>L</Button>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <Button keycode={83} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>R</Button>
-          <br />
-          <Button keycode={90} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>A</Button>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <Button keycode={88} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>B</Button>
-        </div>
+  return ( 
+    <div id='gbagame' className={sty.body}>
+      <div style={{ marginLeft: '0.7rem' }}>
+        <Link to={'/'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
+        <br />
+        <select style={{ width: '4rem' }} onChange={changeGame}>
+          {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
+        </select>
+        <Joy leftFn={leftFn} leftCall={leftCall} handleMove={handleMove} handleStop={handleStop} />
       </div>
-      <div className={sty.beian} >
-        <a href="">备案号: 11000002000001</a>
+      <div className={sty.canvas}>
+        <canvas id='gbacanvas' ref={ref} width={256} height={240}></canvas>
+      </div>
+      <div className={sty.btnABLayer}>
+        <Button keycode={13} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>start</Button>
+        &nbsp;&nbsp;
+        <Button keycode={220} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>select</Button>
+        <br />
+        <br />
+        <Button keycode={65} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>L</Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <Button keycode={83} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>R</Button>
+        <br />
+        <Button keycode={90} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>A</Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <Button keycode={88} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>B</Button>
       </div>
     </div>
   )

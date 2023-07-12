@@ -76,8 +76,8 @@ const App = function () {
       <Route path='/WebSocketTest' render={() => <WebSocketTest />}></Route>
       <Route path='/react' component={ReactTest}></Route>
       <Route path='/game' component={GameTest}></Route>
-      <Route path='/fcgame' component={FcGame}></Route>
-      <Route path='/gbagame' component={GbaGame}></Route>
+      <Route path='/fc' component={FcGame}></Route>
+      <Route path='/gba' component={GbaGame}></Route>
       <Route path='/reward' component={Reward}></Route> 
     </BrowserRouter>
   )

@@ -34,8 +34,7 @@ const Index = function (props: any) {
   return (
     <Fragment>
       <button onClick={switchJoy}>切换摇杆</button>
-      <br />
-      <br />
+      <br /> 
       <br />
       <div style={{ position: 'relative', width: 155 }}>
         <Joystick {...colors}   size={155} sticky={false} move={handleMove} stop={handleStop} />
