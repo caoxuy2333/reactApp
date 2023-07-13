@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Joystick } from 'react-joystick-component';
 import { Link } from 'react-router-dom';
 import Joy from './joy';
 import GameBoyAdvance from './comp/gba';
@@ -88,8 +87,8 @@ const Index = function (props: any) {
     canvas.fillStyle = 'red'
     canvas.font = "30px Arial ";
     canvas.fillText("加载中, 请稍后...", 10, 50);
-    // let p = 'https://hck-oms-uat.obs.cn-south-1.myhuaweicloud.com/hck-oms-uat/Zelda no Densetsu - Fushigi no Boushi.gba';
-    let p = await require('./gba-file/' + games[e.target.value]);
+    let p = '/gbaFile/' + games[e.target.value]; // 阿里云oss文件
+    // let p = await require('./gba-file/' + games[e.target.value]); // 本地文件
     loadRom(p, (r: any) => {
       run(r);
     });

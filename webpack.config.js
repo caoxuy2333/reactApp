@@ -121,6 +121,11 @@ module.exports = {
         changeOrigin: true,
         target: 'http://127.0.0.1:8091',  // 代理目标地址
         pathRewrite: { '^/cxyPrint': '' }
+      },
+      '/gbaFile': {
+        changeOrigin: true,
+        target: 'https://cxy-game-file.oss-cn-beijing.aliyuncs.com',  // 代理目标地址
+        pathRewrite: { '^/gbaFile': '' }
       }
     }
   }

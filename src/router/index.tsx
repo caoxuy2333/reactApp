@@ -63,9 +63,7 @@ const Reward = asyncComponent(() => import('../reward/index'));
 const App = function () {
   return (
     <BrowserRouter>
-      {/* <Route path="/" exact component={() => <Link />}></Route> */}
-      <Route path="/" exact component={() => <GbaGame />}></Route>
-
+      <Route path="/" exact component={() => <Link />}></Route>
       <Route path="/fileTransferProtocol" render={() => <FileTransferProtocol />}></Route>
       <Route path="/about" render={() => <Index1 />}></Route>
       <Route path="/view" render={() => <View />}></Route>

@@ -210,7 +210,7 @@ GameBoyAdvance.prototype.runStable = function() {
 				if (self.paused) {
 					return;
 				} else {
-					queueFrame(runFunc);
+					requestAnimationFrame(runFunc);
 				}
 				start = Date.now();
 				self.advanceFrame();
@@ -234,7 +234,7 @@ GameBoyAdvance.prototype.runStable = function() {
 				if (self.paused) {
 					return;
 				} else {
-					queueFrame(runFunc);
+					requestAnimationFrame(runFunc);
 				}
 				self.advanceFrame();
 			} catch(exception) {
@@ -246,7 +246,7 @@ GameBoyAdvance.prototype.runStable = function() {
 			}
 		};
 	}
-	queueFrame(runFunc);
+	requestAnimationFrame(runFunc);
 };
 
 GameBoyAdvance.prototype.setSavedata = function(data) {
