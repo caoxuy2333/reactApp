@@ -18,7 +18,7 @@ const Index = () => {
       <p>创作不易, 网站也需要生存, 各位帅哥美女, 有钱的捧个钱场, 没钱的捧个人场, 谢谢您的支持~ </p>
       <div className={sty.money}> 
         <p>
-          微信:
+          微信赞赏 
           <img className={sty.img} src={reward} alt="" />
         </p>
       </div>
