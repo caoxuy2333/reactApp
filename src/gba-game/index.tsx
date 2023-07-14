@@ -42,6 +42,7 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
 let joy = {
   direction: '', // 方向
   keyCode: -1, // 操作方向 对应编码
+  keyCode2: -1, // 同时按住2个方向键
 };
 
 let gba = new GameBoyAdvance();
@@ -87,8 +88,9 @@ const Index = function (props: any) {
     canvas.fillStyle = 'red'
     canvas.font = "30px Arial ";
     canvas.fillText("加载中, 请稍后...", 10, 50);
+    canvas.font = "20px Arial ";
+    canvas.fillText("初次加载较慢, 请耐心等待", 10, 80);
     let p = '/gbaFile/' + games[e.target.value]; // 阿里云oss文件
-    // let p = await require('./gba-file/' + games[e.target.value]); // 本地文件
     loadRom(p, (r: any) => {
       run(r);
     });
@@ -118,10 +120,18 @@ const Index = function (props: any) {
 
   // 移动摇杆
   const handleMove = function (e: any) {
+    const {x, y} = e;
     if (joy.direction !== e.direction) {
       if (joy.keyCode !== -1) {
         gba.keypad.keyboardHandler({
           keyCode: joy.keyCode,
+          type: 'keyup',
+          preventDefault: e.preventDefault
+        })
+      }
+      if(joy.keyCode2 !== -1){
+        gba.keypad.keyboardHandler({
+          keyCode: joy.keyCode2,
           type: 'keyup',
           preventDefault: e.preventDefault
         })
@@ -148,6 +158,43 @@ const Index = function (props: any) {
         type: 'keydown',
         preventDefault: e.preventDefault
       })
+      // 右上  0.5 < x < 0.9  , 0.5 < y < 0.9 
+      let joy2 = false;
+      if(0.5 < x && x < 0.9  && 0.5 < y && y < 0.9 ){
+        joy.keyCode = 39
+        joy.keyCode2 = 38
+        joy2 = true;
+      }
+      // 左上  -0.9 < x < -0.5  , 0.5 < y < 0.9 
+      if(-0.9 < x && x < -0.5  && 0.5 < y && y < 0.9 ){
+        joy.keyCode = 37
+        joy.keyCode2 = 38
+        joy2 = true;
+      }
+      // 右下  0.5 < x < 0.9  , -0.9 < y < -0.5 
+      if(0.5 < x && x < 0.9  && -0.9 < y && y < -0.5 ){
+        joy.keyCode = 39
+        joy.keyCode2 = 40
+        joy2 = true;
+      }
+      // 左下  -0.9 < x < -0.5  , -0.9 < y < -0.5 
+      if(-0.9 < x && x < -0.5  && -0.9 < y && y < -0.5 ){
+        joy.keyCode = 37
+        joy.keyCode2 = 40
+        joy2 = true;
+      }
+      if(joy2){
+        gba.keypad.keyboardHandler({
+          keyCode: joy.keyCode,
+          type: 'keydown',
+          preventDefault: e.preventDefault
+        })
+        gba.keypad.keyboardHandler({
+          keyCode: joy.keyCode2,
+          type: 'keydown',
+          preventDefault: e.preventDefault
+        })
+      }
     }
     return;
   }
@@ -158,13 +205,19 @@ const Index = function (props: any) {
       type: 'keyup',
       preventDefault: e.preventDefault
     })
+    gba.keypad.keyboardHandler({
+      keyCode: joy.keyCode2,
+      type: 'keyup',
+      preventDefault: e.preventDefault
+    })
     joy.direction = '';
     joy.keyCode = -1;
+    joy.keyCode2 = -1;
   }
   return ( 
     <div id='gbagame' className={sty.body}>
       <div style={{ marginLeft: '0.7rem' }}>
-        <Link to={'/'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
+        <Link to={'/reward'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
         <br />
         <select style={{ width: '4rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}

@@ -124,7 +124,7 @@ module.exports = {
       },
       '/gbaFile': {
         changeOrigin: true,
-        target: 'https://cxy-game-file.oss-cn-beijing.aliyuncs.com',  // 代理目标地址
+        target: 'http://cxy-game-file.oss-cn-beijing.aliyuncs.com/gba',  // oss 代理目标地址
         pathRewrite: { '^/gbaFile': '' }
       }
     }
