@@ -40,10 +40,20 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
 
 // 摇杆 属性
 let joy = {
-  direction: '', // 方向
-  keyCode: -1, // 操作方向 对应编码
-  keyCode2: -1, // 同时按住2个方向键
+  direction: '', // 方向 
 };
+
+// 摇杆8个方向
+let joy8: any = {
+  left: [37],
+  leftTop: [37, 38],
+  top: [38],
+  topRight: [38, 39],
+  right: [39],
+  rightBottom: [39, 40],
+  bottom: [40],
+  leftBottom: [40, 37],
+}
 
 let gba = new GameBoyAdvance();
 gba.keypad.eatInput = true;
@@ -120,101 +130,64 @@ const Index = function (props: any) {
 
   // 移动摇杆
   const handleMove = function (e: any) {
-    const {x, y} = e;
-    if (joy.direction !== e.direction) {
-      if (joy.keyCode !== -1) {
-        gba.keypad.keyboardHandler({
-          keyCode: joy.keyCode,
-          type: 'keyup',
-          preventDefault: e.preventDefault
-        })
-      }
-      if(joy.keyCode2 !== -1){
-        gba.keypad.keyboardHandler({
-          keyCode: joy.keyCode2,
-          type: 'keyup',
-          preventDefault: e.preventDefault
-        })
-      }
-      joy.direction = e.direction
-      switch (joy.direction) {
-        case 'LEFT':
-          joy.keyCode = 37;
-          break;
-        case 'RIGHT':
-          joy.keyCode = 39;
-          break;
-        case 'FORWARD':
-          joy.keyCode = 38;
-          break;
-        case 'BACKWARD':
-          joy.keyCode = 40;
-          break;
-        default:
-          break;
-      }
+    const { x, y } = e;
+    let fx = e.direction; // 移动的方向
+    if (e.direction === 'LEFT') fx = 'left';
+    if (e.direction === 'RIGHT') fx = 'right';
+    if (e.direction === 'FORWARD') fx = 'top';
+    if (e.direction === 'BACKWARD') fx = 'bottom';
+    // 右上  0.5 < x < 0.9  , 0.5 < y < 0.9 
+    if (0.5 < x && x < 0.9 && 0.5 < y && y < 0.9) {
+      fx = 'topRight';
+    }
+    // 左上  -0.9 < x < -0.5  , 0.5 < y < 0.9 
+    if (-0.9 < x && x < -0.5 && 0.5 < y && y < 0.9) {
+      fx = 'leftTop';
+    }
+    // 右下  0.5 < x < 0.9  , -0.9 < y < -0.5 
+    if (0.5 < x && x < 0.9 && -0.9 < y && y < -0.5) {
+      fx = 'rightBottom';
+    }
+    // 左下  -0.9 < x < -0.5  , -0.9 < y < -0.5 
+    if (-0.9 < x && x < -0.5 && -0.9 < y && y < -0.5) {
+      fx = 'leftBottom';
+    }
+    // 判断按下的方向和上次按下的方向是否相同
+    if (fx === joy.direction) return;
+    let dq = joy8[fx] || [];
+    let scdq = joy8[joy.direction] || [];
+    // 移除上次的操作方向
+    for (let i = 0; i < scdq.length; i++) {
       gba.keypad.keyboardHandler({
-        keyCode: joy.keyCode,
+        keyCode: scdq[i],
+        type: 'keyup',
+        preventDefault: e.preventDefault
+      })
+    }
+    // 按下本次的操作方向
+    for (let i = 0; i < dq.length; i++) {
+      gba.keypad.keyboardHandler({
+        keyCode: dq[i],
         type: 'keydown',
         preventDefault: e.preventDefault
       })
-      // 右上  0.5 < x < 0.9  , 0.5 < y < 0.9 
-      let joy2 = false;
-      if(0.5 < x && x < 0.9  && 0.5 < y && y < 0.9 ){
-        joy.keyCode = 39
-        joy.keyCode2 = 38
-        joy2 = true;
-      }
-      // 左上  -0.9 < x < -0.5  , 0.5 < y < 0.9 
-      if(-0.9 < x && x < -0.5  && 0.5 < y && y < 0.9 ){
-        joy.keyCode = 37
-        joy.keyCode2 = 38
-        joy2 = true;
-      }
-      // 右下  0.5 < x < 0.9  , -0.9 < y < -0.5 
-      if(0.5 < x && x < 0.9  && -0.9 < y && y < -0.5 ){
-        joy.keyCode = 39
-        joy.keyCode2 = 40
-        joy2 = true;
-      }
-      // 左下  -0.9 < x < -0.5  , -0.9 < y < -0.5 
-      if(-0.9 < x && x < -0.5  && -0.9 < y && y < -0.5 ){
-        joy.keyCode = 37
-        joy.keyCode2 = 40
-        joy2 = true;
-      }
-      if(joy2){
-        gba.keypad.keyboardHandler({
-          keyCode: joy.keyCode,
-          type: 'keydown',
-          preventDefault: e.preventDefault
-        })
-        gba.keypad.keyboardHandler({
-          keyCode: joy.keyCode2,
-          type: 'keydown',
-          preventDefault: e.preventDefault
-        })
-      }
     }
+    joy.direction = fx; // 记录本次的操作方向
     return;
   }
   // 松开摇杆键
   const handleStop = function (e: any) {
-    gba.keypad.keyboardHandler({
-      keyCode: joy.keyCode,
-      type: 'keyup',
-      preventDefault: e.preventDefault
-    })
-    gba.keypad.keyboardHandler({
-      keyCode: joy.keyCode2,
-      type: 'keyup',
-      preventDefault: e.preventDefault
+    let dir = joy8[joy.direction] || []; // 上一次移动的方向0
+    dir.forEach((it: any) => {
+      gba.keypad.keyboardHandler({
+        keyCode: it,
+        type: 'keyup',
+        preventDefault: e.preventDefault
+      })
     })
     joy.direction = '';
-    joy.keyCode = -1;
-    joy.keyCode2 = -1;
   }
-  return ( 
+  return (
     <div id='gbagame' className={sty.body}>
       <div style={{ marginLeft: '0.7rem' }}>
         <Link to={'/reward'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
