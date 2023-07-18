@@ -32,7 +32,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   return (
-    <button style={{ fontSize: '1.5rem' }} {...props}>
+    <button {...props}>
       {children}
     </button>
   );
@@ -42,6 +42,12 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
 let joy = {
   direction: '', // 方向 
 };
+
+// canvas 尺寸
+let size = {
+  width: 326,
+  height: 250
+}
 
 // 摇杆8个方向
 let joy8: any = {
@@ -70,9 +76,9 @@ const Index = function (props: any) {
   let ref: React.RefObject<any> = useRef();
   useLayoutEffect(() => {
     canvas = ref.current.getContext('2d');
-    canvasImageData = canvas.getImageData(0, 0, 256, 240);
+    canvasImageData = canvas.getImageData(0, 0, size.width, size.height);
     canvas.fillStyle = 'black';
-    canvas.fillRect(0, 0, 256, 240);
+    canvas.fillRect(0, 0, size.width, size.height);
     for (let i = 3; i < canvasImageData.data.length - 3; i += 4) {
       canvasImageData.data[i] = 0xFF;
     }
@@ -192,27 +198,27 @@ const Index = function (props: any) {
       <div style={{ marginLeft: '0.7rem' }}>
         <Link to={'/reward'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
         <br />
-        <select style={{ width: '4rem' }} onChange={changeGame}>
+        <select style={{ width: '3rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
         </select>
         <Joy leftFn={leftFn} leftCall={leftCall} handleMove={handleMove} handleStop={handleStop} />
       </div>
       <div className={sty.canvas}>
-        <canvas id='gbacanvas' ref={ref} width={256} height={240}></canvas>
+        <canvas id='gbacanvas' ref={ref} width={size.width} height={size.height}></canvas>
       </div>
       <div className={sty.btnABLayer}>
-        <Button keycode={13} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>start</Button>
+        <Button keycode={13} className={sty.btnSelect} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>start</Button>
         &nbsp;&nbsp;
-        <Button keycode={220} style={{ fontSize: '0.8rem' }} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>select</Button>
+        <Button keycode={220} className={sty.btnSelect} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>select</Button>
         <br />
         <br />
         <Button keycode={65} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>L</Button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <Button keycode={83} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>R</Button>
         <br />
-        <Button keycode={90} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>A</Button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
         <Button keycode={88} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>B</Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <Button keycode={90} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>A</Button>
       </div>
     </div>
   )

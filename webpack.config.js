@@ -12,8 +12,8 @@ module.exports = {
     chunkFilename: 'js/[name]-chunk.js', // 分包文件
     filename: '[name].js', // 入口文件 
   },
-  mode: 'development', // development - production
-  devtool: 'inline-source-map', // 源码模式, 打包模式
+  mode: 'production', // development - production
+  devtool: 'hidden-source-map', // 源码模式, 打包模式
   // inline-source-map 展示源码
   // cheap-source-map 会将css 写入到js中, 运行时写入到style标签中
   // hidden-source-map 隐藏源码
