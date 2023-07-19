@@ -38,6 +38,9 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   );
 };
 
+// 是否pc端
+let isPc = navigator.userAgent.includes('Windows');
+
 // 摇杆 属性
 let joy = {
   direction: '', // 方向 
@@ -94,6 +97,37 @@ const Index = function (props: any) {
       }
     }
     f();
+    // windows系统 监听键盘事件
+    if (isPc) {
+      let keyeumn: any = {
+        87: 38, // 上
+        83: 40, // 下
+        65: 37, // 左
+        68: 39, // 右
+        74: 88, // B
+        75: 90, // A
+        85: 65, // L
+        73: 83, // R
+        49: 13, // start
+        50: 220 // select
+      }
+      document.onkeydown = function (k: any) {
+        if ([87, 65, 83, 68, 74, 75, 85, 73, 49, 50].includes(k.keyCode)) {
+          gba.keypad.keyboardHandler({
+            keyCode: keyeumn[k.keyCode],
+            type: 'keydown',
+          })
+        }
+      }
+      document.onkeyup = function (k: any) {
+        if ([87, 65, 83, 68, 74, 75, 85, 73, 49, 50].includes(k.keyCode)) {
+          gba.keypad.keyboardHandler({
+            keyCode: keyeumn[k.keyCode],
+            type: 'keyup',
+          })
+        }
+      }
+    }
   }, [])
 
   // 加载游戏
@@ -196,6 +230,9 @@ const Index = function (props: any) {
   return (
     <div id='gbagame' className={sty.body}>
       <div style={{ marginLeft: '0.7rem' }}>
+        {isPc ? <div className={sty.tip}>
+          操作说明: <br />上下左右: WSAD <br />ABLR: KJUI <br />START: 数字键1 <br />SELECT: 数字键2
+        </div> : ''}
         <Link to={'/reward'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
         <br />
         <select style={{ width: '3rem' }} onChange={changeGame}>
@@ -213,11 +250,11 @@ const Index = function (props: any) {
         <br />
         <br />
         <Button keycode={65} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>L</Button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;
         <Button keycode={83} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>R</Button>
         <br />
         <Button keycode={88} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>B</Button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;
         <Button keycode={90} className={sty.btnAB} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall}>A</Button>
       </div>
     </div>

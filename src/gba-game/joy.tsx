@@ -26,18 +26,20 @@ const Index = function (props: any) {
     colors.baseColor = '#00000000'
     colors.stickColor = '#00000030'
     colors.disabled = true
+    colors.width = 165;
   }else {
     colors.baseColor = '#ff000030'
     colors.stickColor = '#00ff0030'
     colors.disabled = false
+    colors.width = 125;
   }
   return (
     <Fragment>
       <button onClick={switchJoy}>切换摇杆</button>
       <br /> 
       <br />
-      <div style={{ position: 'relative', width: 135 }}>
-        <Joystick {...colors} size={135} sticky={false} move={handleMove} stop={handleStop} />
+      <div style={{ position: 'relative', width: colors.width }}>
+        <Joystick {...colors} size={colors.width} sticky={false} move={handleMove} stop={handleStop} />
         {type === 'direction' ? (
           <Fragment>
             <Button keycode={38} onMouseDown={leftFn} onMouseUp={leftCall} onTouchStart={leftFn} onTouchEnd={leftCall} className={sty.joyBtn} style={{ top: 0, left: 0, right: 0 }}>上</Button>
