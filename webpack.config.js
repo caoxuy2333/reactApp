@@ -83,7 +83,8 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'webpack',
-      template: path.resolve(__dirname, 'src/index.html')
+      template: path.resolve(__dirname, 'src/index.html'),
+      favicon: path.resolve(__dirname, 'assets/favicon.ico')
     }),
     new ProvidePlugin({
       'mockjs': path.resolve(path.join(__dirname, 'src/fetch/mock')),
