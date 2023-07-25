@@ -4,7 +4,7 @@ import nes from './comp/index';
 import sty from './index.less';
 
 let n = new nes();
-let p = require('./nes-file/(W) Super Mario Bros.nes')
+let p = '/fcFile/(W) Super Mario Bros.nes'; // 阿里云oss文件
 let canvas: any;
 let canvasImageData: any;
 
@@ -45,7 +45,6 @@ let games: games = {
   '火箭车 (J) Road Fighter': '(J) Road Fighter.nes',
   '五子棋 (5) 日版': '5.nes',
   'Concentration Room': 'croom.nes',
-  'LJ65': 'lj65.nes',
   '俄罗斯方块 (Tengen) Tetris': '(Tengen) Tetris.nes',
   '兵蜂1 (J) TwinBee': '(J) TwinBee.nes',
   '冒险岛1 (J) Takahashi Meijin no Bouken Shima': '(J) Takahashi Meijin no Bouken Shima.nes',
@@ -199,7 +198,8 @@ const Index = function (props: any) {
   // 加载游戏
   const changeGame = async function (e: any) {
     let v: string = e.target.value;
-    let p = await require(`./nes-file/${games[v]}`);
+    if (!games[v]) return;
+    let p = '/fcFile/' + games[v]; // 阿里云oss文件
     let xhr = new XMLHttpRequest();
     xhr.open('GET', p, true);
     xhr.overrideMimeType('text/plain; charset=x-user-defined');

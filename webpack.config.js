@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-
+ 
 module.exports = {
   entry: "./src/index.tsx",
   output: {
@@ -122,6 +122,11 @@ module.exports = {
         changeOrigin: true,
         target: 'http://127.0.0.1:8091',  // 代理目标地址
         pathRewrite: { '^/cxyPrint': '' }
+      },
+      '/fcFile': {
+        changeOrigin: true,
+        target: 'http://cxy-game-file.oss-cn-beijing.aliyuncs.com/fc',  // oss 代理目标地址
+        pathRewrite: { '^/fcFile': '' }
       },
       '/gbaFile': {
         changeOrigin: true,

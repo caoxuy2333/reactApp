@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "npx webpack",
+    "build": "npx webpack --mode production --devtool hidden-source-map",
     "server": "node .\\server\\index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
