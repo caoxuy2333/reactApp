@@ -147,6 +147,9 @@ const Index = function (props: any) {
     for (let i = 3; i < canvasImageData.data.length - 3; i += 4) {
       canvasImageData.data[i] = 0xFF;
     }
+    return function(){
+      n.stop();
+    }
   }, [])
 
   // 按下按钮

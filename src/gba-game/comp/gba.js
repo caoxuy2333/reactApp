@@ -203,6 +203,7 @@ GameBoyAdvance.prototype.runStable = function() {
 	this.paused = false;
 	this.audio.pause(false);
 
+  let lastFrame = 0;
 	if (this.reportFPS) {
 		runFunc = function() {
 			try {
@@ -234,6 +235,12 @@ GameBoyAdvance.prototype.runStable = function() {
 				if (self.paused) {
 					return;
 				} else {
+          let now = performance.now();
+          let frame = now - lastFrame;
+          if(lastFrame != 0){
+            console.log('frame', frame);
+          }
+          lastFrame = now;
 					requestAnimationFrame(runFunc);
 				}
 				self.advanceFrame();

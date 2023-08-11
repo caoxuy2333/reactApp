@@ -1,30 +1,40 @@
 function GameBoyAdvanceAudio() {
-	window.AudioContext = window.AudioContext || window.webkitAudioContext;
-	if (window.AudioContext) {
-		var self = this;
-		this.context = new AudioContext();
-		this.bufferSize = 0;
-		this.bufferSize = 4096;
-		this.maxSamples = this.bufferSize << 2;
-		this.buffers = [new Float32Array(this.maxSamples), new Float32Array(this.maxSamples)];
-		this.sampleMask = this.maxSamples - 1;
-		if (this.context.createScriptProcessor) {
-			this.jsAudio = this.context.createScriptProcessor(this.bufferSize);
-		} else {
-			this.jsAudio = this.context.createJavaScriptNode(this.bufferSize);
-		}
-		this.jsAudio.onaudioprocess = function(e) { self.audioProcess(e) };
-	} else {
-		this.context = null;
-	}
-
+	
+  this.bufferSize = 0;
+  this.bufferSize = 4096;
+  this.maxSamples = this.bufferSize << 2;
+  this.buffers = [new Float32Array(this.maxSamples), new Float32Array(this.maxSamples)];
+  this.sampleMask = this.maxSamples - 1; 
 	this.masterEnable = true;
 	this.masterVolume = 1.0;
 
 	this.SOUND_MAX = 0x400;
 	this.FIFO_MAX = 0x200;
 	this.PSG_MAX = 0x080;
+  this.createAudio();
 };
+GameBoyAdvanceAudio.prototype.createAudio = function() {
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	if (window.AudioContext) {
+		let self = this;
+    let eventFn = function(){
+      if(this.context) return;
+      this.context = new AudioContext();
+      this.context.resume().then(function(){
+        if (this.context.createScriptProcessor) {
+          this.jsAudio = this.context.createScriptProcessor(this.bufferSize);
+        } else {
+          this.jsAudio = this.context.createJavaScriptNode(this.bufferSize);
+        }
+        this.jsAudio.onaudioprocess = function(e) { self.audioProcess(e) };
+        window.removeEventListener('click', eventFn)
+      }.bind(this))
+    }
+    window.addEventListener('click', eventFn.bind(this))
+	} else {
+		this.context = null;
+	}
+}
 
 GameBoyAdvanceAudio.prototype.clear = function() {
 	this.fifoA = [];

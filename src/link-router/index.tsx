@@ -33,13 +33,6 @@ const Index: React.FC = (): JSX.Element => {
       <div>
         <Link to={'/gba'}>gba-game</Link>
       </div>
-      <button className={sty.btn}>
-        <span>LV UP</span>
-        <span>11,303M</span>
-      </button>
-      <button >
-        333
-      </button>
       <a style={{ position: 'fixed', bottom: 0 }} href='https://beian.miit.gov.cn/#/Integrated/index'>粤ICP备2023078446号</a>
     </div>
   )
