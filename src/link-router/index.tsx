@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import beianIcon from 'assets/备案图标.png'
 import sty from './index.less';
 
 const Index: React.FC = (): JSX.Element => {
@@ -33,7 +34,20 @@ const Index: React.FC = (): JSX.Element => {
       <div>
         <Link to={'/gba'}>gba-game</Link>
       </div>
-      <a style={{ position: 'fixed', bottom: 0 }} href='https://beian.miit.gov.cn/#/Integrated/index'>粤ICP备2023078446号</a>
+      <div style={{ position: 'fixed',fontSize: 16, left: 10, bottom: 5,display: 'flex'}}>
+        <a  href='https://beian.miit.gov.cn/#/Integrated/index'>粤ICP备2023078446号</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div style={{  width: 600, margin: '0 auto'  }}>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602011882" 
+          >
+            <img src={beianIcon} style={{ float: 'left' }} />
+            <p style={{  margin: '0 0 0 5px', color: '#939393' }}>粤公网安备 44010602011882号</p>
+          </a>
+        </div>
+      </div>
     </div>
   )
 }

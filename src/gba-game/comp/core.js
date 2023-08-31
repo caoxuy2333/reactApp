@@ -49,7 +49,7 @@ function ARMCore() {
 };
 
 ARMCore.prototype.resetCPU = function(startOffset) {
-	for (var i = 0; i < this.PC; ++i) {
+	for (let i = 0; i < this.PC; ++i) {
 		this.gprs[i] = 0;
 	}
 	this.gprs[this.PC] = startOffset + this.WORD_SIZE_ARM;
@@ -92,10 +92,10 @@ ARMCore.prototype.resetCPU = function(startOffset) {
 
 	this.irq.clear();
 
-	var gprs = this.gprs;
-	var mmu = this.mmu;
+	let gprs = this.gprs;
+	let mmu = this.mmu;
 	this.step = function() {
-		var instruction = this.instruction || (this.instruction = this.loadInstruction(gprs[this.PC] - this.instructionWidth));
+		let instruction = this.instruction || (this.instruction = this.loadInstruction(gprs[this.PC] - this.instructionWidth));
 		gprs[this.PC] += this.instructionWidth;
 		this.conditionPassed = true;
 		instruction();
@@ -109,7 +109,7 @@ ARMCore.prototype.resetCPU = function(startOffset) {
 			}
 		} else {
 			if (this.conditionPassed) {
-				var pc = gprs[this.PC] &= 0xFFFFFFFE;
+				let pc = gprs[this.PC] &= 0xFFFFFFFE;
 				if (this.execMode == this.MODE_ARM) {
 					mmu.wait32(pc);
 					mmu.waitPrefetch32(pc);
@@ -282,8 +282,8 @@ ARMCore.prototype.defrost = function(frost) {
 };
 
 ARMCore.prototype.fetchPage = function(address) {
-	var region = address >> this.mmu.BASE_OFFSET;
-	var pageId = this.mmu.addressToPage(region, address & this.mmu.OFFSET_MASK);
+	let region = address >> this.mmu.BASE_OFFSET;
+	let pageId = this.mmu.addressToPage(region, address & this.mmu.OFFSET_MASK);
 	if (region == this.pageRegion) {
 		if (pageId == this.pageId && !this.page.invalid) {
 			return;
@@ -299,14 +299,14 @@ ARMCore.prototype.fetchPage = function(address) {
 };
 
 ARMCore.prototype.loadInstructionArm = function(address) {
-	var next = null;
+	let next = null;
 	this.fetchPage(address);
-	var offset = (address & this.pageMask) >> 2;
+	let offset = (address & this.pageMask) >> 2;
 	next = this.page.arm[offset];
 	if (next) {
 		return next;
 	}
-	var instruction = this.mmu.load32(address) >>> 0;
+	let instruction = this.mmu.load32(address) >>> 0;
 	next = this.compileArm(instruction);
 	next.next = null;
 	next.page = this.page;
@@ -317,14 +317,14 @@ ARMCore.prototype.loadInstructionArm = function(address) {
 };
 
 ARMCore.prototype.loadInstructionThumb = function(address) {
-	var next = null;
+	let next = null;
 	this.fetchPage(address);
-	var offset = (address & this.pageMask) >> 1;
+	let offset = (address & this.pageMask) >> 1;
 	next = this.page.thumb[offset];
 	if (next) {
 		return next;
 	}
-	var instruction = this.mmu.load16(address);
+	let instruction = this.mmu.load16(address);
 	next = this.compileThumb(instruction);
 	next.next = null;
 	next.page = this.page;
@@ -376,13 +376,13 @@ ARMCore.prototype.switchMode = function(newMode) {
 	}
 	if (newMode != this.MODE_USER || newMode != this.MODE_SYSTEM) {
 		// Switch banked registers
-		var newBank = this.selectBank(newMode);
-		var oldBank = this.selectBank(this.mode);
+		let newBank = this.selectBank(newMode);
+		let oldBank = this.selectBank(this.mode);
 		if (newBank != oldBank) {
 			// TODO: support FIQ
 			if (newMode == this.MODE_FIQ || this.mode == this.MODE_FIQ) {
-				var oldFiqBank = (oldBank == this.BANK_FIQ) + 0;
-				var newFiqBank = (newBank == this.BANK_FIQ) + 0;
+				let oldFiqBank = (oldBank == this.BANK_FIQ) + 0;
+				let newFiqBank = (newBank == this.BANK_FIQ) + 0;
 				this.bankedRegisters[oldFiqBank][2] = this.gprs[8];
 				this.bankedRegisters[oldFiqBank][3] = this.gprs[9];
 				this.bankedRegisters[oldFiqBank][4] = this.gprs[10];
@@ -432,8 +432,8 @@ ARMCore.prototype.raiseIRQ = function() {
 	if (this.cpsrI) {
 		return;
 	}
-	var cpsr = this.packCPSR();
-	var instructionWidth = this.instructionWidth;
+	let cpsr = this.packCPSR();
+	let instructionWidth = this.instructionWidth;
 	this.switchMode(this.MODE_IRQ);
 	this.spsr = cpsr;
 	this.gprs[this.LR] = this.gprs[this.PC] - instructionWidth + 4;
@@ -444,8 +444,8 @@ ARMCore.prototype.raiseIRQ = function() {
 };
 
 ARMCore.prototype.raiseTrap = function() {
-	var cpsr = this.packCPSR();
-	var instructionWidth = this.instructionWidth;
+	let cpsr = this.packCPSR();
+	let instructionWidth = this.instructionWidth;
 	this.switchMode(this.MODE_SUPERVISOR);
 	this.spsr = cpsr;
 	this.gprs[this.LR] = this.gprs[this.PC] - instructionWidth;
@@ -456,7 +456,7 @@ ARMCore.prototype.raiseTrap = function() {
 };
 
 ARMCore.prototype.badOp = function(instruction) {
-	var func = function() {
+	let func = function() {
 		throw "Illegal instruction: 0x" + instruction.toString(16);
 	};
 	func.writesPC = true;
@@ -465,7 +465,7 @@ ARMCore.prototype.badOp = function(instruction) {
 };
 
 ARMCore.prototype.generateConds = function() {
-	var cpu = this;
+	let cpu = this;
 	this.conds = [
 		// EQ
 		function() {
@@ -530,9 +530,9 @@ ARMCore.prototype.generateConds = function() {
 }
 
 ARMCore.prototype.barrelShiftImmediate = function(shiftType, immediate, rm) {
-	var cpu = this;
-	var gprs = this.gprs;
-	var shiftOp = this.badOp;
+	let cpu = this;
+	let gprs = this.gprs;
+	let shiftOp = this.badOp;
 	switch (shiftType) {
 	case 0x00000000:
 		// LSL
@@ -601,60 +601,64 @@ ARMCore.prototype.barrelShiftImmediate = function(shiftType, immediate, rm) {
 }
 
 ARMCore.prototype.compileArm = function(instruction) {
-	var op = this.badOp(instruction);
-	var i = instruction & 0x0E000000;
-	var cpu = this;
-	var gprs = this.gprs;
+	let op = this.badOp(instruction);
+	let i = instruction & 0x0E000000;
+  let immediate;
+  let load;
+  let rm;
+  let s;
+  let rd;
+  let rn;
+  let rs;
+  let address;
 
-	var condOp = this.conds[(instruction & 0xF0000000) >>> 28];
+	let condOp = this.conds[(instruction & 0xF0000000) >>> 28];
 	if ((instruction & 0x0FFFFFF0) == 0x012FFF10) {
 		// BX
-		var rm = instruction & 0xF;
+		rm = instruction & 0xF;
 		op = this.armCompiler.constructBX(rm, condOp);
 		op.writesPC = true;
 		op.fixedJump = false;
 	} else if (!(instruction & 0x0C000000) && (i == 0x02000000 || (instruction & 0x00000090) != 0x00000090)) {
-		var opcode = instruction & 0x01E00000;
-		var s = instruction & 0x00100000;
-		var shiftsRs = false;
+		let opcode = instruction & 0x01E00000;
+		s = instruction & 0x00100000;
 		if ((opcode & 0x01800000) == 0x01000000 && !s) {
-			var r = instruction & 0x00400000;
+			let r = instruction & 0x00400000;
 			if ((instruction & 0x00B0F000) == 0x0020F000) {
 				// MSR
-				var rm = instruction & 0x0000000F;
-				var immediate = instruction & 0x000000FF;
-				var rotateImm = (instruction & 0x00000F00) >> 7;
+				rm = instruction & 0x0000000F;
+				immediate = instruction & 0x000000FF;
+				let rotateImm = (instruction & 0x00000F00) >> 7;
 				immediate = (immediate >>> rotateImm) | (immediate << (32 - rotateImm));
 				op = this.armCompiler.constructMSR(rm, r, instruction, immediate, condOp);
 				op.writesPC = false;
 			} else if ((instruction & 0x00BF0000) == 0x000F0000) {
 				// MRS
-				var rd = (instruction & 0x0000F000) >> 12;
+				rd = (instruction & 0x0000F000) >> 12;
 				op = this.armCompiler.constructMRS(rd, r, condOp);
 				op.writesPC = rd == this.PC;
 			}
 		} else {
 			// Data processing/FSR transfer
-			var rn = (instruction & 0x000F0000) >> 16;
-			var rd = (instruction & 0x0000F000) >> 12;
+			rn = (instruction & 0x000F0000) >> 16;
+			rd = (instruction & 0x0000F000) >> 12;
 
 			// Parse shifter operand
-			var shiftType = instruction & 0x00000060;
-			var rm = instruction & 0x0000000F;
-			var shiftOp = function() {
+			let shiftType = instruction & 0x00000060;
+			rm = instruction & 0x0000000F;
+			let shiftOp = function() {
 				throw 'BUG: invalid barrel shifter';
 			};
 			if (instruction & 0x02000000) {
-				var immediate = instruction & 0x000000FF;
-				var rotate = (instruction & 0x00000F00) >> 7;
+				immediate = instruction & 0x000000FF;
+				let rotate = (instruction & 0x00000F00) >> 7;
 				if (!rotate) {
 					shiftOp = this.armCompiler.constructAddressingMode1Immediate(immediate);
 				} else {
 					shiftOp = this.armCompiler.constructAddressingMode1ImmediateRotate(immediate, rotate);
 				}
 			} else if (instruction & 0x00000010) {
-				var rs = (instruction & 0x00000F00) >> 8;
-				shiftsRs = true;
+				rs = (instruction & 0x00000F00) >> 8;
 				switch (shiftType) {
 				case 0x00000000:
 					// LSL
@@ -674,7 +678,7 @@ ARMCore.prototype.compileArm = function(instruction) {
 					break;
 				}
 			} else {
-				var immediate = (instruction & 0x00000F80) >> 7;
+				immediate = (instruction & 0x00000F80) >> 7;
 				shiftOp = this.barrelShiftImmediate(shiftType, immediate, rm);
 			}
 
@@ -796,9 +800,9 @@ ARMCore.prototype.compileArm = function(instruction) {
 		}
 	} else if ((instruction & 0x0FB00FF0) == 0x01000090) {
 		// Single data swap
-		var rm = instruction & 0x0000000F;
-		var rd = (instruction >> 12) & 0x0000000F;
-		var rn = (instruction >> 16) & 0x0000000F;
+		rm = instruction & 0x0000000F;
+		rd = (instruction >> 12) & 0x0000000F;
+		rn = (instruction >> 16) & 0x0000000F;
 		if (instruction & 0x00400000) {
 			op = this.armCompiler.constructSWPB(rd, rn, rm, condOp);
 		} else {
@@ -810,10 +814,10 @@ ARMCore.prototype.compileArm = function(instruction) {
 		case 0x00000000:
 			if ((instruction & 0x010000F0) == 0x00000090) {
 				// Multiplies
-				var rd = (instruction & 0x000F0000) >> 16;
-				var rn = (instruction & 0x0000F000) >> 12;
-				var rs = (instruction & 0x00000F00) >> 8;
-				var rm = instruction & 0x0000000F;
+				rd = (instruction & 0x000F0000) >> 16;
+				rn = (instruction & 0x0000F000) >> 12;
+				rs = (instruction & 0x00000F00) >> 8;
+				rm = instruction & 0x0000000F;
 				switch (instruction & 0x00F00000) {
 				case 0x00000000:
 					// MUL
@@ -867,18 +871,17 @@ ARMCore.prototype.compileArm = function(instruction) {
 				op.writesPC = rd == this.PC;
 			} else {
 				// Halfword and signed byte data transfer
-				var load = instruction & 0x00100000;
-				var rd = (instruction & 0x0000F000) >> 12;
-				var hiOffset = (instruction & 0x00000F00) >> 4;
-				var loOffset = rm = instruction & 0x0000000F;
-				var h = instruction & 0x00000020;
-				var s = instruction & 0x00000040;
-				var w = instruction & 0x00200000;
-				var i = instruction & 0x00400000;
+				load = instruction & 0x00100000;
+				rd = (instruction & 0x0000F000) >> 12;
+				let hiOffset = (instruction & 0x00000F00) >> 4;
+				let loOffset = rm = instruction & 0x0000000F;
+				let h = instruction & 0x00000020;
+				s = instruction & 0x00000040;
+				let w = instruction & 0x00200000;
+				i = instruction & 0x00400000;
 
-				var address;
 				if (i) {
-					var immediate = loOffset | hiOffset;
+					immediate = loOffset | hiOffset;
 					address = this.armCompiler.constructAddressingMode23Immediate(instruction, immediate, condOp);
 				} else {
 					address = this.armCompiler.constructAddressingMode23Register(instruction, rm, condOp);
@@ -913,12 +916,12 @@ ARMCore.prototype.compileArm = function(instruction) {
 		case 0x04000000:
 		case 0x06000000:
 			// LDR/STR
-			var rd = (instruction & 0x0000F000) >> 12;
-			var load = instruction & 0x00100000;
-			var b = instruction & 0x00400000;
-			var i = instruction & 0x02000000;
+			rd = (instruction & 0x0000F000) >> 12;
+			load = instruction & 0x00100000;
+			let b = instruction & 0x00400000;
+			i = instruction & 0x02000000;
 
-			var address = function() {
+			address = function() {
 				throw "Unimplemented memory access: 0x" + instruction.toString(16);
 			};
 			if (~instruction & 0x01000000) {
@@ -927,19 +930,19 @@ ARMCore.prototype.compileArm = function(instruction) {
 			}
 			if (i) {
 				// Register offset
-				var rm = instruction & 0x0000000F;
-				var shiftType = instruction & 0x00000060;
-				var shiftImmediate = (instruction & 0x00000F80) >> 7;
+				rm = instruction & 0x0000000F;
+				let shiftType = instruction & 0x00000060;
+				let shiftImmediate = (instruction & 0x00000F80) >> 7;
 				
 				if (shiftType || shiftImmediate) {
-					var shiftOp = this.barrelShiftImmediate(shiftType, shiftImmediate, rm);
+					let shiftOp = this.barrelShiftImmediate(shiftType, shiftImmediate, rm);
 					address = this.armCompiler.constructAddressingMode2RegisterShifted(instruction, shiftOp, condOp);
 				} else {
 					address = this.armCompiler.constructAddressingMode23Register(instruction, rm, condOp);
 				}
 			} else {
 				// Immediate
-				var offset = instruction & 0x00000FFF;
+				let offset = instruction & 0x00000FFF;
 				address = this.armCompiler.constructAddressingMode23Immediate(instruction, offset, condOp);
 			}
 			if (load) {
@@ -963,23 +966,22 @@ ARMCore.prototype.compileArm = function(instruction) {
 			break;
 		case 0x08000000:
 			// Block data transfer
-			var load = instruction & 0x00100000;
-			var w = instruction & 0x00200000;
-			var user = instruction & 0x00400000;
-			var u = instruction & 0x00800000;
-			var p = instruction & 0x01000000;
-			var rs = instruction & 0x0000FFFF;
-			var rn = (instruction & 0x000F0000) >> 16;
+			load = instruction & 0x00100000;
+			let w = instruction & 0x00200000;
+			let user = instruction & 0x00400000;
+			let u = instruction & 0x00800000;
+			let p = instruction & 0x01000000;
+			rs = instruction & 0x0000FFFF;
+			rn = (instruction & 0x000F0000) >> 16;
 
-			var address;
-			var immediate = 0;
-			var offset = 0;
-			var overlap = false;
+			immediate = 0;
+			let offset = 0;
+			let overlap = false;
 			if (u) {
 				if (p) {
 					immediate = 4;
 				}
-				for (var m = 0x01, i = 0; i < 16; m <<= 1, ++i) {
+				for (let m = 0x01, i = 0; i < 16; m <<= 1, ++i) {
 					if (rs & m) {
 						if (w && i == rn && !offset) {
 							rs &= ~m;
@@ -993,7 +995,7 @@ ARMCore.prototype.compileArm = function(instruction) {
 				if (!p) {
 					immediate = 4;
 				}
-				for (var m = 0x01, i = 0; i < 16; m <<= 1, ++i) {
+				for (let m = 0x01, i = 0; i < 16; m <<= 1, ++i) {
 					if (rs & m) {
 						if (w && i == rn && !offset) {
 							rs &= ~m;
@@ -1030,12 +1032,12 @@ ARMCore.prototype.compileArm = function(instruction) {
 			break;
 		case 0x0A000000:
 			// Branch
-			var immediate = instruction & 0x00FFFFFF;
+			immediate = instruction & 0x00FFFFFF;
 			if (immediate & 0x00800000) {
 				immediate |= 0xFF000000;
 			}
 			immediate <<= 2;
-			var link = instruction & 0x01000000;
+			let link = instruction & 0x01000000;
 			if (link) {
 				op = this.armCompiler.constructBL(immediate, condOp);
 			} else {
@@ -1051,7 +1053,7 @@ ARMCore.prototype.compileArm = function(instruction) {
 			// Coprocessor data operation/SWI
 			if ((instruction & 0x0F000000) == 0x0F000000) {
 				// SWI
-				var immediate = (instruction & 0x00FFFFFF);
+				immediate = (instruction & 0x00FFFFFF);
 				op = this.armCompiler.constructSWI(immediate, condOp);
 				op.writesPC = false;
 			}
@@ -1067,13 +1069,17 @@ ARMCore.prototype.compileArm = function(instruction) {
 };
 
 ARMCore.prototype.compileThumb = function(instruction) {
-	var op = this.badOp(instruction & 0xFFFF);
-	var cpu = this;
-	var gprs = this.gprs;
+	let op = this.badOp(instruction & 0xFFFF);
+  let rm;
+  let rd;
+  let rn;
+  let immediate;
+  let load;
+  let rs;
 	if ((instruction & 0xFC00) == 0x4000) {
 		// Data-processing register
-		var rm = (instruction & 0x0038) >> 3;
-		var rd = instruction & 0x0007;
+		rm = (instruction & 0x0038) >> 3;
+		rd = instruction & 0x0007;
 		switch (instruction & 0x03C0) {
 		case 0x0000:
 			// AND
@@ -1143,10 +1149,10 @@ ARMCore.prototype.compileThumb = function(instruction) {
 		op.writesPC = false;
 	} else if ((instruction & 0xFC00) == 0x4400) {
 		// Special data processing / branch/exchange instruction set
-		var rm = (instruction & 0x0078) >> 3;
-		var rn = instruction & 0x0007;
-		var h1 = instruction & 0x0080;
-		var rd = rn | (h1 >> 4);
+		rm = (instruction & 0x0078) >> 3;
+		rn = instruction & 0x0007;
+		let h1 = instruction & 0x0080;
+		rd = rn | (h1 >> 4);
 		switch (instruction & 0x0300) {
 		case 0x0000:
 			// ADD(4)
@@ -1172,9 +1178,9 @@ ARMCore.prototype.compileThumb = function(instruction) {
 		}
 	} else if ((instruction & 0xF800) == 0x1800) {
 		// Add/subtract
-		var rm = (instruction & 0x01C0) >> 6;
-		var rn = (instruction & 0x0038) >> 3;
-		var rd = instruction & 0x0007;
+		rm = (instruction & 0x01C0) >> 6;
+		rn = (instruction & 0x0038) >> 3;
+		rd = instruction & 0x0007;
 		switch (instruction & 0x0600) {
 		case 0x0000:
 			// ADD(3)
@@ -1185,7 +1191,7 @@ ARMCore.prototype.compileThumb = function(instruction) {
 			op = this.thumbCompiler.constructSUB3(rd, rn, rm);
 			break;
 		case 0x0400:
-			var immediate = (instruction & 0x01C0) >> 6;
+			immediate = (instruction & 0x01C0) >> 6;
 			if (immediate) {
 				// ADD(1)
 				op = this.thumbCompiler.constructADD1(rd, rn, immediate);
@@ -1196,16 +1202,16 @@ ARMCore.prototype.compileThumb = function(instruction) {
 			break;
 		case 0x0600:
 			// SUB(1)
-			var immediate = (instruction & 0x01C0) >> 6;
+			immediate = (instruction & 0x01C0) >> 6;
 			op = this.thumbCompiler.constructSUB1(rd, rn, immediate);
 			break;
 		}
 		op.writesPC = false;
 	} else if (!(instruction & 0xE000)) {
 		// Shift by immediate
-		var rd = instruction & 0x0007;
-		var rm = (instruction & 0x0038) >> 3;
-		var immediate = (instruction & 0x07C0) >> 6;
+		rd = instruction & 0x0007;
+		rm = (instruction & 0x0038) >> 3;
+		immediate = (instruction & 0x07C0) >> 6;
 		switch (instruction & 0x1800) {
 		case 0x0000:
 			// LSL(1)
@@ -1225,8 +1231,8 @@ ARMCore.prototype.compileThumb = function(instruction) {
 		op.writesPC = false;
 	} else if ((instruction & 0xE000) == 0x2000) {
 		// Add/subtract/compare/move immediate
-		var immediate = instruction & 0x00FF;
-		var rn = (instruction & 0x0700) >> 8;
+		immediate = instruction & 0x00FF;
+		rn = (instruction & 0x0700) >> 8;
 		switch (instruction & 0x1800) {
 		case 0x0000:
 			// MOV(1)
@@ -1248,16 +1254,16 @@ ARMCore.prototype.compileThumb = function(instruction) {
 		op.writesPC = false;
 	} else if ((instruction & 0xF800) == 0x4800) {
 		// LDR(3)
-		var rd = (instruction & 0x0700) >> 8;
-		var immediate = (instruction & 0x00FF) << 2;
+		rd = (instruction & 0x0700) >> 8;
+		immediate = (instruction & 0x00FF) << 2;
 		op = this.thumbCompiler.constructLDR3(rd, immediate);
 		op.writesPC = false;
 	} else if ((instruction & 0xF000) == 0x5000) {
 		// Load and store with relative offset
-		var rd = instruction & 0x0007;
-		var rn = (instruction & 0x0038) >> 3;
-		var rm = (instruction & 0x01C0) >> 6;
-		var opcode = instruction & 0x0E00;
+		rd = instruction & 0x0007;
+		rn = (instruction & 0x0038) >> 3;
+		rm = (instruction & 0x01C0) >> 6;
+		let opcode = instruction & 0x0E00;
 		switch (opcode) {
 		case 0x0000:
 			// STR(2)
@@ -1295,14 +1301,14 @@ ARMCore.prototype.compileThumb = function(instruction) {
 		op.writesPC = false;
 	} else if ((instruction & 0xE000) == 0x6000) {
 		// Load and store with immediate offset
-		var rd = instruction & 0x0007;
-		var rn = (instruction & 0x0038) >> 3;
-		var immediate = (instruction & 0x07C0) >> 4;
-		var b = instruction & 0x1000;
+		rd = instruction & 0x0007;
+		rn = (instruction & 0x0038) >> 3;
+		immediate = (instruction & 0x07C0) >> 4;
+		let b = instruction & 0x1000;
 		if (b) {
 			immediate >>= 2;
 		}
-		var load = instruction & 0x0800;
+		load = instruction & 0x0800;
 		if (load) {
 			if (b) {
 				// LDRB(1)
@@ -1323,8 +1329,8 @@ ARMCore.prototype.compileThumb = function(instruction) {
 		op.writesPC = false;
 	} else if ((instruction & 0xF600) == 0xB400) {
 		// Push and pop registers
-		var r = !!(instruction & 0x0100);
-		var rs = instruction & 0x00FF;
+		let r = !!(instruction & 0x0100);
+		rs = instruction & 0x00FF;
 		if (instruction & 0x0800) {
 			// POP
 			op = this.thumbCompiler.constructPOP(rs, r);
@@ -1339,9 +1345,9 @@ ARMCore.prototype.compileThumb = function(instruction) {
 		switch (instruction & 0x7000) {
 		case 0x0000:
 			// Load and store halfword
-			var rd = instruction & 0x0007;
-			var rn = (instruction & 0x0038) >> 3;
-			var immediate = (instruction & 0x07C0) >> 5;
+			rd = instruction & 0x0007;
+			rn = (instruction & 0x0038) >> 3;
+			immediate = (instruction & 0x07C0) >> 5;
 			if (instruction & 0x0800) {
 				// LDRH(1)
 				op = this.thumbCompiler.constructLDRH1(rd, rn, immediate);
@@ -1353,9 +1359,9 @@ ARMCore.prototype.compileThumb = function(instruction) {
 			break;
 		case 0x1000:
 			// SP-relative load and store
-			var rd = (instruction & 0x0700) >> 8;
-			var immediate = (instruction & 0x00FF) << 2;
-			var load = instruction & 0x0800;
+			rd = (instruction & 0x0700) >> 8;
+			immediate = (instruction & 0x00FF) << 2;
+			load = instruction & 0x0800;
 			if (load) {
 				// LDR(4)
 				op = this.thumbCompiler.constructLDR4(rd, immediate);
@@ -1367,8 +1373,8 @@ ARMCore.prototype.compileThumb = function(instruction) {
 			break;
 		case 0x2000:
 			// Load address
-			var rd = (instruction & 0x0700) >> 8;
-			var immediate = (instruction & 0x00FF) << 2;
+			rd = (instruction & 0x0700) >> 8;
+			immediate = (instruction & 0x00FF) << 2;
 			if (instruction & 0x0800) {
 				// ADD(6)
 				op = this.thumbCompiler.constructADD6(rd, immediate);
@@ -1383,8 +1389,8 @@ ARMCore.prototype.compileThumb = function(instruction) {
 			if (!(instruction & 0x0F00)) {
 				// Adjust stack pointer
 				// ADD(7)/SUB(4)
-				var b = instruction & 0x0080;
-				var immediate = (instruction & 0x7F) << 2;
+				let b = instruction & 0x0080;
+				immediate = (instruction & 0x7F) << 2;
 				if (b) {
 					immediate = -immediate;
 				}
@@ -1394,8 +1400,8 @@ ARMCore.prototype.compileThumb = function(instruction) {
 			break;
 		case 0x4000:
 			// Multiple load and store
-			var rn = (instruction & 0x0700) >> 8;
-			var rs = instruction & 0x00FF;
+			rn = (instruction & 0x0700) >> 8;
+			rs = instruction & 0x00FF;
 			if (instruction & 0x0800) {
 				// LDMIA
 				op = this.thumbCompiler.constructLDMIA(rn, rs);
@@ -1407,8 +1413,8 @@ ARMCore.prototype.compileThumb = function(instruction) {
 			break;
 		case 0x5000:
 			// Conditional branch
-			var cond = (instruction & 0x0F00) >> 8;
-			var immediate = (instruction & 0x00FF);
+			let cond = (instruction & 0x0F00) >> 8;
+			immediate = (instruction & 0x00FF);
 			if (cond == 0xF) {
 				// SWI
 				op = this.thumbCompiler.constructSWI(immediate);
@@ -1419,7 +1425,7 @@ ARMCore.prototype.compileThumb = function(instruction) {
 					immediate |= 0xFFFFFF00;
 				}
 				immediate <<= 1;
-				var condOp = this.conds[cond];
+				let condOp = this.conds[cond];
 				op = this.thumbCompiler.constructB1(immediate, condOp);
 				op.writesPC = true;
 				op.fixedJump = true;
@@ -1428,8 +1434,8 @@ ARMCore.prototype.compileThumb = function(instruction) {
 		case 0x6000:
 		case 0x7000:
 			// BL(X)
-			var immediate = instruction & 0x07FF;
-			var h = instruction & 0x1800;
+			immediate = instruction & 0x07FF;
+			let h = instruction & 0x1800;
 			switch (h) {
 			case 0x0000:
 				// B(2)
@@ -1442,13 +1448,6 @@ ARMCore.prototype.compileThumb = function(instruction) {
 				op.fixedJump = true;
 				break;
 			case 0x0800:
-				// BLX (ARMv5T)
-				/*op = function() {
-					var pc = gprs[cpu.PC];
-					gprs[cpu.PC] = (gprs[cpu.LR] + (immediate << 1)) & 0xFFFFFFFC;
-					gprs[cpu.LR] = pc - 1;
-					cpu.switchExecMode(cpu.MODE_ARM);
-				}*/
 				break;
 			case 0x1000:
 				// BL(1)

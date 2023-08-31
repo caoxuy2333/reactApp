@@ -93,6 +93,7 @@ const Index = function (props: any) {
         let p = await require('./bios.bin');
         loadRom(p, function (bios: any) {
           gba.setBios(bios);
+          console.clear();
         });
       }
     }
