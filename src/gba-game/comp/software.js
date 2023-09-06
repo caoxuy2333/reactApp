@@ -11,7 +11,7 @@ MemoryAligned16.prototype.load16 = function(offset) {
 };
 
 MemoryAligned16.prototype.loadU8 = function(offset) {
-	var index = offset >> 1;
+	let index = offset >> 1;
 	if (offset & 1) {
 		return (this.buffer[index] & 0xFF00) >>> 8;
 	} else {
@@ -28,7 +28,6 @@ MemoryAligned16.prototype.load32 = function(offset) {
 };
 
 MemoryAligned16.prototype.store8 = function(offset, value) {
-	var index = offset >> 1;
 	this.store16(offset, (value << 8) | value);
 };
 
@@ -37,7 +36,7 @@ MemoryAligned16.prototype.store16 = function(offset, value) {
 };
 
 MemoryAligned16.prototype.store32 = function(offset, value) {
-	var index = offset >> 1;
+	let index = offset >> 1;
 	this.store16(offset, this.buffer[index] = value & 0xFFFF);
 	this.store16(offset + 2, this.buffer[index + 1] = value >>> 16);
 };
@@ -59,11 +58,11 @@ function GameBoyAdvanceOAM(size) {
 	MemoryAligned16.call(this, size);
 	this.oam = this.buffer;
 	this.objs = new Array(128);
-	for (var i = 0; i < 128; ++i) {
+	for (let i = 0; i < 128; ++i) {
 		this.objs[i] = new GameBoyAdvanceOBJ(this, i);
 	}
 	this.scalerot = new Array(32);
-	for (var i = 0; i < 32; ++i) {
+	for (let i = 0; i < 32; ++i) {
 		this.scalerot[i] = {
 			a: 1,
 			b: 0,
@@ -76,23 +75,20 @@ function GameBoyAdvanceOAM(size) {
 GameBoyAdvanceOAM.prototype = Object.create(MemoryAligned16.prototype);
 
 GameBoyAdvanceOAM.prototype.overwrite = function(memory) {
-	for (var i = 0; i < (this.buffer.byteLength >> 1); ++i) {
+	for (let i = 0; i < (this.buffer.byteLength >> 1); ++i) {
 		this.store16(i << 1, memory[i]);
 	}
 };
 
 GameBoyAdvanceOAM.prototype.store16 = function(offset, value) {
-	var index = (offset & 0x3F8) >> 3;
-	var obj = this.objs[index];
-	var scalerot = this.scalerot[index >> 2];
-	var layer = obj.priority;
-	var disable = obj.disable;
-	var y = obj.y;
+	let index = (offset & 0x3F8) >> 3;
+	let obj = this.objs[index];
+	let scalerot = this.scalerot[index >> 2];
 	switch (offset & 0x00000006) {
 	case 0:
 		// Attribute 0
 		obj.y = value & 0x00FF;
-		var wasScalerot = obj.scalerot;
+		let wasScalerot = obj.scalerot;
 		obj.scalerot = value & 0x0100;
 		if (obj.scalerot) {
 			obj.scalerotOam = this.scalerot[obj.scalerotParam];
@@ -176,7 +172,7 @@ function GameBoyAdvancePalette() {
 };
 
 GameBoyAdvancePalette.prototype.overwrite = function(memory) {
-	for (var i = 0; i < 512; ++i) {
+	for (let i = 0; i < 512; ++i) {
 		this.store16(i << 1, memory[i]);
 	}
 };
@@ -198,8 +194,8 @@ GameBoyAdvancePalette.prototype.load32 = function(offset) {
 };
 
 GameBoyAdvancePalette.prototype.store16 = function(offset, value) {
-	var type = (offset & 0x200) >> 9;
-	var index = (offset & 0x1FF) >> 1;
+	let type = (offset & 0x200) >> 9;
+	let index = (offset & 0x1FF) >> 1;
 	this.colors[type][index] = value;
 	this.adjustedColors[type][index] = this.adjustColor(value);
 };
@@ -212,9 +208,9 @@ GameBoyAdvancePalette.prototype.store32 = function(offset, value) {
 GameBoyAdvancePalette.prototype.invalidatePage = function(address) {};
 
 GameBoyAdvancePalette.prototype.convert16To32 = function(value, input) {
-	var r = (value & 0x001F) << 3;
-	var g = (value & 0x03E0) >> 2;
-	var b = (value & 0x7C00) >> 7;
+	let r = (value & 0x001F) << 3;
+	let g = (value & 0x03E0) >> 2;
+	let b = (value & 0x7C00) >> 7;
 
 	input[0] = r;
 	input[1] = g;
@@ -222,17 +218,17 @@ GameBoyAdvancePalette.prototype.convert16To32 = function(value, input) {
 };
 
 GameBoyAdvancePalette.prototype.mix = function(aWeight, aColor, bWeight, bColor) {
-	var ar = (aColor & 0x001F);
-	var ag = (aColor & 0x03E0) >> 5;
-	var ab = (aColor & 0x7C00) >> 10;
+	let ar = (aColor & 0x001F);
+	let ag = (aColor & 0x03E0) >> 5;
+	let ab = (aColor & 0x7C00) >> 10;
 
-	var br = (bColor & 0x001F);
-	var bg = (bColor & 0x03E0) >> 5;
-	var bb = (bColor & 0x7C00) >> 10;
+	let br = (bColor & 0x001F);
+	let bg = (bColor & 0x03E0) >> 5;
+	let bb = (bColor & 0x7C00) >> 10;
 
-	var r = Math.min(aWeight * ar + bWeight * br, 0x1F);
-	var g = Math.min(aWeight * ag + bWeight * bg, 0x1F);
-	var b = Math.min(aWeight * ab + bWeight * bb, 0x1F);
+	let r = Math.min(aWeight * ar + bWeight * br, 0x1F);
+	let g = Math.min(aWeight * ag + bWeight * bg, 0x1F);
+	let b = Math.min(aWeight * ab + bWeight * bb, 0x1F);
 
 	return r | (g << 5) | (b << 10);
 };
@@ -304,9 +300,9 @@ GameBoyAdvancePalette.prototype.resetPaletteLayers = function(layers) {
 };
 
 GameBoyAdvancePalette.prototype.resetPalettes = function() {
-	var i;
-	var outPalette = this.adjustedColors[0];
-	var inPalette = this.colors[0];
+	let i;
+	let outPalette = this.adjustedColors[0];
+	let inPalette = this.colors[0];
 	for (i = 0; i < 256; ++i) {
 		outPalette[i] = this.adjustColor(inPalette[i]);
 	}
@@ -323,9 +319,9 @@ GameBoyAdvancePalette.prototype.accessColor = function(layer, index) {
 };
 
 GameBoyAdvancePalette.prototype.adjustColorDark = function(color) {
-	var r = (color & 0x001F);
-	var g = (color & 0x03E0) >> 5;
-	var b = (color & 0x7C00) >> 10;
+	let r = (color & 0x001F);
+	let g = (color & 0x03E0) >> 5;
+	let b = (color & 0x7C00) >> 10;
 
 	r = r - (r * this.blendY);
 	g = g - (g * this.blendY);
@@ -335,9 +331,9 @@ GameBoyAdvancePalette.prototype.adjustColorDark = function(color) {
 };
 
 GameBoyAdvancePalette.prototype.adjustColorBright = function(color) {
-	var r = (color & 0x001F);
-	var g = (color & 0x03E0) >> 5;
-	var b = (color & 0x7C00) >> 10;
+	let r = (color & 0x001F);
+	let g = (color & 0x03E0) >> 5;
+	let b = (color & 0x7C00) >> 10;
 
 	r = r + ((31 - r) * this.blendY);
 	g = g + ((31 - g) * this.blendY);
@@ -382,11 +378,11 @@ function GameBoyAdvanceOBJ(oam, index) {
 };
 
 GameBoyAdvanceOBJ.prototype.drawScanlineNormal = function(backing, y, yOff, start, end) {
-	var video = this.oam.video;
-	var x;
-	var underflow;
-	var offset;
-	var mask = this.mode | video.target2[video.LAYER_OBJ] | (this.priority << 1);
+	let video = this.oam.video;
+	let x;
+	let underflow;
+	let offset;
+	let mask = this.mode | video.target2[video.LAYER_OBJ] | (this.priority << 1);
 	if (this.mode == 0x10) {
 		mask |= video.TARGET1_MASK;
 	}
@@ -394,7 +390,7 @@ GameBoyAdvanceOBJ.prototype.drawScanlineNormal = function(backing, y, yOff, star
 		mask |= video.target1[video.LAYER_OBJ];
 	}
 
-	var totalWidth = this.cachedWidth;
+	let totalWidth = this.cachedWidth;
 	if (this.x < video.HORIZONTAL_PIXELS) {
 		if (this.x < start) {
 			underflow = start - this.x;
@@ -414,18 +410,18 @@ GameBoyAdvanceOBJ.prototype.drawScanlineNormal = function(backing, y, yOff, star
 		}
 	}
 	
-	var localX;
-	var localY;
+	let localX;
+	let localY;
 	if (!this.vflip) {
 		localY = y - yOff;
 	} else {
 		localY = this.cachedHeight - y + yOff - 1;
 	}
-	var localYLo = localY & 0x7;
-	var mosaicX;
-	var tileOffset;
+	let localYLo = localY & 0x7;
+	let mosaicX;
+	let tileOffset;
 
-	var paletteShift = this.multipalette ? 1 : 0;
+	let paletteShift = this.multipalette ? 1 : 0;
 
 	if (video.objCharacterMapping) {
 		tileOffset = ((localY & 0x01F8) * this.cachedWidth) >> 6;
@@ -444,7 +440,7 @@ GameBoyAdvanceOBJ.prototype.drawScanlineNormal = function(backing, y, yOff, star
 		localX = this.cachedWidth - underflow - 1;
 	}
 
-	var tileRow = video.accessTile(this.TILE_OFFSET + (x & 0x4) * paletteShift, this.tileBase + (tileOffset << paletteShift) + ((localX & 0x01F8) >> (3 - paletteShift)), localYLo << paletteShift);
+	let tileRow = video.accessTile(this.TILE_OFFSET + (x & 0x4) * paletteShift, this.tileBase + (tileOffset << paletteShift) + ((localX & 0x01F8) >> (3 - paletteShift)), localYLo << paletteShift);
 	for (x = underflow; x < totalWidth; ++x) {
 		mosaicX = this.mosaic ? offset % video.objMosaicX : 0;
 		if (!this.hflip) {
@@ -467,11 +463,11 @@ GameBoyAdvanceOBJ.prototype.drawScanlineNormal = function(backing, y, yOff, star
 };
 
 GameBoyAdvanceOBJ.prototype.drawScanlineAffine = function(backing, y, yOff, start, end) {
-	var video = this.oam.video;
-	var x;
-	var underflow;
-	var offset;
-	var mask = this.mode | video.target2[video.LAYER_OBJ] | (this.priority << 1);
+	let video = this.oam.video;
+	let x;
+	let underflow;
+	let offset;
+	let mask = this.mode | video.target2[video.LAYER_OBJ] | (this.priority << 1);
 	if (this.mode == 0x10) {
 		mask |= video.TARGET1_MASK;
 	}
@@ -479,15 +475,15 @@ GameBoyAdvanceOBJ.prototype.drawScanlineAffine = function(backing, y, yOff, star
 		mask |= video.target1[video.LAYER_OBJ];
 	}
 
-	var localX;
-	var localY;
-	var yDiff = y - yOff;
-	var tileOffset;
+	let localX;
+	let localY;
+	let yDiff = y - yOff;
+	let tileOffset;
 
-	var paletteShift = this.multipalette ? 1 : 0;
-	var totalWidth = this.cachedWidth << this.doublesize;
-	var totalHeight = this.cachedHeight << this.doublesize;
-	var drawWidth = totalWidth;
+	let paletteShift = this.multipalette ? 1 : 0;
+	let totalWidth = this.cachedWidth << this.doublesize;
+	let totalHeight = this.cachedHeight << this.doublesize;
+	let drawWidth = totalWidth;
 	if (drawWidth > video.HORIZONTAL_PIXELS) {
 		totalWidth = video.HORIZONTAL_PIXELS;
 	}
@@ -529,7 +525,7 @@ GameBoyAdvanceOBJ.prototype.drawScanlineAffine = function(backing, y, yOff, star
 		} else {
 			tileOffset = (localY & 0x01F8) << (2 - paletteShift);
 		}
-		var tileRow = video.accessTile(this.TILE_OFFSET + (localX & 0x4) * paletteShift, this.tileBase + (tileOffset << paletteShift) + ((localX & 0x01F8) >> (3 - paletteShift)), (localY & 0x7) << paletteShift);
+		let tileRow = video.accessTile(this.TILE_OFFSET + (localX & 0x4) * paletteShift, this.tileBase + (tileOffset << paletteShift) + ((localX & 0x01F8) >> (3 - paletteShift)), (localY & 0x7) << paletteShift);
 		this.pushPixel(video.LAYER_OBJ, this, video, tileRow, localX & 0x7, offset, backing, mask, false);
 		offset++;
 	}
@@ -598,15 +594,15 @@ function GameBoyAdvanceOBJLayer(video, index) {
 };
 
 GameBoyAdvanceOBJLayer.prototype.drawScanline = function(backing, layer, start, end) {
-	var y = this.video.vcount;
-	var wrappedY;
-	var mosaicY;
-	var obj;
+	let y = this.video.vcount;
+	let wrappedY;
+	let mosaicY;
+	let obj;
 	if (start >= end) {
 		return;
 	}
-	var objs = this.video.oam.objs;
-	for (var i = 0; i < objs.length; ++i) {
+	let objs = this.video.oam.objs;
+	for (let i = 0; i < objs.length; ++i) {
 		obj = objs[i];
 		if (obj.disable) {
 			continue;
@@ -622,7 +618,7 @@ GameBoyAdvanceOBJLayer.prototype.drawScanline = function(backing, layer, start, 
 		} else {
 			wrappedY = obj.y - 256;
 		}
-		var totalHeight;
+		let totalHeight;
 		if (!obj.scalerot) {
 			totalHeight = obj.cachedHeight;
 		} else {
@@ -671,7 +667,7 @@ function GameBoyAdvanceSoftwareRenderer() {
 
 		this.drawScanline = function(backing, layer, start, end) {
 			// TODO: interactions with blend modes and OBJWIN
-			for (var x = start; x < end; ++x) {
+			for (let x = start; x < end; ++x) {
 				if (!(backing.stencil[x] & video.WRITTEN_MASK)) {
 					backing.color[x] = video.palette.accessColor(this.index, 0);
 					backing.stencil[x] = video.WRITTEN_MASK;
@@ -729,7 +725,7 @@ GameBoyAdvanceSoftwareRenderer.prototype.clear = function(mmu) {
 
 	// WININ/WINOUT
 	this.windows = new Array();
-	for (var i = 0; i < 4; ++i) {
+	for (let i = 0; i < 4; ++i) {
 		this.windows.push({
 			enabled: [ false, false, false, false, false, true ],
 			special: 0
@@ -763,7 +759,7 @@ GameBoyAdvanceSoftwareRenderer.prototype.clear = function(mmu) {
 	this.nextVcounterIRQ = 0;
 
 	this.bg = new Array();
-	for (var i = 0; i < 4; ++i) {
+	for (let i = 0; i < 4; ++i) {
 		this.bg.push({
 			bg: true,
 			index: i,
@@ -863,7 +859,7 @@ GameBoyAdvanceSoftwareRenderer.prototype.setBacking = function(backing) {
 	this.pixelData = backing;
 
 	// Clear backing first
-	for (var offset = 0; offset < this.HORIZONTAL_PIXELS * this.VERTICAL_PIXELS * 4;) {
+	for (let offset = 0; offset < this.HORIZONTAL_PIXELS * this.VERTICAL_PIXELS * 4;) {
 		this.pixelData.data[offset++] = 0xFF;
 		this.pixelData.data[offset++] = 0xFF;
 		this.pixelData.data[offset++] = 0xFF;
@@ -904,7 +900,7 @@ GameBoyAdvanceSoftwareRenderer.prototype.writeDisplayControl = function(value) {
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.writeBackgroundControl = function(bg, value) {
-	var bgData = this.bg[bg];
+	let bgData = this.bg[bg];
 	bgData.priority = value & 0x0003;
 	bgData.charBase = (value & 0x000C) << 12;
 	bgData.mosaic = value & 0x0040;
@@ -986,7 +982,7 @@ GameBoyAdvanceSoftwareRenderer.prototype.writeWin1V = function(value) {
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.writeWindow = function(index, value) {
-	var window = this.windows[index];
+	let window = this.windows[index];
 	window.enabled[0] = value & 0x01;
 	window.enabled[1] = value & 0x02;
 	window.enabled[2] = value & 0x04;
@@ -1104,7 +1100,7 @@ GameBoyAdvanceSoftwareRenderer.prototype.resetLayers = function() {
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.layerComparator = function(a, b) {
-	var diff = b.priority - a.priority;
+	let diff = b.priority - a.priority;
 	if (!diff) {
 		if (a.bg && !b.bg) {
 			return -1;
@@ -1118,13 +1114,13 @@ GameBoyAdvanceSoftwareRenderer.prototype.layerComparator = function(a, b) {
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.accessMapMode0 = function(base, size, x, yBase, out) {
-	var offset = base + ((x >> 2) & 0x3E) + yBase;
+	let offset = base + ((x >> 2) & 0x3E) + yBase;
 
 	if (size & 1) {
 		offset += (x & 0x100) << 3;
 	}
 
-	var mem = this.vram.loadU16(offset);
+	let mem = this.vram.loadU16(offset);
 	out.tile = mem & 0x03FF;
 	out.hflip = mem & 0x0400;
 	out.vflip = mem & 0x0800;
@@ -1132,20 +1128,20 @@ GameBoyAdvanceSoftwareRenderer.prototype.accessMapMode0 = function(base, size, x
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.accessMapMode1 = function(base, size, x, yBase, out) {
-	var offset = base + (x >> 3) + yBase;
+	let offset = base + (x >> 3) + yBase;
 
 	out.tile = this.vram.loadU8(offset);
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.accessTile = function(base, tile, y) {
-	var offset = base + (tile << 5);
+	let offset = base + (tile << 5);
 	offset |= y << 2;
 
 	return this.vram.load32(offset);
 }
 
 GameBoyAdvanceSoftwareRenderer.pushPixel = function(layer, map, video, row, x, offset, backing, mask, raw) {
-	var index;
+	let index;
 	if (!raw) {
 		if (this.multipalette) {
 			index = (row >> (x << 3)) & 0xFF;
@@ -1160,9 +1156,9 @@ GameBoyAdvanceSoftwareRenderer.pushPixel = function(layer, map, video, row, x, o
 		}
 	}
 
-	var stencil = video.WRITTEN_MASK;
-	var oldStencil = backing.stencil[offset];
-	var blend = video.blendMode;
+	let stencil = video.WRITTEN_MASK;
+	let oldStencil = backing.stencil[offset];
+	let blend = video.blendMode;
 	if (video.objwinActive) {
 		if (oldStencil & video.OBJWIN_MASK) {
 			if (video.windows[3].enabled[layer]) {
@@ -1188,12 +1184,12 @@ GameBoyAdvanceSoftwareRenderer.pushPixel = function(layer, map, video, row, x, o
 		video.setBlendEnabled(layer, true, 1);
 	}
 
-	var pixel = raw ? row : video.palette.accessColor(layer, index);
+	let pixel = raw ? row : video.palette.accessColor(layer, index);
 
 	if (mask & video.TARGET1_MASK) {
 		video.setBlendEnabled(layer, !!blend, blend);
 	}
-	var highPriority = (mask & video.PRIORITY_MASK) < (oldStencil & video.PRIORITY_MASK);
+	let highPriority = (mask & video.PRIORITY_MASK) < (oldStencil & video.PRIORITY_MASK);
 	// Backgrounds can draw over each other, too.
 	if ((mask & video.PRIORITY_MASK) == (oldStencil & video.PRIORITY_MASK)) {
 		highPriority = mask & video.BACKGROUND_MASK;
@@ -1235,52 +1231,52 @@ GameBoyAdvanceSoftwareRenderer.prototype.identity = function(x) {
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBlank = function(backing) {
-	for (var x = 0; x < this.HORIZONTAL_PIXELS; ++x) {
+	for (let x = 0; x < this.HORIZONTAL_PIXELS; ++x) {
 		backing.color[x] = 0xFFFF;
 		backing.stencil[x] = 0;
 	}
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.prepareScanline = function(backing) {
-	for (var x = 0; x < this.HORIZONTAL_PIXELS; ++x) {
+	for (let x = 0; x < this.HORIZONTAL_PIXELS; ++x) {
 		backing.stencil[x] = this.target2[this.LAYER_BACKDROP];
 	}
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode0 = function(backing, bg, start, end) {
-	var video = this.video;
-	var x;
-	var y = video.vcount;
-	var offset = start;
-	var xOff = bg.x;
-	var yOff = bg.y;
-	var localX;
-	var localXLo;
-	var localY = y + yOff;
+	let video = this.video;
+	let x;
+	let y = video.vcount;
+	let offset = start;
+	let xOff = bg.x;
+	let yOff = bg.y;
+	let localX;
+	let localXLo;
+	let localY = y + yOff;
 	if (this.mosaic) {
 		localY -= y % video.bgMosaicY;
 	}
-	var localYLo = localY & 0x7;
-	var mosaicX;
-	var screenBase = bg.screenBase;
-	var charBase = bg.charBase;
-	var size = bg.size;
-	var index = bg.index;
-	var map = video.sharedMap;
-	var paletteShift = bg.multipalette ? 1 : 0;
-	var mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
+	let localYLo = localY & 0x7;
+	let mosaicX;
+	let screenBase = bg.screenBase;
+	let charBase = bg.charBase;
+	let size = bg.size;
+	let index = bg.index;
+	let map = video.sharedMap;
+	let paletteShift = bg.multipalette ? 1 : 0;
+	let mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
 	if (video.blendMode == 1 && video.alphaEnabled) {
 		mask |= video.target1[index];
 	}
 
-	var yBase = (localY << 3) & 0x7C0;
+	let yBase = (localY << 3) & 0x7C0;
 	if (size == 2) {
 		yBase += (localY << 3) & 0x800;
 	} else if (size == 3) {
 		yBase += (localY << 4) & 0x1000;
 	}
 
-	var xMask;
+	let xMask;
 	if (size & 1) {
 		xMask = 0x1FF;
 	} else {
@@ -1288,7 +1284,7 @@ GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode0 = function(backing,
 	}
 
 	video.accessMapMode0(screenBase, size, (start + xOff) & xMask, yBase, map);
-	var tileRow = video.accessTile(charBase, map.tile << paletteShift, (!map.vflip ? localYLo : 7 - localYLo) << paletteShift);
+	let tileRow = video.accessTile(charBase, map.tile << paletteShift, (!map.vflip ? localYLo : 7 - localYLo) << paletteShift);
 	for (x = start; x < end; ++x) {
 		localX = (x + xOff) & xMask;
 		mosaicX = this.mosaic ? offset % video.bgMosaicX : 0;
@@ -1326,25 +1322,25 @@ GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode0 = function(backing,
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode2 = function(backing, bg, start, end) {
-	var video = this.video;
-	var x;
-	var y = video.vcount;
-	var offset = start;
-	var localX;
-	var localY;
-	var screenBase = bg.screenBase;
-	var charBase = bg.charBase;
-	var size = bg.size;
-	var sizeAdjusted = 128 << size;
-	var index = bg.index;
-	var map = video.sharedMap;
-	var color;
-	var mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
+	let video = this.video;
+	let x;
+	let y = video.vcount;
+	let offset = start;
+	let localX;
+	let localY;
+	let screenBase = bg.screenBase;
+	let charBase = bg.charBase;
+	let size = bg.size;
+	let sizeAdjusted = 128 << size;
+	let index = bg.index;
+	let map = video.sharedMap;
+	let color;
+	let mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
 	if (video.blendMode == 1 && video.alphaEnabled) {
 		mask |= video.target1[index];
 	}
 
-	var yBase;
+	let yBase;
 
 	for (x = start; x < end; ++x) {
 		localX = bg.dx * x + bg.sx;
@@ -1375,21 +1371,20 @@ GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode2 = function(backing,
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode3 = function(backing, bg, start, end) {
-	var video = this.video;
-	var x;
-	var y = video.vcount;
-	var offset = start;
-	var localX;
-	var localY;
-	var index = bg.index;
-	var map = video.sharedMap;
-	var color;
-	var mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
+	let video = this.video;
+	let x;
+	let y = video.vcount;
+	let offset = start;
+	let localX;
+	let localY;
+	let index = bg.index;
+	let map = video.sharedMap;
+	let color;
+	let mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
 	if (video.blendMode == 1 && video.alphaEnabled) {
 		mask |= video.target1[index];
 	}
-
-	var yBase;
+ 
 
 	for (x = start; x < end; ++x) {
 		localX = bg.dx * x + bg.sx;
@@ -1409,26 +1404,26 @@ GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode3 = function(backing,
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode4 = function(backing, bg, start, end) {
-	var video = this.video;
-	var x;
-	var y = video.vcount;
-	var offset = start;
-	var localX;
-	var localY;
-	var charBase = 0;
+	let video = this.video;
+	let x;
+	let y = video.vcount;
+	let offset = start;
+	let localX;
+	let localY;
+	let charBase = 0;
 	if (video.displayFrameSelect) {
 		charBase += 0xA000;
 	}
-	var size = bg.size;
-	var index = bg.index;
-	var map = video.sharedMap;
-	var color;
-	var mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
+	let size = bg.size;
+	let index = bg.index;
+	let map = video.sharedMap;
+	let color;
+	let mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
 	if (video.blendMode == 1 && video.alphaEnabled) {
 		mask |= video.target1[index];
 	}
 
-	var yBase;
+	let yBase;
 
 	for (x = start; x < end; ++x) {
 		localX = bg.dx * x + bg.sx;
@@ -1449,25 +1444,24 @@ GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode4 = function(backing,
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode5 = function(backing, bg, start, end) {
-	var video = this.video;
-	var x;
-	var y = video.vcount;
-	var offset = start;
-	var localX;
-	var localY;
-	var charBase = 0;
+	let video = this.video;
+	let x;
+	let y = video.vcount;
+	let offset = start;
+	let localX;
+	let localY;
+	let charBase = 0;
 	if (video.displayFrameSelect) {
 		charBase += 0xA000;
 	}
-	var index = bg.index;
-	var map = video.sharedMap;
-	var color;
-	var mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
+	let index = bg.index;
+	let map = video.sharedMap;
+	let color;
+	let mask = video.target2[index] | (bg.priority << 1) | video.BACKGROUND_MASK;
 	if (video.blendMode == 1 && video.alphaEnabled) {
 		mask |= video.target1[index];
 	}
-
-	var yBase;
+ 
 
 	for (x = start; x < end; ++x) {
 		localX = bg.dx * x + bg.sx;
@@ -1487,20 +1481,20 @@ GameBoyAdvanceSoftwareRenderer.prototype.drawScanlineBGMode5 = function(backing,
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.drawScanline = function(y) {
-	var backing = this.scanline;
+	let backing = this.scanline;
 	if (this.forcedBlank) {
 		this.drawScanlineBlank(backing);
 		return;
 	}
 	this.prepareScanline(backing);
-	var layer;
-	var firstStart;
-	var firstEnd;
-	var lastStart;
-	var lastEnd;
+	let layer;
+	let firstStart;
+	let firstEnd;
+	let lastStart;
+	let lastEnd;
 	this.vcount = y;
 	// Draw lower priority first and then draw over them
-	for (var i = 0; i < this.drawLayers.length; ++i) {
+	for (let i = 0; i < this.drawLayers.length; ++i) {
 		layer = this.drawLayers[i];
 		if (!layer.enabled) {
 			continue;
@@ -1572,11 +1566,11 @@ GameBoyAdvanceSoftwareRenderer.prototype.drawScanline = function(y) {
 };
 
 GameBoyAdvanceSoftwareRenderer.prototype.finishScanline = function(backing) {
-	var color;
-	var bd = this.palette.accessColor(this.LAYER_BACKDROP, 0);
-	var xx = this.vcount * this.HORIZONTAL_PIXELS * 4;
-	var isTarget2 = this.target2[this.LAYER_BACKDROP];
-	for (var x = 0; x < this.HORIZONTAL_PIXELS; ++x) {
+	let color;
+	let bd = this.palette.accessColor(this.LAYER_BACKDROP, 0);
+	let xx = this.vcount * this.HORIZONTAL_PIXELS * 4;
+	let isTarget2 = this.target2[this.LAYER_BACKDROP];
+	for (let x = 0; x < this.HORIZONTAL_PIXELS; ++x) {
 		if (backing.stencil[x] & this.WRITTEN_MASK) {
 			color = backing.color[x];
 			if (isTarget2 && backing.stencil[x] & this.TARGET1_MASK) {
