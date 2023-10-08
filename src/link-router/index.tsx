@@ -9,8 +9,7 @@ const Index: React.FC = (): JSX.Element => {
   return (
     <div>
       {/* <h3>我是首页</h3> */}
-      点击跳转:
-      <div>
+      {/* <div>
         <Link to={'/fileTransferProtocol'}>断点续传</Link>
       </div>
       <div>
@@ -27,26 +26,26 @@ const Index: React.FC = (): JSX.Element => {
       </div>
       <div>
         <Link to={'/game'}>game</Link>
+      </div> */}
+      <div className={sty.flex}>
+        <Link className={sty.fc} to={'/fc'}>
+          <div>fc-game</div>
+        </Link>
+        <Link className={sty.gba} to={'/gba'}>
+          <div>gba-game</div>
+        </Link>
       </div>
-      <div>
-        <Link to={'/fc'}>fc-game</Link>
-      </div>
-      <div>
-        <Link to={'/gba'}>gba-game</Link>
-      </div>
-      <div style={{ position: 'fixed',fontSize: 16, left: 10, bottom: 5,display: 'flex'}}>
-        <a  href='https://beian.miit.gov.cn/#/Integrated/index'>粤ICP备2023078446号</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div style={{  width: 600, margin: '0 auto'  }}>
-          <a
+      <div className={sty.foot}>
+        <a style={{paddingRight: 20}} href='https://beian.miit.gov.cn/#/Integrated/index'>粤ICP备2023078446号</a>
+         
+        <a
             target="_blank"
             rel="noreferrer"
-            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602011882" 
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602011882"
           >
             <img src={beianIcon} style={{ float: 'left' }} />
-            <p style={{  margin: '0 0 0 5px', color: '#939393' }}>粤公网安备 44010602011882号</p>
+             粤公网安备 44010602011882号 
           </a>
-        </div>
       </div>
     </div>
   )
