@@ -27,6 +27,9 @@ const Index: React.FC = (): JSX.Element => {
       <div>
         <Link to={'/game'}>game</Link>
       </div> */}
+      <div className={sty.head}>
+        选择平台游玩
+      </div>
       <div className={sty.flex}>
         <Link className={sty.fc} to={'/fc'}>
           <div>fc-game</div>
