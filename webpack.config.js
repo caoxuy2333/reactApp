@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
  
 module.exports = {
   entry: "./src/index.tsx",
@@ -91,6 +91,7 @@ module.exports = {
       'request': path.resolve(path.join(__dirname, 'src/fetch')),
     }),
     new MiniCssExtractPlugin(),
+    new CssMinimizerPlugin()
   ],
   optimization: {
     splitChunks: {
