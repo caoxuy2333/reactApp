@@ -1,9 +1,12 @@
 const path = require('path');
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+const cdnHttp = 'http://cdn.cxyhaha.cn'
  
 module.exports = {
   entry: "./src/index.tsx",
@@ -90,6 +93,9 @@ module.exports = {
       'mockjs': path.resolve(path.join(__dirname, 'src/fetch/mock')),
       'request': path.resolve(path.join(__dirname, 'src/fetch')),
     }),
+    new webpack.DefinePlugin({
+      'process.env.cdnHttp': JSON.stringify(cdnHttp)
+    }),
     new MiniCssExtractPlugin(),
     new CssMinimizerPlugin()
   ],
@@ -104,7 +110,6 @@ module.exports = {
     compress: true,
     port: 9000,
     historyApiFallback: true, // 直接访问子路由404的问题
-    compress: true,
     proxy: {
       // 加 ^ 防止router和http请求重复导致访问不到路由
       '^/login': {
@@ -131,7 +136,7 @@ module.exports = {
       },
       '/gbaFile': {
         changeOrigin: true,
-        target: 'http://cxy-game-file.oss-cn-beijing.aliyuncs.com/gba',  // oss 代理目标地址
+        target: 'http://cdn.cxyhaha.cn/gba',  // cdn 代理目标地址
         pathRewrite: { '^/gbaFile': '' }
       }
     }
