@@ -229,6 +229,7 @@ const Index = function (props: any) {
     })
     joy.direction = '';
   }
+  let iswx = navigator.userAgent.indexOf('MicroMessenger') > -1;
   return (
     <div id='gbagame' className={sty.body}>
       <div style={{ marginLeft: '0.7rem' }}>
@@ -236,6 +237,7 @@ const Index = function (props: any) {
           操作说明: <br />上下左右: WSAD <br />ABLR: KJUI <br />START: 数字键1 <br />SELECT: 数字键2
         </div> : ''}
         <Link to={'/reward'} style={{ fontSize: '0.4rem' }}>支持作者</Link>
+        {iswx && <Link replace={true} to={'/'} style={{ fontSize: '0.4rem', marginLeft: '0.4rem' }}>后退</Link>}
         <br />
         <select style={{ width: '3rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}

@@ -5,6 +5,8 @@ import beianIcon from 'assets/备案图标.png'
 import sty from './index.less';
 
 const Index: React.FC = (): JSX.Element => {
+  // 判断是否是微信浏览器, 若是则使用replace跳转, 防止出现底部前进回退栏
+  let iswx = navigator.userAgent.indexOf('MicroMessenger') > -1;
   return (
     <Fragment>
       {/* <h3>我是首页</h3> */}
@@ -30,10 +32,10 @@ const Index: React.FC = (): JSX.Element => {
         选择平台游玩
       </div>
       <div className={sty.flex}>
-        <Link className={sty.fc} to={'/fc'}>
+        <Link replace={iswx} className={sty.fc} to={'/fc'}>
           fc-game
         </Link>
-        <Link className={sty.gba} to={'/gba'}>
+        <Link replace={iswx} className={sty.gba} to={'/gba'}>
           gba-game
         </Link>
       </div>

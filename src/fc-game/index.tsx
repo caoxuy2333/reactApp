@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Joystick } from 'react-joystick-component';
+import { Link } from 'react-router-dom';
 import nes from './comp/index';
 import sty from './index.less';
 
@@ -215,12 +216,14 @@ const Index = function (props: any) {
     };
     xhr.send();
   }
+  let iswx = navigator.userAgent.indexOf('MicroMessenger') > -1;
   return (
     <div id='fcgame' className={sty.body}>
       <div style={{ margin: '0 1rem' }}>
         <select  style={{ width: '5rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
         </select>
+        {iswx && <Link replace={true} to={'/'} style={{ fontSize: '0.4rem', marginLeft: '0.4rem' }}>后退</Link>}
         <br />
         <br />
         <br /> 
