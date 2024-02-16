@@ -1,10 +1,7 @@
 import * as React from 'react';
 import Form, { Field, useForm } from './form/index'
 import fly from 'flyio'
-import Animista from "react-animista";
-// import request from 'request';
 
-console.log('cxy', Animista)
 console.log('cxy', fly)
 
 const Index: React.FC = function (): JSX.Element {

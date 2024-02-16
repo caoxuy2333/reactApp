@@ -131,7 +131,7 @@ module.exports = {
       },
       '/fcFile': {
         changeOrigin: true,
-        target: 'http://cxy-game-file.oss-cn-beijing.aliyuncs.com/fc',  // oss 代理目标地址
+        target: 'http://cdn.cxyhaha.cn/fc',  // oss 代理目标地址
         pathRewrite: { '^/fcFile': '' }
       },
       '/gbaFile': {

@@ -72,6 +72,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   keycode: number;
 }
 
+let isPc = navigator.userAgent.includes('Windows');
+
 const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   return (
     <button style={{ fontSize: '1.5rem' }} {...props}>
@@ -127,7 +129,7 @@ let joy = {
   keyCode: -1, // 操作方向 对应编码
 };
 
-const Index = function (props: any) {
+const Index = function () {
   let ref: React.RefObject<any> = useRef();
   let xhr = new XMLHttpRequest();
   xhr.open('GET', p, true);
@@ -147,6 +149,30 @@ const Index = function (props: any) {
     canvas.fillRect(0, 0, 256, 240);
     for (let i = 3; i < canvasImageData.data.length - 3; i += 4) {
       canvasImageData.data[i] = 0xFF;
+    }
+    
+    // windows系统 监听键盘事件
+    if (isPc) {
+      let keyeumn: any = {
+        87: 87, // 上
+        83: 83, // 下
+        65: 65, // 左
+        68: 68, // 右
+        74: 75, // B
+        75: 74, // A
+        49: 13, // start
+        50: 17 // select
+      }
+      document.onkeydown = function (k: any) {
+        if ([87, 65, 83, 68, 74, 75, 85, 73, 49, 50].includes(k.keyCode)) {
+          n.keyboard.keyDown({ keyCode: +keyeumn[k.keyCode] }); 
+        }
+      }
+      document.onkeyup = function (k: any) {
+        if ([87, 65, 83, 68, 74, 75, 85, 73, 49, 50].includes(k.keyCode)) {
+          n.keyboard.keyUp({ keyCode: +keyeumn[k.keyCode] });
+        }
+      }
     }
     return function(){
       n.stop();
@@ -220,6 +246,10 @@ const Index = function (props: any) {
   return (
     <div id='fcgame' className={sty.body}>
       <div style={{ margin: '0 1rem' }}>
+        
+        {isPc ? <div className={sty.tip}>
+          操作说明: <br />上下左右: WSAD <br />AB: KJ <br />START: 数字键1 <br />SELECT: 数字键2
+        </div> : ''}
         <select  style={{ width: '5rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
         </select>

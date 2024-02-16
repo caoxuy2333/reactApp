@@ -140,8 +140,6 @@ const Index = function (props: any) {
     canvas.fillStyle = 'red'
     canvas.font = "30px Arial ";
     canvas.fillText("加载中, 请稍后...", 10, 50);
-    canvas.font = "20px Arial ";
-    canvas.fillText("初次加载较慢, 请耐心等待", 10, 80);
     let p = cdnHttp + '/gba/' + games[e.target.value]; // 阿里云oss文件
     loadRom(p, (r: any) => {
       run(r);
