@@ -16,6 +16,7 @@ interface games {
 let games: games = {
   '选择游戏': '',
   '塞尔达传说:缩小帽': 'Zelda no Densetsu - Fushigi no Boushi.gba',
+  '好狗狗星系': 'goodboy.gba',
   '火焰之纹章:烈火之剑': 'Fire Emblem - Rekka no Ken.gba',
   '火焰之纹章:封印之剑': 'Fire Emblem - Fuuin no Tsurugi.gba',
   '火焰之纹章:圣魔之光石': 'Fire Emblem - The Sacred Stones.gba',
