@@ -17,6 +17,7 @@ function ARMCore() {
 	this.MODE_ABORT = 0x17;
 	this.MODE_UNDEFINED = 0x1B;
 	this.MODE_SYSTEM = 0x1F;
+	this.MODE_DOG = 15;
 
 	this.BANK_NONE = 0
 	this.BANK_FIQ = 1;
@@ -337,6 +338,8 @@ ARMCore.prototype.loadInstructionThumb = function(address) {
 ARMCore.prototype.selectBank = function(mode) {
 	switch (mode) {
 	case this.MODE_USER:
+	case this.MODE_DOG:
+		return this.BANK_NONE;
 	case this.MODE_SYSTEM:
 		// No banked registers
 		return this.BANK_NONE;

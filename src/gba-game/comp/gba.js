@@ -235,12 +235,12 @@ GameBoyAdvance.prototype.runStable = function() {
 				if (self.paused) {
 					return;
 				} else {
-          let now = performance.now();
-          let frame = now - lastFrame;
-          if(lastFrame != 0){
-            console.log('frame', frame);
-          }
-          lastFrame = now;
+          			let now = performance.now();
+					//   let frame = now - lastFrame;
+					//   if(lastFrame != 0){
+						// console.log('frame', frame);
+					//   }
+          			lastFrame = now;
 					requestAnimationFrame(runFunc);
 				}
 				self.advanceFrame();

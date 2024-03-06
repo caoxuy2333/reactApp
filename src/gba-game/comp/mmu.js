@@ -1,4 +1,5 @@
 import {SRAMSavedata, EEPROMSavedata} from './savedata';
+import {GameBoyAdvanceGPIO} from './gpio';
 
 function MemoryView(memory, offset) {
 	this.inherit();

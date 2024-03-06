@@ -215,3 +215,5 @@ GameBoyAdvanceRTC.prototype.bcd = function(binary) {
 	counter += (binary % 10) << 4;
 	return counter;
 };
+
+export {GameBoyAdvanceRTC, GameBoyAdvanceGPIO};
