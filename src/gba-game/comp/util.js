@@ -252,4 +252,4 @@ Serializer.pointer.prototype.readString = function(view) {
 };
 
 
-export {hex}
+export {hex, Serializer}

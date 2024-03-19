@@ -1,3 +1,5 @@
+import {Serializer} from './util';
+
 function MemoryProxy(owner, size, blockSize) {
 	this.owner = owner;
 	this.blocks = [];

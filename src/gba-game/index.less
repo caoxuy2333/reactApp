@@ -1,11 +1,29 @@
 .body {
   border-top: 10px solid #f44444;
   border-bottom: 10px solid #f44444;
-  height: calc(100% - 20px); 
+  height: calc(100% - 20px);
   display: flex;
   align-items: center;
   justify-content: space-around;
   overflow: hidden;
+
+  .joyBase {
+    background: #fae3e359;
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+
+    .joy {
+      background: #b3e0ff70;
+      height: 3rem;
+      width: 3rem;
+      border-radius: 50%;
+
+    }
+  }
 
   .canvas {
     display: flex;
@@ -34,19 +52,10 @@
     }
   }
 
-  .joyBtn {
-    position: absolute;
-    width: 2.4rem;
-    height: 2.4rem;
-    margin: auto;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-
-  .tip{
+  .tip {
     font-size: 0.7rem;
     position: absolute;
     top: 13px;
     color: #bbbbbb;
   }
-} 
+}

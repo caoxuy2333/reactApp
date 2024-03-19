@@ -177,22 +177,23 @@ const Index = function (props: any) {
     if (e.direction === 'RIGHT') fx = 'right';
     if (e.direction === 'FORWARD') fx = 'top';
     if (e.direction === 'BACKWARD') fx = 'bottom';
-    // 右上  0.5 < x < 0.9  , 0.5 < y < 0.9 
-    if (0.5 < x && x < 0.9 && 0.5 < y && y < 0.9) {
-      fx = 'topRight';
-    }
-    // 左上  -0.9 < x < -0.5  , 0.5 < y < 0.9 
-    if (-0.9 < x && x < -0.5 && 0.5 < y && y < 0.9) {
-      fx = 'leftTop';
-    }
-    // 右下  0.5 < x < 0.9  , -0.9 < y < -0.5 
-    if (0.5 < x && x < 0.9 && -0.9 < y && y < -0.5) {
+    // 右下
+    if (0.5 < x && x <= 1 && 0.5 < y && y <= 1) {
       fx = 'rightBottom';
     }
-    // 左下  -0.9 < x < -0.5  , -0.9 < y < -0.5 
-    if (-0.9 < x && x < -0.5 && -0.9 < y && y < -0.5) {
+    // 左下
+    if (-1 <= x && x < -0.5 && 0.5 < y && y <= 1) {
       fx = 'leftBottom';
     }
+    // 右上
+    if (0.5 < x && x <= 1 && -1 <= y && y < -0.5) {
+      fx = 'topRight';
+    }
+    // 左上
+    if (-1 <= x && x < -0.5 && -1 <= y && y < -0.5) {
+      fx = 'leftTop';
+    }
+    console.log(x, y, fx)
     // 判断按下的方向和上次按下的方向是否相同
     if (fx === joy.direction) return;
     let dq = joy8[fx] || [];
@@ -241,7 +242,7 @@ const Index = function (props: any) {
         <select style={{ width: '3rem' }} onChange={changeGame}>
           {Object.keys(games).map(it => <option key={it} value={it}>{it}</option>)}
         </select>
-        <Joy leftFn={leftFn} leftCall={leftCall} handleMove={handleMove} handleStop={handleStop} />
+        <Joy handleMove={handleMove} handleStop={handleStop} />
       </div>
       <div className={sty.canvas}>
         <canvas id='gbacanvas' ref={ref} width={size.width} height={size.height}></canvas>

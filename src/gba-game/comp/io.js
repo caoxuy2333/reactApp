@@ -1,3 +1,5 @@
+import {Serializer} from './util';
+
 function GameBoyAdvanceIO() {
 	// Video
 	this.DISPCNT = 0x000;
