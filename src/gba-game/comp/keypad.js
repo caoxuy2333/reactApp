@@ -41,6 +41,7 @@ function GameBoyAdvanceKeypad() {
 
 GameBoyAdvanceKeypad.prototype.keyboardHandler = function(e) {
 	var toggle = 0;
+	console.log(e.keyCode)
 	switch (e.keyCode) {
 	case this.KEYCODE_START:
 		toggle = this.START;
@@ -156,8 +157,8 @@ GameBoyAdvanceKeypad.prototype.pollGamepads = function() {
 };
 
 GameBoyAdvanceKeypad.prototype.registerHandlers = function() {
-	window.addEventListener("keydown", this.keyboardHandler.bind(this), true);
-	window.addEventListener("keyup", this.keyboardHandler.bind(this), true);
+	// window.addEventListener("keydown", this.keyboardHandler.bind(this), true);
+	// window.addEventListener("keyup", this.keyboardHandler.bind(this), true);
 
 	window.addEventListener("gamepadconnected", this.gamepadConnectHandler.bind(this), true);
 	window.addEventListener("mozgamepadconnected", this.gamepadConnectHandler.bind(this), true);
